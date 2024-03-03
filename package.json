@@ -2,10 +2,11 @@
   "name": "template-repo-sync-action",
   "version": "1.0.0",
   "description": "A Github action that uses @hanseltime/template-repo-sync to create a PR with sync options",
-  "main": "index.js",
+  "main": "dist/action.js",
   "scripts": {
-    "bundle": "esbuild src/action.ts --bundle --format=cjs --platform=node --outfile=bundle/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "bundle": "ncc build src/action.ts -o bundle",
+    "test": "echo \"Error: no test specified\"",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,6 @@
     "@types/node": "^20.11.24",
     "@vercel/ncc": "^0.38.1",
     "commander": "^12.0.0",
-    "esbuild": "^0.20.1",
     "octokit": "^3.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
