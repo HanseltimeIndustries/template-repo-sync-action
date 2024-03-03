@@ -3,6 +3,7 @@ import { execSync } from "child_process"
 import { program } from 'commander'
 import { DEFAULT_BRANCH_PREFIX, DEFAULT_TITLE_MSG } from "../constants";
 import { getBranchName } from "../get-branch-name";
+import { OWNER, REPO } from "./constants";
 
 interface IntTestCheckOptions {
     expectedRepoRoot: string
@@ -82,8 +83,8 @@ async function main(options: IntTestCheckOptions) {
    }
 
    const prResp = await octokit.rest.pulls.get({
-    owner: 'HanseltimeIndustries',
-    repo: 'template-repo-sync-action',
+    owner: OWNER,
+    repo: REPO,
     pull_number: pullNumber,
    })
 

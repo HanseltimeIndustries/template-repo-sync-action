@@ -2,6 +2,7 @@ import { Octokit } from "octokit";
 import { program } from 'commander'
 import { getBranchName } from "../get-branch-name";
 import { DEFAULT_BRANCH_PREFIX } from "../constants";
+import { OWNER, REPO } from "./constants";
 
 interface IntTestCheckOptions {
     expectedPullNumber: string
@@ -48,16 +49,16 @@ async function main(options: IntTestCheckOptions) {
       templateBranch: options.expectedFromBranch,
     })
 
-    const prResp = await octokit.rest.pulls.update({
-        owner: 'HanseltimeIndustries',
-        repo: 'template-repo-sync-action',
+    await octokit.rest.pulls.update({
+        owner: OWNER,
+        repo: REPO,
         pull_number: pullNumber,
         state: 'closed',
     })
 
     await octokit.rest.git.deleteRef({
-        owner: 'HanseltimeIndustries',
-        repo: 'template-repo-sync-action',
+        owner: OWNER,
+        repo: REPO,
         ref: `heads/${expectedBranchName}`
     })
 }
