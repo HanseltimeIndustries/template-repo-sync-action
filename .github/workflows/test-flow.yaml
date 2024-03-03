@@ -74,6 +74,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
+      - name: install
+        run: |
+          npm ci
       - name: bundle
         run: |
           npm run bundle

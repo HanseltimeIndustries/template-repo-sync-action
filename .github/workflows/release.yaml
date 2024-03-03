@@ -12,6 +12,7 @@ jobs:
     uses: ./.github/workflows/test-flow.yaml
     with:
       from: ${{ github.workflow }}
+    secrets: inherit
   release:
     runs-on: ubuntu-latest
     needs: call-test-workflow
