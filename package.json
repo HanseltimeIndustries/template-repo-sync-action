@@ -1,0 +1,31 @@
+{
+  "name": "template-repo-sync-action",
+  "version": "1.0.0",
+  "description": "A Github action that uses @hanseltime/template-repo-sync to create a PR with sync options",
+  "main": "index.js",
+  "scripts": {
+    "bundle": "esbuild src/action.ts --bundle --format=cjs --platform=node --outfile=bundle/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HanseltimeIndustries/template-repo-sync-action.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HanseltimeIndustries/template-repo-sync-action/issues"
+  },
+  "homepage": "https://github.com/HanseltimeIndustries/template-repo-sync-action#readme",
+  "devDependencies": {
+    "@types/node": "^18.19.21",
+    "@vercel/ncc": "^0.38.1",
+    "esbuild": "^0.20.1",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^6.0.0",
+    "@hanseltime/template-repo-sync": "file:.yalc/@hanseltime/template-repo-sync"
+  }
+}

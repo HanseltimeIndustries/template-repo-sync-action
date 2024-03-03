@@ -1,0 +1,31 @@
+name: 'Template Repo Sync Action'
+description: 'Action for taking the files in a template repo and synchronizing them to the repo via a PR'
+inputs:
+  repoPath:
+    description: 'The owner/repo path of the repo on github'
+    required: true
+  githubToken:
+    description: 'The github token with access to write pull requests on this repo'
+    required: true
+  repoRoot:
+    description: 'The root in this github repo that we are syncing.  This is mainly for things like monorepos.'
+    required: false
+  templateBranch:
+    description: 'The branch on the template that we want to sync to'
+    required: true
+  branchPrefix:
+    description: 'A short branch prefix for the branch that will be created in order to store the changes'
+    required: false
+  commitMsg:
+    description: 'The commit message to supply when making the merge commits'
+    required: false
+  titleMsg:
+    description: 'The title of the pull request'
+    required: false
+  
+  prToBranch:
+    description: This is the branch to open the pull request to.  If not set, this uses the repo's default branch.
+    required: false
+runs:
+  using: 'node20'
+  main: 'bundle/index.js'
