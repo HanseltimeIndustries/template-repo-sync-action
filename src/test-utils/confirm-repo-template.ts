@@ -13,6 +13,7 @@ interface IntTestCheckOptions {
     expectedFilesChanged: string
     expectedTitle: string
     expectedFromBranch: string
+    expectedFromRepoPath: string
 }
 
 program
@@ -20,12 +21,13 @@ program
   .requiredOption('--expectedToBranch <branch>', 'The branch that this pr should be opened against')
   .requiredOption('--expectedFilesChanged <files...>', 'The file paths (relative to root) that should be changed')
   .requiredOption('--expectedFromBranch <branch>', 'The branch we expect we synced from in the template repo')
+  .requiredOption('--expectedFromRepoPath <repo>', 'The ower/repo we expect we synced from in the template repo')
   .option('--expectedTitle <title>', 'If the title is custom, the title to match', DEFAULT_TITLE_MSG)
   .option('--expectedBranchPrefix', 'If the branhc prefix is custom, the prefix we expect', DEFAULT_BRANCH_PREFIX)
   .option('--expectedRepoRoot <root>', 'The repo root where we expected the merge to occur', process.cwd())
-  .help()
+  .helpCommand(true)
 
-program.parse();
+program.parse(process.argv)
 
 /**
  * Important - this script calls expected values against the public-template-repo
@@ -47,7 +49,7 @@ async function main(options: IntTestCheckOptions) {
         auth: process.env.GITHUB_TOKEN
     })
 
-    const repoUrl = `https://github.com/${OWNER}/${REPO}`
+    const repoUrl = `https://github.com/${options.expectedFromRepoPath}`
    const expectedBranchName = getBranchName({
      repoUrl,
      repoRoot: options.expectedRepoRoot,
