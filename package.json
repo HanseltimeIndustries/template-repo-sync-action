@@ -9,7 +9,8 @@
     "bundle": "ncc build src/action.ts -o bundle",
     "test": "echo \"Error: no test specified\"",
     "build": "tsc",
-    "prepare": "husky"
+    "prepare": "husky",
+    "release": "npx semantic-release"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,8 @@
   "homepage": "https://github.com/HanseltimeIndustries/template-repo-sync-action#readme",
   "devDependencies": {
     "@commitlint/config-angular": "^19.0.3",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
     "@octokit/auth-token": "^5.0.1",
     "@types/node": "^20.11.24",
     "@vercel/ncc": "^0.38.1",
@@ -32,6 +35,7 @@
     "husky": "^9.0.11",
     "octokit": "^3.1.2",
     "prettier": "3.2.5",
+    "semantic-release": "^23.0.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
     "typescript-eslint": "^7.1.0"
@@ -40,5 +44,6 @@
     "@actions/core": "^1.10.1",
     "@actions/github": "^6.0.0",
     "@hanseltime/template-repo-sync": "^1.1.0"
-  }
+  },
+  "private": true
 }

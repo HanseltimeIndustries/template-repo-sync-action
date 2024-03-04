@@ -1,4 +1,4 @@
-name: "Template Repo Sync Action"
+name: "template-repo-sync-action"
 description: "Action for taking the files in a template repo and synchronizing them to the repo via a PR"
 inputs:
   repoPath:
@@ -31,7 +31,7 @@ inputs:
   updateAfterRef:
     description: Whether we want to override the templatesync.local.json file with the template repo's last sha from the sync
     required: false
-    default: true
+    default: "true"
 outputs:
   prNumber:
     description: "The number of the created PR"
