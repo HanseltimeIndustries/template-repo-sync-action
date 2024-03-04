@@ -4,6 +4,7 @@
   "description": "A Github action that uses @hanseltime/template-repo-sync to create a PR with sync options",
   "main": "dist/action.js",
   "scripts": {
+    "format": "prettier . --write",
     "lint": "npx eslint .",
     "bundle": "ncc build src/action.ts -o bundle",
     "test": "echo \"Error: no test specified\"",
@@ -30,6 +31,7 @@
     "eslint": "^8.57.0",
     "husky": "^9.0.11",
     "octokit": "^3.1.2",
+    "prettier": "3.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
     "typescript-eslint": "^7.1.0"

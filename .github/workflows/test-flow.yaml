@@ -29,7 +29,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: package-lock.json
       - name: install
         run: |
@@ -52,6 +52,7 @@ jobs:
       - name: linting
         run: |
           npm run lint
+          npx prettier . --check
       - name: testing
         run: |
           npm run test
@@ -82,11 +83,11 @@ jobs:
         id: test_run
         uses: ./
         with:
-          repoPath: HanseltimeIndustries/test-private-template 
+          repoPath: HanseltimeIndustries/test-private-template
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           remoteRepoToken: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
           templateBranch: main
-          commitMsg: 'build(boilerplate): synchronize template repo'
+          commitMsg: "build(boilerplate): synchronize template repo"
           branchPrefix: ${{ github.head_ref }}
       - name: assert
         run: |
@@ -130,7 +131,7 @@ jobs:
       - name: bundle
         run: |
           npm run bundle
-      - name: Create local config 
+      - name: Create local config
         run: |
           echo '{ "afterRef": "85499cc1e4814cf7d8cd90e6eeb0a7e2e243a017" }' > templatesync.local.json
           git add templatesync.local.json
@@ -138,11 +139,11 @@ jobs:
         id: test_run
         uses: ./
         with:
-          repoPath: HanseltimeIndustries/test-private-template 
+          repoPath: HanseltimeIndustries/test-private-template
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           remoteRepoToken: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
           templateBranch: main
-          commitMsg: 'build(boilerplate): synchronize template repo'
+          commitMsg: "build(boilerplate): synchronize template repo"
           branchPrefix: ${{ github.head_ref }}-after-ref
       - name: assert
         run: |
@@ -191,7 +192,7 @@ jobs:
           repoPath: HanseltimeIndustries/test-public-template
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           templateBranch: main
-          commitMsg: 'build(boilerplate): synchronize template repo'
+          commitMsg: "build(boilerplate): synchronize template repo"
           branchPrefix: ${{ github.head_ref }}-public
       - name: assert
         run: |

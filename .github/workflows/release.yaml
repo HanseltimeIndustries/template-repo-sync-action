@@ -3,7 +3,7 @@ run-name: ${{ github.ref_name }} Release
 
 # on:
 #   push:
-#     branches: 
+#     branches:
 #       - main
 #       - alpha
 
@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: package-lock.json
       - name: Install
         run: npm ci
