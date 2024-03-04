@@ -97,6 +97,8 @@ export async function syncGithubRepo(options: GithubOptions) {
     // Checkout the branch from the "to branch"
     execSync(`git fetch origin ${prToBranch}`)
     execSync(`git checkout ${prToBranch}`)
+    // do a reset here to ensure we don't have sneaky build stuff
+    execSync(`git reset --hard`)
     execSync(`git checkout -b ${branchName}`)
 
     // Clone and merge on this branch
