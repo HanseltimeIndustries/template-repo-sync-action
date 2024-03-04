@@ -85,7 +85,18 @@ export async function syncGithubRepo(options: GithubOptions) {
         process.exit(1)
     }
 
-    // Checkout the branch
+    let prToBranch = options.prToBranch
+    if (!prToBranch) {
+        const resp = await octokit.rest.repos.get({
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo,
+        })
+        prToBranch = resp.data.default_branch
+    }
+
+    // Checkout the branch from the "to branch"
+    execSync(`git fetch origin ${prToBranch}`)
+    execSync(`git checkout ${prToBranch}`)
     execSync(`git checkout -b ${branchName}`)
 
     // Clone and merge on this branch
@@ -101,16 +112,6 @@ export async function syncGithubRepo(options: GithubOptions) {
     execSync('git add .')
     execSync(`git commit -m "${commitMsg}"`)
     execSync(`git push --set-upstream origin "${branchName}"`)
-
-    let prToBranch = options.prToBranch
-    if (!prToBranch) {
-        const resp = await octokit.rest.repos.get({
-            owner: github.context.repo.owner,
-            repo: github.context.repo.repo,
-        })
-        prToBranch = resp.data.default_branch
-    }
-
 
     const resp = await octokit.rest.pulls.create({
         owner: github.context.repo.owner,
