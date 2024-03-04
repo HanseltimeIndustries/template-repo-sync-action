@@ -11,6 +11,7 @@ const options: GithubOptions = {
   titleMsg: core.getInput("titleMsg") || undefined,
   prToBranch: core.getInput("prToBranch") || undefined,
   remoteRepoToken: core.getInput("remoteRepoToken") || undefined,
+  updateAfterRef: core.getInput("updateAfterRef").toLowerCase() === "true",
 };
 
 void syncGithubRepo(options);
