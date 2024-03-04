@@ -23,7 +23,7 @@ program
   .requiredOption('--expectedFromBranch <branch>', 'The branch we expect we synced from in the template repo')
   .requiredOption('--expectedFromRepoPath <repo>', 'The ower/repo we expect we synced from in the template repo')
   .option('--expectedTitle <title>', 'If the title is custom, the title to match', DEFAULT_TITLE_MSG)
-  .option('--expectedBranchPrefix', 'If the branhc prefix is custom, the prefix we expect', DEFAULT_BRANCH_PREFIX)
+  .option('--expectedBranchPrefix <prefix>', 'If the branch prefix is custom, the prefix we expect', DEFAULT_BRANCH_PREFIX)
   .option('--expectedRepoRoot <root>', 'The repo root where we expected the merge to occur', process.cwd())
   .helpCommand(true)
 
@@ -45,11 +45,14 @@ program.parse(process.argv)
 async function main(options: IntTestCheckOptions) {
     const pullNumber = parseInt(options.expectedPullNumber)
 
+    console.log(`options is: ${JSON.stringify(options, null, 4)}`)
+
     const octokit = new Octokit({
         auth: process.env.GITHUB_TOKEN
     })
 
     const repoUrl = `https://github.com/${options.expectedFromRepoPath}`
+    console.log('branchPrefix' + options.expectedBranchPrefix)
    const expectedBranchName = getBranchName({
      repoUrl,
      repoRoot: options.expectedRepoRoot,
@@ -59,7 +62,7 @@ async function main(options: IntTestCheckOptions) {
 
    const branchOutput = execSync(`git ls-remote --heads origin ${expectedBranchName}`).toString().trim()
    if (!branchOutput.includes(expectedBranchName)) {
-    throw new Error(`Expected ${expectedBranchName} to be on the repo`)
+    throw new Error(`Expected ${expectedBranchName} to be on the repo2`)
    }
 
    execSync(`git fetch origin ${expectedBranchName}`)

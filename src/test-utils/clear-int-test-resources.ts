@@ -51,7 +51,7 @@ async function main(options: IntTestCheckOptions) {
       templateBranch: options.expectedFromBranch,
     })
 
-    console.log(`Deleteing branch ${expectedBranchName}...`)
+    console.log(`Deleting branch ${expectedBranchName}...`)
     await octokit.rest.git.deleteRef({
         owner: OWNER,
         repo: REPO,
