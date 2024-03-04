@@ -14,11 +14,11 @@ interface IntTestCheckOptions {
 program
   .requiredOption('--expectedPullNumber <number>', 'The pull number that we created')
   .requiredOption('--expectedFromBranch <branch>', 'The branch we expect we synced from in the template repo')
-  .option('--expectedBranchPrefix', 'If the branhc prefix is custom, the prefix we expect', DEFAULT_BRANCH_PREFIX)
+  .option('--expectedBranchPrefix <prefix>', 'If the branch prefix is custom, the prefix we expect', DEFAULT_BRANCH_PREFIX)
   .option('--expectedRepoRoot <root>', 'The repo root where we expected the merge to occur', process.cwd())
-  .help()
+  .helpCommand(true)
 
-program.parse();
+program.parse(process.argv)
 
 
 /**
@@ -49,17 +49,19 @@ async function main(options: IntTestCheckOptions) {
       templateBranch: options.expectedFromBranch,
     })
 
+    console.log(`Deleteing branch ${expectedBranchName}...`)
+    await octokit.rest.git.deleteRef({
+        owner: OWNER,
+        repo: REPO,
+        ref: `heads/${expectedBranchName}`
+    })
+
+    console.log(`Deleteing pull request ${pullNumber}...`)
     await octokit.rest.pulls.update({
         owner: OWNER,
         repo: REPO,
         pull_number: pullNumber,
         state: 'closed',
-    })
-
-    await octokit.rest.git.deleteRef({
-        owner: OWNER,
-        repo: REPO,
-        ref: `heads/${expectedBranchName}`
     })
 }
 

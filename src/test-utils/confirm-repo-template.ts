@@ -23,9 +23,9 @@ program
   .option('--expectedTitle <title>', 'If the title is custom, the title to match', DEFAULT_TITLE_MSG)
   .option('--expectedBranchPrefix', 'If the branhc prefix is custom, the prefix we expect', DEFAULT_BRANCH_PREFIX)
   .option('--expectedRepoRoot <root>', 'The repo root where we expected the merge to occur', process.cwd())
-  .help()
+  .helpCommand(true)
 
-program.parse();
+program.parse(process.argv)
 
 /**
  * Important - this script calls expected values against the public-template-repo
