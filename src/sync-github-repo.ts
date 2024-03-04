@@ -90,7 +90,7 @@ export async function syncGithubRepo(options: GithubOptions) {
     const result = await templateSync({
         tmpCloneDir: tempAppDir,
         repoDir: options.repoRoot ?? process.cwd(),
-        repoUrl,
+        repoUrl: `https://github_actions:${process.env.CLONE_PAT}@github.com/${options.repoPath}.git`,
     })
 
     // commit everything
