@@ -84,6 +84,7 @@ jobs:
         with:
           repoPath: HanseltimeIndustries/test-private-template 
           githubToken: ${{ secrets.GITHUB_TOKEN }}
+          remoteRepoToken: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
           templateBranch: main
           commitMsg: 'build(boilerplate): synchronize template repo'
         env:

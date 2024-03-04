@@ -7,6 +7,9 @@ inputs:
   githubToken:
     description: 'The github token with access to write pull requests on this repo'
     required: true
+  remoteRepoToken:
+    description: A separate github token with permissions to clone from the other repo.  Only needed for private repos
+    required: false
   repoRoot:
     description: 'The root in this github repo that we are syncing.  This is mainly for things like monorepos.'
     required: false
