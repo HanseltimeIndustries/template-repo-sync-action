@@ -8,7 +8,7 @@ on:
 jobs:
   call-test-workflow:
     permissions:
-      contents: read
+      contents: write
       pull-requests: write
     uses: ./.github/workflows/test-flow.yaml
     with:
