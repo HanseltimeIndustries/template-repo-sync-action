@@ -1,12 +1,12 @@
 import * as github from '@actions/github'
 import * as core from '@actions/core'
-import { join, resolve } from 'path'
+import { join } from 'path'
 import { tmpdir } from 'os'
 import { mkdtemp } from 'fs/promises'
 import { execSync } from 'child_process'
-import { createHash } from 'crypto'
-import { existsSync, readFileSync } from 'fs'
 import { syncResultsToMd, TEMPLATE_SYNC_LOCAL_CONFIG, templateSync } from '@hanseltime/template-repo-sync'
+import { DEFAULT_BRANCH_PREFIX, DEFAULT_COMMIT_MSG, DEFAULT_TITLE_MSG } from './constants'
+import { getBranchName } from './get-branch-name'
 
 export interface GithubOptions {
     /**
@@ -52,10 +52,6 @@ function getTempDir() {
     return process.env['RUNNER_TEMP'] || tmpdir()
 }
 
-const DEFAULT_BRANCH_PREFIX = 'chore/template_sync/'
-const DEFAULT_COMMIT_MSG = 'chore(template): synchronizing template to repo'
-const DEFAULT_TITLE_MSG = DEFAULT_COMMIT_MSG
-
 
 export async function syncGithubRepo(options: GithubOptions) {
 
@@ -67,21 +63,13 @@ export async function syncGithubRepo(options: GithubOptions) {
 
     // Note, we use git here so that we can change this around for other git providers more easily
     const repoUrl = `https://github.com/${options.repoPath}`
-    const shaLine = execSync(`git ls-remote "${repoUrl}" "${options.templateBranch}"`).toString().split(' ')[0]
-    const match = /^(?<hash>[^\s]+)\s/.exec(shaLine)
-    const templateSha = match?.groups?.hash
-    if (!templateSha) {
-        throw new Error(`Could not get the current sha of ${repoUrl} for ${options.templateBranch}`)
-    }
 
-    let configHash: string
-    if (existsSync(resolve(repoRoot, TEMPLATE_SYNC_LOCAL_CONFIG))) {
-        configHash = createHash('sha256').update(readFileSync(resolve(repoRoot, TEMPLATE_SYNC_LOCAL_CONFIG))).digest('hex').slice(0, 8)
-    } else {
-        configHash = 'noLocalConfig'
-    }
-
-    const branchName = `${branchPrefix}${templateSha.slice(0, 8)}-${configHash}`
+    const branchName = getBranchName({
+        branchPrefix,
+        templateBranch: options.templateBranch,
+        repoUrl,
+        repoRoot,
+    })
 
     // Check if the branch exists already and skip
     const output = execSync(`git ls-remote --heads origin "${branchName}"`).toString().trim()
@@ -102,7 +90,7 @@ export async function syncGithubRepo(options: GithubOptions) {
     const result = await templateSync({
         tmpCloneDir: tempAppDir,
         repoDir: options.repoRoot ?? process.cwd(),
-        repoUrl,
+        repoUrl: `https://github_actions:${process.env.CLONE_PAT}@github.com/${options.repoPath}.git`,
     })
 
     // commit everything
@@ -120,7 +108,7 @@ export async function syncGithubRepo(options: GithubOptions) {
     }
 
 
-    await octokit.rest.pulls.create({
+    const resp = await octokit.rest.pulls.create({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         head: branchName,
@@ -132,4 +120,6 @@ Template Synchronization Operation of ${repoUrl} ${options.templateBranch}
 ${syncResultsToMd(result)}
 `
     })
+
+    core.setOutput("prNumber", resp.data.number)
 }
