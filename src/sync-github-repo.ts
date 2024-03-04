@@ -57,6 +57,12 @@ export interface GithubOptions {
    * repo's default branch.
    */
   prToBranch?: string;
+
+  /**
+   * Updates the afterRef in a templatesync.local.json to be the last sha value of the
+   * template if true
+   */
+  updateAfterRef: boolean;
 }
 
 function getTempDir() {
@@ -127,6 +133,7 @@ export async function syncGithubRepo(options: GithubOptions) {
       tmpCloneDir: tempAppDir,
       repoDir: options.repoRoot ?? process.cwd(),
       repoUrl: authedRepoUrl,
+      updateAfterRef: options.updateAfterRef,
     });
 
     console.log("Committing all files...");

@@ -25,10 +25,13 @@ inputs:
   titleMsg:
     description: "The title of the pull request"
     required: false
-
   prToBranch:
     description: This is the branch to open the pull request to.  If not set, this uses the repo's default branch.
     required: false
+  updateAfterRef:
+    description: Whether we want to override the templatesync.local.json file with the template repo's last sha from the sync
+    required: false
+    default: true
 outputs:
   prNumber:
     description: "The number of the created PR"
