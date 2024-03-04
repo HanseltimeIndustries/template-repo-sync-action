@@ -1,0 +1,112 @@
+name: Tests
+on:
+  workflow_call:
+    inputs:
+      from:
+        required: true
+        type: string
+
+# This will cancel in progress jobs if another job with the same ref gets started.
+# Github run_id is a backup in case github.ref doesn't exist for some reason
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  ci-checks:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - uses: actions/checkout@v4
+      # TODO: caching this action would accelerate the run
+      - name: corepack
+        run: |
+          corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+      - name: install
+        run: |
+          npm ci
+      - name: commit-linting
+        run: |
+          if [[ "${{ github.base_ref }}" != "" ]]; then
+            echo "Setting up git environment for commitlint of pull request"
+            git fetch origin ${{ github.base_ref }}
+            git fetch origin ${{ github.head_ref }}
+            npx commitlint --from ${{ github.event.pull_request.head.sha }}~${{ github.event.pull_request.commits }} --to ${{ github.event.pull_request.head.sha }} --verbose
+          else
+            echo "Setting up git environment for commitlint of branch push"
+            git fetch origin ${{ github.ref_name }} --unshallow
+            npx commitlint --from $(git rev-list --max-parents=0 origin/${{ github.ref_name }})
+          fi
+      - name: build
+        run: |
+          npm run build
+      - name: linting
+        run: |
+          npm run lint
+      - name: testing
+        run: |
+          npm run test
+      - name: bundle
+        run: |
+          npm run bundle
+  private-int-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      # Create git client with PAT that has access to the private template
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
+      - name: setup git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+      - name: install
+        run: |
+          npm ci
+      - name: bundle
+        run: |
+          npm run bundle
+      - name: sync-private-repo
+        id: test_run
+        uses: ./
+        with:
+          repoPath: HanseltimeIndustries/test-private-template 
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          templateBranch: main
+          commitMsg: 'build(boilerplate): synchronize template repo'
+        env:
+          CLONE_PAT: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
+      - name: assert
+        run: |
+          npx ts-node src/test-utils/confirm-repo-template.ts \
+            --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
+            --expectedToBranch "main" \
+            --expectedFromBranch "main" \
+            --expectedFilesChanged "new_file.md" "package.json" "my-tools/my.txt" \
+            --expectedFromRepoPath "HanseltimeIndustries/test-private-template"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: clean
+        if: always()
+        run: |
+          npx ts-node src/test-utils/clear-int-test-resources.ts \
+            --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
+            --expectedFromBranch "main" \
+            --expectedFromRepoPath "HanseltimeIndustries/test-private-template"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      
+    
