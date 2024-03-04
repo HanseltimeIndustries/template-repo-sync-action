@@ -110,5 +110,59 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  private-int-test-after-ref:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      # Create git client with PAT that has access to the private template
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
+      - name: setup git
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+      - name: install
+        run: |
+          npm ci
+      - name: bundle
+        run: |
+          npm run bundle
+      - name: Create local config 
+        run: |
+          echo '{ "afterRef": "85499cc1e4814cf7d8cd90e6eeb0a7e2e243a017" }' > templatesync.local.json
+          git add templatesync.local.json
+      - name: sync-private-repo
+        id: test_run
+        uses: ./
+        with:
+          repoPath: HanseltimeIndustries/test-private-template 
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          remoteRepoToken: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
+          templateBranch: main
+          commitMsg: 'build(boilerplate): synchronize template repo'
+          branchPrefix: ${{ github.head_ref }}-after-ref
+      - name: assert
+        run: |
+          npx ts-node src/test-utils/confirm-repo-template.ts \
+            --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
+            --expectedToBranch "main" \
+            --expectedFromBranch "main" \
+            --expectedFilesChanged "new_file.md" "templatesync.local.json" \
+            --expectedFromRepoPath "HanseltimeIndustries/test-private-template" \
+            --expectedBranchPrefix "${{ github.head_ref }}-after-ref"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: clean
+        if: always()
+        run: |
+          npx ts-node src/test-utils/clear-int-test-resources.ts \
+            --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
+            --expectedFromBranch "main" \
+            --expectedFromRepoPath "HanseltimeIndustries/test-private-template" \
+            --expectedBranchPrefix "${{ github.head_ref }}-after-ref"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-    
