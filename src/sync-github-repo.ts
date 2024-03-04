@@ -94,15 +94,14 @@ export async function syncGithubRepo(options: GithubOptions) {
         prToBranch = resp.data.default_branch
     }
 
-    console.log(execSync('git symbolic-ref --short -q HEAD ||  git rev-parse HEAD').toString())
     const origRef = execSync('git symbolic-ref --short -q HEAD ||  git rev-parse HEAD').toString()
 
     try {
         // Checkout the branch from the "to branch"
         execSync(`git fetch origin ${prToBranch}`)
         execSync(`git checkout ${prToBranch}`)
-        // do a reset here to ensure we don't have sneaky build stuff
-        execSync(`git reset --hard`)
+        // stash everything except "added" files since we will assume this means there's an intention
+        execSync(`git stash --include-untracked --keep-index`)
         console.log(`Checking out ${branchName}`)
         execSync(`git checkout -b ${branchName}`)
 
@@ -141,5 +140,6 @@ export async function syncGithubRepo(options: GithubOptions) {
         console.log(`Resetting to orignal ref: ${origRef}`)
         execSync('git reset --hard')
         execSync(`git checkout ${origRef}`)
+        execSync(`git stash pop`)
     }
 }
