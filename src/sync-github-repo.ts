@@ -94,39 +94,52 @@ export async function syncGithubRepo(options: GithubOptions) {
         prToBranch = resp.data.default_branch
     }
 
-    // Checkout the branch from the "to branch"
-    execSync(`git fetch origin ${prToBranch}`)
-    execSync(`git checkout ${prToBranch}`)
-    // do a reset here to ensure we don't have sneaky build stuff
-    execSync(`git reset --hard`)
-    execSync(`git checkout -b ${branchName}`)
+    console.log(execSync('git symbolic-ref --short -q HEAD ||  git rev-parse HEAD').toString())
+    const origRef = execSync('git symbolic-ref --short -q HEAD ||  git rev-parse HEAD').toString()
 
-    // Clone and merge on this branch
-    const tempAppDir = await mkdtemp(join(getTempDir(), 'template_sync_'))
+    try {
+        // Checkout the branch from the "to branch"
+        execSync(`git fetch origin ${prToBranch}`)
+        execSync(`git checkout ${prToBranch}`)
+        // do a reset here to ensure we don't have sneaky build stuff
+        execSync(`git reset --hard`)
+        console.log(`Checking out ${branchName}`)
+        execSync(`git checkout -b ${branchName}`)
 
-    const result = await templateSync({
-        tmpCloneDir: tempAppDir,
-        repoDir: options.repoRoot ?? process.cwd(),
-        repoUrl: authedRepoUrl,
-    })
+        // Clone and merge on this branch
+        const tempAppDir = await mkdtemp(join(getTempDir(), 'template_sync_'))
 
-    // commit everything
-    execSync('git add .')
-    execSync(`git commit -m "${commitMsg}"`)
-    execSync(`git push --set-upstream origin "${branchName}"`)
+        console.log('Calling template sync...')
+        const result = await templateSync({
+            tmpCloneDir: tempAppDir,
+            repoDir: options.repoRoot ?? process.cwd(),
+            repoUrl: authedRepoUrl,
+        })
 
-    const resp = await octokit.rest.pulls.create({
-        owner: github.context.repo.owner,
-        repo: github.context.repo.repo,
-        head: branchName,
-        base: prToBranch,
-        title: DEFAULT_TITLE_MSG,
-        body: `
-Template Synchronization Operation of ${baseRepoUrl} ${options.templateBranch}
+        console.log('Committing all files...')
+        // commit everything
+        execSync('git add .')
+        execSync(`git commit -m "${commitMsg}"`)
+        execSync(`git push --set-upstream origin "${branchName}"`)
 
-${syncResultsToMd(result)}
-`
-    })
+        console.log('Creating Pull Request...')
+        const resp = await octokit.rest.pulls.create({
+            owner: github.context.repo.owner,
+            repo: github.context.repo.repo,
+            head: branchName,
+            base: prToBranch,
+            title: DEFAULT_TITLE_MSG,
+            body: `
+    Template Synchronization Operation of ${baseRepoUrl} ${options.templateBranch}
 
-    core.setOutput("prNumber", resp.data.number)
+    ${syncResultsToMd(result)}
+    `
+        })
+
+        core.setOutput("prNumber", resp.data.number)
+    } finally {
+        console.log(`Resetting to orignal ref: ${origRef}`)
+        execSync('git reset --hard')
+        execSync(`git checkout ${origRef}`)
+    }
 }
