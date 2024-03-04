@@ -94,7 +94,7 @@ jobs:
             --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
             --expectedToBranch "main" \
             --expectedFromBranch "main" \
-            --expectedFilesChanged "new_file.md" "package.json" "my-tools/my.txt" \
+            --expectedFilesChanged "new_file.md" "package.json" \
             --expectedFromRepoPath "HanseltimeIndustries/test-private-template"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
