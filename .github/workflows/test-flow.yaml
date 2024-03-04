@@ -84,6 +84,7 @@ jobs:
         with:
           repoPath: HanseltimeIndustries/test-private-template 
           githubToken: ${{ secrets.GITHUB_TOKEN }}
+          remoteRepoToken: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
           templateBranch: main
           commitMsg: 'build(boilerplate): synchronize template repo'
         env:
@@ -98,15 +99,15 @@ jobs:
             --expectedFromRepoPath "HanseltimeIndustries/test-private-template"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: clean
-        if: always()
-        run: |
-          npx ts-node src/test-utils/clear-int-test-resources.ts \
-            --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
-            --expectedFromBranch "main" \
-            --expectedFromRepoPath "HanseltimeIndustries/test-private-template"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: clean
+      #   if: always()
+      #   run: |
+      #     npx ts-node src/test-utils/clear-int-test-resources.ts \
+      #       --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
+      #       --expectedFromBranch "main" \
+      #       --expectedFromRepoPath "HanseltimeIndustries/test-private-template"
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       
     

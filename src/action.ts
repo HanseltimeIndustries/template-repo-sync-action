@@ -11,6 +11,7 @@ const options: GithubOptions = {
     commitMsg: core.getInput('commitMsg') || undefined,
     titleMsg: core.getInput('titleMsg') || undefined,
     prToBranch: core.getInput('prToBranch') || undefined,
+    remoteRepoToken: core.getInput('remoteRepoToken') || undefined,
 }
 
 void syncGithubRepo(options)
