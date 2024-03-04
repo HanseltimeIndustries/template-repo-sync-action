@@ -17,6 +17,9 @@ export interface GithubOptions {
     /** A github token with access to write pull requests */
     githubToken: string
 
+    /** A separate github token with permissions to clone from the other repo.  Only needed for private repos */
+    remoteRepoToken?: string
+
     /**
      * Normally, this should be the working directory of a github action, but this
      * could also be an internal file depending on things like monorepo structures
@@ -62,12 +65,13 @@ export async function syncGithubRepo(options: GithubOptions) {
     const commitMsg = options.commitMsg ? options.commitMsg : DEFAULT_COMMIT_MSG
 
     // Note, we use git here so that we can change this around for other git providers more easily
-    const repoUrl = `https://github.com/${options.repoPath}`
+    const baseRepoUrl = `github.com/${options.repoPath}.git`
+    const authedRepoUrl = `https://${options.remoteRepoToken ? `github_actions:${options.remoteRepoToken}@` : ''}${baseRepoUrl}`
 
     const branchName = getBranchName({
         branchPrefix,
         templateBranch: options.templateBranch,
-        repoUrl,
+        repoUrl: `https://${baseRepoUrl}`,
         repoRoot,
     })
 
@@ -81,23 +85,6 @@ export async function syncGithubRepo(options: GithubOptions) {
         process.exit(1)
     }
 
-    // Checkout the branch
-    execSync(`git checkout -b ${branchName}`)
-
-    // Clone and merge on this branch
-    const tempAppDir = await mkdtemp(join(getTempDir(), 'template_sync_'))
-
-    const result = await templateSync({
-        tmpCloneDir: tempAppDir,
-        repoDir: options.repoRoot ?? process.cwd(),
-        repoUrl: `https://github_actions:${process.env.CLONE_PAT}@github.com/${options.repoPath}.git`,
-    })
-
-    // commit everything
-    execSync('git add .')
-    execSync(`git commit -m "${commitMsg}"`)
-    execSync(`git push --set-upstream origin "${branchName}"`)
-
     let prToBranch = options.prToBranch
     if (!prToBranch) {
         const resp = await octokit.rest.repos.get({
@@ -107,6 +94,24 @@ export async function syncGithubRepo(options: GithubOptions) {
         prToBranch = resp.data.default_branch
     }
 
+    // Checkout the branch from the "to branch"
+    execSync(`git fetch origin ${prToBranch}`)
+    execSync(`git checkout -b ${prToBranch}`)
+    execSync(`git checkout -b ${branchName}`)
+
+    // Clone and merge on this branch
+    const tempAppDir = await mkdtemp(join(getTempDir(), 'template_sync_'))
+
+    const result = await templateSync({
+        tmpCloneDir: tempAppDir,
+        repoDir: options.repoRoot ?? process.cwd(),
+        repoUrl: authedRepoUrl,
+    })
+
+    // commit everything
+    execSync('git add .')
+    execSync(`git commit -m "${commitMsg}"`)
+    execSync(`git push --set-upstream origin "${branchName}"`)
 
     const resp = await octokit.rest.pulls.create({
         owner: github.context.repo.owner,
@@ -115,7 +120,7 @@ export async function syncGithubRepo(options: GithubOptions) {
         base: prToBranch,
         title: DEFAULT_TITLE_MSG,
         body: `
-Template Synchronization Operation of ${repoUrl} ${options.templateBranch}
+Template Synchronization Operation of ${baseRepoUrl} ${options.templateBranch}
 
 ${syncResultsToMd(result)}
 `
