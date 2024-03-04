@@ -3,7 +3,7 @@ run-name: ${{ github.head_ref }} PR Checks
 
 on:
   pull_request:
-    branches: [ main, alpha ]
+    branches: [main, alpha]
 
 jobs:
   call-test-workflow:
