@@ -2,8 +2,8 @@ name: auto-sync-with-template
 
 on:
   schedule:
-  # Perform automatic syncs on saturday at 9 am
-  - cron:  "0 9 * * 6"
+    # Perform automatic syncs on saturday at 9 am
+    - cron: "0 9 * * 6"
   # manual trigger
   workflow_dispatch:
 
