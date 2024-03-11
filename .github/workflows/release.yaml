@@ -15,6 +15,7 @@ jobs:
     uses: ./.github/workflows/test-flow.yaml
     with:
       from: ${{ github.workflow }}
+      templatePrefix: ${{ github.workflow }}
     secrets: inherit
   release:
     runs-on: ubuntu-latest
