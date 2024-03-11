@@ -74,8 +74,8 @@ jobs:
           token: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
       - name: setup git
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.name github-int-test
+          git config user.email github-int-test@github.com
       - name: install
         run: |
           npm ci
@@ -90,8 +90,9 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           remoteRepoToken: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
           templateBranch: main
-          commitMsg: "build(boilerplate): synchronize template repo"
+          commitMsg: "build(boilerplate-int-test): synchronize template repo"
           branchPrefix: ${{ inputs.templatePrefix }}
+          mockLocalConfig: "{}"
       - name: assert
         run: |
           npx ts-node src/test-utils/confirm-repo-template.ts \
@@ -126,8 +127,8 @@ jobs:
           token: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
       - name: setup git
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.name github-int-test
+          git config user.email github-int-test@github.com
       - name: install
         run: |
           npm ci
@@ -142,7 +143,7 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           remoteRepoToken: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
           templateBranch: main
-          commitMsg: "build(boilerplate): synchronize template repo"
+          commitMsg: "build(boilerplate-int-test): synchronize template repo"
           branchPrefix: ${{ inputs.templatePrefix }}-after-ref
           mockLocalConfig: '{ "afterRef": "85499cc1e4814cf7d8cd90e6eeb0a7e2e243a017" }'
       - name: assert
@@ -177,8 +178,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: setup git
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.name github-int-test
+          git config user.email github-int-test@github.com
       - name: install
         run: |
           npm ci
@@ -192,8 +193,9 @@ jobs:
           repoPath: HanseltimeIndustries/test-public-template
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           templateBranch: main
-          commitMsg: "build(boilerplate): synchronize template repo"
+          commitMsg: "build(boilerplate-int-test): synchronize template repo"
           branchPrefix: ${{ inputs.templatePrefix }}-public
+          mockLocalConfig: "{}"
       - name: assert
         run: |
           npx ts-node src/test-utils/confirm-repo-template.ts \
@@ -226,8 +228,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: setup git
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.name github-int-test
+          git config user.email github-int-test@github.com
       - name: install
         run: |
           npm ci
@@ -241,16 +243,17 @@ jobs:
           repoPath: HanseltimeIndustries/test-public-template
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           templateBranch: main
-          commitMsg: "build(boilerplate): synchronize template repo"
+          commitMsg: "build(boilerplate-int-test): synchronize template repo"
           branchPrefix: ${{ inputs.templatePrefix }}-public-update-ref
           updateAfterRef: false
+          mockLocalConfig: "{}"
       - name: assert
         run: |
           npx ts-node src/test-utils/confirm-repo-template.ts \
             --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
             --expectedToBranch "main" \
             --expectedFromBranch "main" \
-            --expectedFilesChanged "new_file.md" "package.json" "templatesync.json" \
+            --expectedFilesChanged "new_file.md" "package.json" "templatesync.json" "templatesync.local.json" \
             --expectedFromRepoPath "HanseltimeIndustries/test-public-template" \
             --expectedBranchPrefix "${{ inputs.templatePrefix }}-public-update-ref"
         env:
