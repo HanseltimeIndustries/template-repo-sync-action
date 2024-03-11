@@ -13,4 +13,5 @@ jobs:
     uses: ./.github/workflows/test-flow.yaml
     with:
       from: ${{ github.workflow }}
+      templatePrefix: ${{ github.head_ref }}
     secrets: inherit
