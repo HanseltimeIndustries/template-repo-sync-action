@@ -33,6 +33,7 @@ module.exports = {
         message: `docs(release): ${abbreviatedName} $\{nextRelease.version} [skip ci]\n\n$\{nextRelease.notes}`,
       },
     ],
+    "semantic-release-major-tag",
     // This creates a release on github - you can decide if you want to mirror the files in package.json
     "@semantic-release/github",
   ],
