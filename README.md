@@ -99,7 +99,7 @@ If you do not want to roll all of those permissions into one application, you ca
 token with pull request permissions for the `githubToken` property.
 
 Additionally, if you can ensure that you will never be synchronizing github actions workflows (by ensuring that
-you ignore `.github/**/*`), then you can forgo the Workflow permission as well.  If not, you will have to use the
+you ignore `.github/**/*`), then you can forgo the Workflow permission as well. If not, you will have to use the
 correct PAT with your `actions/checkout`.
 
 ### 1. Using a Github app
@@ -152,7 +152,7 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      pull_request: 
+      pull_request:
 
     steps:
      - name: Generate token to read from source repo # see: https://github.com/tibdex/github-app-token

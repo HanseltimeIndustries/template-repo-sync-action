@@ -15,6 +15,7 @@ import {
   DEFAULT_TITLE_MSG,
 } from "./constants";
 import { getBranchName } from "./get-branch-name";
+import { writeFileSync } from "fs";
 
 export interface GithubOptions {
   /**
@@ -63,6 +64,11 @@ export interface GithubOptions {
    * template if true
    */
   updateAfterRef: boolean;
+
+  /**
+   * For testing, this is a templatesync.config.json for mocking
+   */
+  mockLocalConfig?: string;
 }
 
 function getTempDir() {
@@ -121,9 +127,15 @@ export async function syncGithubRepo(options: GithubOptions) {
     execSync(`git fetch origin ${prToBranch}`);
     execSync(`git checkout ${prToBranch}`);
     // stash everything except "added" files since we will assume this means there's an intention
-    execSync(`git stash --include-untracked --keep-index`);
+    execSync(`git stash --include-untracked`);
     console.log(`Checking out ${branchName}`);
     execSync(`git checkout -b ${branchName}`);
+    if (options.mockLocalConfig) {
+      writeFileSync(
+        join(repoRoot, `${TEMPLATE_SYNC_LOCAL_CONFIG}.json`),
+        options.mockLocalConfig,
+      );
+    }
 
     // Clone and merge on this branch
     const tempAppDir = await mkdtemp(join(getTempDir(), "template_sync_"));
