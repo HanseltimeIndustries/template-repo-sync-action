@@ -253,7 +253,7 @@ jobs:
             --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
             --expectedToBranch "main" \
             --expectedFromBranch "main" \
-            --expectedFilesChanged "new_file.md" "package.json" "templatesync.json" \
+            --expectedFilesChanged "new_file.md" "package.json" "templatesync.json" "templatesync.local.json" \
             --expectedFromRepoPath "HanseltimeIndustries/test-public-template" \
             --expectedBranchPrefix "${{ inputs.templatePrefix }}-public-update-ref"
         env:
