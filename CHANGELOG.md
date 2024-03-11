@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v1.0.0...v1.0.1) (2024-03-11)
+
+
+### Bug Fixes
+
+* only stash pop when there was a stash ([2acd663](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/2acd6630206f5cc8b07181c4796c28cf43452ff4))
+
 # 1.0.0 (2024-03-11)
 
 

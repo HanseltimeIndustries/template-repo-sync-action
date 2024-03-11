@@ -61818,7 +61818,11 @@ function syncGithubRepo(options) {
             console.log(`Resetting to orignal ref: ${origRef}`);
             (0, child_process_1.execSync)("git reset --hard");
             (0, child_process_1.execSync)(`git checkout ${origRef}`);
-            (0, child_process_1.execSync)(`git stash pop`);
+            // In case there were no changes
+            const stashStr = (0, child_process_1.execSync)(`git stash list`).toString();
+            if (stashStr.includes("stash@")) {
+                (0, child_process_1.execSync)(`git stash pop`);
+            }
         }
     });
 }
