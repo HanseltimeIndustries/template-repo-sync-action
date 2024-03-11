@@ -10,10 +10,7 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-      actions: write
+    permissions: write-all
     steps:
       # Create git client with PAT that has access to the private template
       - uses: actions/checkout@v4
