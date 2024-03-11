@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v1.0.3...v1.0.4) (2024-03-11)
+
+
+### Bug Fixes
+
+* patching to ensure major version tag ([f2f6a32](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/f2f6a328cdc8bf0c785729d223d49330ba404a4f))
+
 ## [1.0.3](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v1.0.2...v1.0.3) (2024-03-11)
 
 
