@@ -92,6 +92,7 @@ jobs:
           templateBranch: main
           commitMsg: "build(boilerplate): synchronize template repo"
           branchPrefix: ${{ inputs.templatePrefix }}
+          mockLocalConfig: "{}"
       - name: assert
         run: |
           npx ts-node src/test-utils/confirm-repo-template.ts \
@@ -194,6 +195,7 @@ jobs:
           templateBranch: main
           commitMsg: "build(boilerplate): synchronize template repo"
           branchPrefix: ${{ inputs.templatePrefix }}-public
+          mockLocalConfig: "{}"
       - name: assert
         run: |
           npx ts-node src/test-utils/confirm-repo-template.ts \
@@ -244,6 +246,7 @@ jobs:
           commitMsg: "build(boilerplate): synchronize template repo"
           branchPrefix: ${{ inputs.templatePrefix }}-public-update-ref
           updateAfterRef: false
+          mockLocalConfig: "{}"
       - name: assert
         run: |
           npx ts-node src/test-utils/confirm-repo-template.ts \
