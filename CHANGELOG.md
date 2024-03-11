@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v1.0.2...v1.0.3) (2024-03-11)
+
+
+### Bug Fixes
+
+* enabling major version tagging ([ffa483b](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/ffa483bed308a953d520e74b46c965a04af7fde3))
+
 ## [1.0.2](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v1.0.1...v1.0.2) (2024-03-11)
 
 
