@@ -23,7 +23,7 @@ module.exports = {
     [
       "@semantic-release/exec",
       {
-        prepareCmd: "npm bundle",
+        prepareCmd: "npm run bundle",
       },
     ],
     [
