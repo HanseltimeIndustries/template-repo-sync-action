@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v1.0.1...v1.0.2) (2024-03-11)
+
+
+### Bug Fixes
+
+* adding mock config field ([3b05a8c](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/3b05a8cd120a9342fc7d318428a6df907ea85910))
+
 ## [1.0.1](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v1.0.0...v1.0.1) (2024-03-11)
 
 

@@ -61630,6 +61630,7 @@ const options = {
     prToBranch: core.getInput("prToBranch") || undefined,
     remoteRepoToken: core.getInput("remoteRepoToken") || undefined,
     updateAfterRef: core.getInput("updateAfterRef").toLowerCase() === "true",
+    mockLocalConfig: core.getInput("mockLocalConfig"),
 };
 void (0, sync_github_repo_1.syncGithubRepo)(options);
 
@@ -61738,6 +61739,7 @@ const child_process_1 = __nccwpck_require__(2081);
 const template_repo_sync_1 = __nccwpck_require__(8254);
 const constants_1 = __nccwpck_require__(9042);
 const get_branch_name_1 = __nccwpck_require__(6041);
+const fs_1 = __nccwpck_require__(7147);
 function getTempDir() {
     return process.env["RUNNER_TEMP"] || (0, os_1.tmpdir)();
 }
@@ -61782,9 +61784,12 @@ function syncGithubRepo(options) {
             (0, child_process_1.execSync)(`git fetch origin ${prToBranch}`);
             (0, child_process_1.execSync)(`git checkout ${prToBranch}`);
             // stash everything except "added" files since we will assume this means there's an intention
-            (0, child_process_1.execSync)(`git stash --include-untracked --keep-index`);
+            (0, child_process_1.execSync)(`git stash --include-untracked`);
             console.log(`Checking out ${branchName}`);
             (0, child_process_1.execSync)(`git checkout -b ${branchName}`);
+            if (options.mockLocalConfig) {
+                (0, fs_1.writeFileSync)((0, path_1.join)(repoRoot, `${template_repo_sync_1.TEMPLATE_SYNC_LOCAL_CONFIG}.json`), options.mockLocalConfig);
+            }
             // Clone and merge on this branch
             const tempAppDir = yield (0, promises_1.mkdtemp)((0, path_1.join)(getTempDir(), "template_sync_"));
             console.log("Calling template sync...");
