@@ -9,6 +9,9 @@ on:
 
 jobs:
   call-test-workflow:
+    permissions:
+      contents: write
+      pull-requests: write
     uses: ./.github/workflows/test-flow.yaml
     with:
       from: ${{ github.workflow }}
