@@ -161,6 +161,10 @@ export async function syncGithubRepo(options: GithubOptions) {
     console.log(`Resetting to orignal ref: ${origRef}`);
     execSync("git reset --hard");
     execSync(`git checkout ${origRef}`);
-    execSync(`git stash pop`);
+    // In case there were no changes
+    const stashStr = execSync(`git stash list`).toString();
+    if (stashStr.includes("stash@")) {
+      execSync(`git stash pop`);
+    }
   }
 }
