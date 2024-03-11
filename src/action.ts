@@ -12,6 +12,7 @@ const options: GithubOptions = {
   prToBranch: core.getInput("prToBranch") || undefined,
   remoteRepoToken: core.getInput("remoteRepoToken") || undefined,
   updateAfterRef: core.getInput("updateAfterRef").toLowerCase() === "true",
+  mockLocalConfig: core.getInput("mockLocalConfig"),
 };
 
 void syncGithubRepo(options);

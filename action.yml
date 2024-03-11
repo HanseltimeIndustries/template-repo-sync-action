@@ -32,6 +32,9 @@ inputs:
     description: Whether we want to override the templatesync.local.json file with the template repo's last sha from the sync
     required: false
     default: "true"
+  mockLocalConfig:
+    description: For testing, this is a templatesync.config.json that overrides the file that might be on the branch
+    required: false
 outputs:
   prNumber:
     description: "The number of the created PR"

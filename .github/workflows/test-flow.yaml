@@ -134,10 +134,6 @@ jobs:
       - name: bundle
         run: |
           npm run bundle
-      - name: Create local config
-        run: |
-          echo '{ "afterRef": "85499cc1e4814cf7d8cd90e6eeb0a7e2e243a017" }' > templatesync.local.json
-          git add templatesync.local.json
       - name: sync-private-repo
         id: test_run
         uses: ./
@@ -148,6 +144,7 @@ jobs:
           templateBranch: main
           commitMsg: "build(boilerplate): synchronize template repo"
           branchPrefix: ${{ inputs.templatePrefix }}-after-ref
+          mockLocalConfig: '{ "afterRef": "85499cc1e4814cf7d8cd90e6eeb0a7e2e243a017" }'
       - name: assert
         run: |
           npx ts-node src/test-utils/confirm-repo-template.ts \
