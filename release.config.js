@@ -33,6 +33,7 @@ module.exports = {
         message: `docs(release): ${abbreviatedName} $\{nextRelease.version} [skip ci]\n\n$\{nextRelease.notes}`,
       },
     ],
+    // This increments our major release tag to the current sha
     "semantic-release-major-tag",
     // This creates a release on github - you can decide if you want to mirror the files in package.json
     "@semantic-release/github",
