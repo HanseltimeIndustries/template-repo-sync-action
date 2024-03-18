@@ -1,5 +1,8 @@
 name: "template-repo-sync-action"
 description: "Action for taking the files in a template repo and synchronizing them to the repo via a PR"
+branding:
+  icon: git-merge
+  color: blue
 inputs:
   repoPath:
     description: "The owner/repo path of the repo on github"
