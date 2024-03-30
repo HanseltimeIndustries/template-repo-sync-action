@@ -24,7 +24,7 @@ jobs:
         run: |
           npm ci
       - name: sync-repos
-        uses: hanseltimeindustries/template-repo-sync-action@v1
+        uses: hanseltimeindustries/template-repo-sync-action@v1.0.1
         with:
           repoPath: HanseltimeIndustries/github-actions-template
           githubToken: ${{ secrets.SYNC_TOKEN }}

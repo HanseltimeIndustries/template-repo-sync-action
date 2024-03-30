@@ -1,0 +1,22 @@
+{
+  "ignore": ["src/**/*", "README.md", "action.yml"],
+  "merge": {
+    ".json": {
+      "rules": [
+        {
+          "glob": "package.json",
+          "options": {
+            "paths": [
+              ["$.devDependencies", "merge-template"],
+              ["$.scripts", "merge-template"]
+            ]
+          }
+        },
+        {
+          "glob": "tsconfig.json",
+          "options": "merge-template"
+        }
+      ]
+    }
+  }
+}

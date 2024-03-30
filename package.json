@@ -5,12 +5,12 @@
   "main": "dist/action.js",
   "scripts": {
     "format": "prettier . --write",
-    "lint": "eslint .",
+    "lint": "npx eslint .",
     "bundle": "ncc build src/action.ts -o bundle",
     "test": "echo \"Error: no test specified\"",
     "build": "tsc",
     "prepare": "husky",
-    "release": "semantic-release"
+    "release": "npx semantic-release"
   },
   "repository": {
     "type": "git",
