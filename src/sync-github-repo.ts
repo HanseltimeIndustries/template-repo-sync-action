@@ -146,6 +146,7 @@ export async function syncGithubRepo(options: GithubOptions) {
       repoDir: options.repoRoot ?? process.cwd(),
       repoUrl: authedRepoUrl,
       updateAfterRef: options.updateAfterRef,
+      branch: options.templateBranch,
     });
 
     console.log("Committing all files...");
