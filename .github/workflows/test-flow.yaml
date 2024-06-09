@@ -186,7 +186,7 @@ jobs:
       - name: bundle
         run: |
           npm run bundle
-      - name: sync-private-repo
+      - name: sync-public-repo
         id: test_run
         uses: ./
         with:
@@ -236,7 +236,7 @@ jobs:
       - name: bundle
         run: |
           npm run bundle
-      - name: sync-private-repo
+      - name: sync-public-repo
         id: test_run
         uses: ./
         with:
@@ -266,5 +266,55 @@ jobs:
             --expectedFromBranch "main" \
             --expectedFromRepoPath "HanseltimeIndustries/test-public-template" \
             --expectedBranchPrefix "${{ inputs.templatePrefix }}-public-update-ref"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  public-int-test-non-default-branch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      # Create git client with PAT that has access to the private template
+      - uses: actions/checkout@v4
+      - name: setup git
+        run: |
+          git config user.name github-int-test
+          git config user.email github-int-test@github.com
+      - name: install
+        run: |
+          npm ci
+      - name: bundle
+        run: |
+          npm run bundle
+      - name: sync-public-repo
+        id: test_run
+        uses: ./
+        with:
+          repoPath: HanseltimeIndustries/test-public-template
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          templateBranch: non-default-branch
+          commitMsg: "build(boilerplate-int-test): synchronize template repo"
+          branchPrefix: ${{ inputs.templatePrefix }}-public
+          mockLocalConfig: "{}"
+      - name: assert
+        run: |
+          npx ts-node src/test-utils/confirm-repo-template.ts \
+            --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
+            --expectedToBranch "main" \
+            --expectedFromBranch "non-default-branch" \
+            --expectedFilesChanged "new_file.md" "package.json" "templatesync.json" "templatesync.local.json" "new_branch_file.md" \
+            --expectedFromRepoPath "HanseltimeIndustries/test-public-template" \
+            --expectedBranchPrefix "${{ inputs.templatePrefix }}-public"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: clean
+        if: always()
+        run: |
+          npx ts-node src/test-utils/clear-int-test-resources.ts \
+            --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
+            --expectedFromBranch "non-default-branch" \
+            --expectedFromRepoPath "HanseltimeIndustries/test-public-template" \
+            --expectedBranchPrefix "${{ inputs.templatePrefix }}-public"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
