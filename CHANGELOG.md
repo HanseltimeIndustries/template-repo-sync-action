@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v1.0.4...v1.0.5) (2024-06-09)
+
+
+### Bug Fixes
+
+* checking out templateBranch ([32bdbe0](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/32bdbe0243a32af9438fdd595aead1b5599cd1d9))
+
 ## [1.0.4](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v1.0.3...v1.0.4) (2024-03-11)
 
 

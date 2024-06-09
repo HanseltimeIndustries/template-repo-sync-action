@@ -2087,6 +2087,79 @@ function isLoopbackAddress(host) {
 
 /***/ }),
 
+/***/ 3136:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.gitCheckout = void 0;
+const child_process_1 = __nccwpck_require__(2081);
+async function gitCheckout(options) {
+    const { branch, remoteName, tmpDir } = options;
+    const remoteInfo = (0, child_process_1.execSync)(`git remote show ${remoteName}`, {
+        cwd: tmpDir,
+        env: process.env,
+    }).toString();
+    const defaultMatch = /HEAD branch:\s*([a-zA-Z0-9_-]+)/.exec(remoteInfo);
+    if (!defaultMatch || !defaultMatch[1]) {
+        throw new Error(`Could not determine default branch of cloned repo.\nAttempted to find in remote info:\n${remoteInfo} `);
+    }
+    const defaultBranch = defaultMatch[1];
+    // Skip this if the default branch is already pulled
+    if (defaultBranch !== branch) {
+        (0, child_process_1.execSync)(`git fetch ${remoteName} ${branch}`, {
+            cwd: tmpDir,
+            env: process.env,
+        });
+        (0, child_process_1.execSync)(`git checkout -b ${branch} --track ${remoteName}/${branch}`, {
+            cwd: tmpDir,
+            env: process.env,
+        });
+    }
+    return true;
+}
+exports.gitCheckout = gitCheckout;
+
+
+/***/ }),
+
+/***/ 5447:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+__exportStar(__nccwpck_require__(3136), exports);
+__exportStar(__nccwpck_require__(3550), exports);
+
+
+/***/ }),
+
+/***/ 3550:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+
+
+/***/ }),
+
 /***/ 1215:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
@@ -2102,7 +2175,10 @@ async function gitClone(tmpDir, repoUrl) {
         cwd: tmpDir,
         env: process.env,
     });
-    return (0, path_1.resolve)(tmpDir, CLONE_DIR);
+    return {
+        dir: (0, path_1.resolve)(tmpDir, CLONE_DIR),
+        remoteName: "origin",
+    };
 }
 exports.gitClone = gitClone;
 
@@ -2842,13 +2918,28 @@ const diff_drivers_1 = __nccwpck_require__(7989);
 const ref_drivers_1 = __nccwpck_require__(4627);
 const formatting_1 = __nccwpck_require__(3566);
 const commentJSON = __importStar(__nccwpck_require__(3165));
+const checkout_drivers_1 = __nccwpck_require__(5447);
 exports.TEMPLATE_SYNC_CONFIG = "templatesync";
 exports.TEMPLATE_SYNC_LOCAL_CONFIG = "templatesync.local";
 async function templateSync(options) {
     const cloneDriver = options.cloneDriver ?? git_clone_1.gitClone;
     const diffDriver = options.diffDriver ?? diff_drivers_1.gitDiff;
     const currentRefDriver = options.currentRefDriver ?? ref_drivers_1.gitCurrentRef;
-    const tempCloneDir = await cloneDriver(options.tmpCloneDir, options.repoUrl);
+    const checkoutDriver = options.checkoutDriver ?? checkout_drivers_1.gitCheckout;
+    const cloneReturn = await cloneDriver(options.tmpCloneDir, options.repoUrl);
+    const { dir: tempCloneDir, remoteName } = typeof cloneReturn === "string"
+        ? {
+            dir: cloneReturn,
+            remoteName: "origin", // Default to this
+        }
+        : cloneReturn;
+    if (options.branch) {
+        await checkoutDriver({
+            tmpDir: tempCloneDir,
+            remoteName,
+            branch: options.branch,
+        });
+    }
     // Get the clone Config
     const cloneConfigPath = (0, path_1.join)(tempCloneDir, `${exports.TEMPLATE_SYNC_CONFIG}.json`);
     const templateSyncConfig = (0, fs_1.existsSync)(cloneConfigPath)
@@ -61798,6 +61889,7 @@ function syncGithubRepo(options) {
                 repoDir: (_c = options.repoRoot) !== null && _c !== void 0 ? _c : process.cwd(),
                 repoUrl: authedRepoUrl,
                 updateAfterRef: options.updateAfterRef,
+                branch: options.templateBranch,
             });
             console.log("Committing all files...");
             // commit everything
