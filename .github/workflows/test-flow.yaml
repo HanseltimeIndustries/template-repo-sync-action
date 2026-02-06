@@ -87,6 +87,9 @@ jobs:
       - name: bundle
         run: |
           npm run bundle
+      - name: test git
+        run: |
+          git ls-remote "https://github.com/HanseltimeIndustries/test-private-template.git" "main"
       - name: sync-private-repo
         id: test_run
         uses: ./
