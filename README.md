@@ -4,7 +4,7 @@ This action attempts to establish a tooling system around the problem set of han
 that do not have a shared git history (i.e. Github Template repos or repos imported, not forked, from another repo).
 
 IMPORANT - V2 uses [template-repo-sync v2](https://github.com/HanseltimeIndustries/template-repo-sync), which changes
-the way the merge field works!  You must make sure that all repos change that config and versions.
+the way the merge field works! You must make sure that all repos change that config and versions.
 
 - [Template Repo Sync Github Action](#template-repo-sync-github-action)
   - [What it does](#what-it-does)
@@ -107,7 +107,7 @@ correct PAT with your `actions/checkout`.
 
 ### 1. Using a Github app
 
-You can create and use a [GitHub App]([github-app](https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/about-creating-github-apps)) to handle access to the private template repository.
+You can create and use a [GitHub App](<[github-app](https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/about-creating-github-apps)>) to handle access to the private template repository.
 To generate a token for your app you can use a separate action like [tibdex/github-app-token](https://github.com/tibdex/github-app-token).
 You have to set up the checkout step with the generated token as well.
 
