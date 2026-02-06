@@ -3,6 +3,9 @@
 This action attempts to establish a tooling system around the problem set of handling template repositories
 that do not have a shared git history (i.e. Github Template repos or repos imported, not forked, from another repo).
 
+IMPORANT - V2 uses [template-repo-sync v2](https://github.com/HanseltimeIndustries/template-repo-sync), which changes
+the way the merge field works!  You must make sure that all repos change that config and versions.
+
 - [Template Repo Sync Github Action](#template-repo-sync-github-action)
   - [What it does](#what-it-does)
   - [What already exists](#what-already-exists)
@@ -104,8 +107,8 @@ correct PAT with your `actions/checkout`.
 
 ### 1. Using a Github app
 
-You can create and use a [GitHub App][github-app] to handle access to the private template repository.
-To generate a token for your app you can use a separate action like [tibdex/github-app-token][github-app-token].
+You can create and use a [GitHub App]([github-app](https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/about-creating-github-apps)) to handle access to the private template repository.
+To generate a token for your app you can use a separate action like [tibdex/github-app-token](https://github.com/tibdex/github-app-token).
 You have to set up the checkout step with the generated token as well.
 
 ```yaml
@@ -138,9 +141,9 @@ jobs:
           prToBranch: <branch on this repo we want to update>
 ```
 
-2. Using a PAT
+1. Using a PAT
 
-A [Personal access token][github-pat] is an alternative to using passwords for authentication to GitHub, but unlike
+A [Personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) is an alternative to using passwords for authentication to GitHub, but unlike
 a github app, is still attributed to an authorizing user. As such, we recommend the Github App route for any
 organizational loads, but provide these instructions here in the event that storing a PAT is less concerning.
 
@@ -203,21 +206,18 @@ Looking at the template repo, I will also crate a `templatesync.json` file in th
 ```json
 {
   "ignore": ["src/**/*"],
-  "merge": {
-    ".json": {
-      "rules": [
-        {
-          "glob": "package.json",
-          "options": {
-            "paths": [
-              ["$.scripts", "merge-template"],
-              ["$.devDependencies", "merge-template"]
-            ]
-          }
-        }
-      ]
+  "merge": [
+    {
+      "glob": "**/*.json",
+      "plugin": "_json",
+      "options": {
+        "paths": [
+          ["$.scripts", "merge-template"],
+          ["$.devDependencies", "merge-template"]
+        ]
+      }
     }
-  }
+  ]
 }
 ```
 
