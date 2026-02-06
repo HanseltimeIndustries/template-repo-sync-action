@@ -13,6 +13,7 @@ the way the merge field works! You must make sure that all repos change that con
   - [Configuration](#configuration)
   - [Authorization](#authorization)
     - [1. Using a Github app](#1-using-a-github-app)
+    - [2. Using a PAT](#2-using-a-pat)
 - [Example Use Case](#example-use-case)
 <!-- Created with Markdown All in One Plugin in VsCode, rerun to update -->
 
@@ -108,28 +109,26 @@ correct PAT with your `actions/checkout`.
 ### 1. Using a Github app
 
 You can create and use a [GitHub App](https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/about-creating-github-apps) to handle access to the private template repository.
-To generate a token for your app you can use a separate action like [tibdex/github-app-token](https://github.com/tibdex/github-app-token).
+To generate a token for your app you can use a separate action like [actions/create-github-app-token](https://github.com/actions/create-github-app-token).
 You have to set up the checkout step with the generated token as well.
 
 ```yaml
 jobs:
   repo-sync:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
-     - name: Generate token to read from source repo # see: https://github.com/tibdex/github-app-token
+     - name: Generate token to read from source repo
         id: generate_token
-        uses: tibdex/github-app-token@v1
+        uses: actions/create-github-app-token
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.PRIVATE_KEY }}
-
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          # Make sure to set the checkout client token since it is what pushes the new branch
-          token: ${{ steps.generate_token.outputs.token }}
-
+        uses: actions/checkout@v6
       - name: repo-sync
         uses: hanseltimeindustries/template-repo-sync-action@v1
         with:
@@ -141,7 +140,7 @@ jobs:
           prToBranch: <branch on this repo we want to update>
 ```
 
-1. Using a PAT
+### 2. Using a PAT
 
 A [Personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) is an alternative to using passwords for authentication to GitHub, but unlike
 a github app, is still attributed to an authorizing user. As such, we recommend the Github App route for any
@@ -153,23 +152,22 @@ You will want to create a fine-grained PAT with the above listed permissions to 
 jobs:
   repo-sync:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
+      pull-requests: write
     permissions:
       pull_request:
 
     steps:
-     - name: Generate token to read from source repo # see: https://github.com/tibdex/github-app-token
+     - name: Generate token to read from source repo
         id: generate_token
         uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.PRIVATE_KEY }}
-
+          owner: ${{ github.repository_owner }}
       - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{ steps.generate_token.outputs.token }}
-
+        uses: actions/checkout@v6
       - name: repo-sync
         uses: hanseltimeindustries/template-repo-sync-action@v1
         with:

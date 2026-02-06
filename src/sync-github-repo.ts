@@ -89,7 +89,7 @@ export async function syncGithubRepo(options: GithubOptions) {
   const branchName = getBranchName({
     branchPrefix,
     templateBranch: options.templateBranch,
-    repoUrl: `https://${baseRepoUrl}`,
+    repoUrl: authedRepoUrl,
     repoRoot,
   });
 

@@ -74,22 +74,25 @@ jobs:
         with:
           app-id: ${{ secrets.TEMPLATE_REPO_SYNC_ACTION_APP_ID }}
           private-key: ${{ secrets.TEMPLATE_REPO_SYNC_ACTION_PKEY }}
-      - uses: actions/checkout@v4
-        with:
-          token: ${{ steps.generate_token.outputs.token }}
+          owner: ${{ github.repository_owner }}
+          repositories: test-private-template
+      - uses: actions/checkout@v6
       - name: setup git
         run: |
           git config user.name github-int-test
           git config user.email github-int-test@github.com
+      - name: test git
+        run: |
+          git config --get-all http.https://github.com/.extraheader
+          git config --list --show-origin --show-scope | grep "extraheader"
+          git -c http.https://github.com/.extraheader="" \
+          ls-remote "https://github_actions:${{ steps.generate_token.outputs.token }}@github.com/HanseltimeIndustries/test-private-template.git" "main"
       - name: install
         run: |
           npm ci
       - name: bundle
         run: |
           npm run bundle
-      - name: test git
-        run: |
-          git ls-remote "https://github.com/HanseltimeIndustries/test-private-template.git" "main"
       - name: sync-private-repo
         id: test_run
         uses: ./
