@@ -68,10 +68,15 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      # Create git client with PAT that has access to the private template
+      - name: Generate token to read from source repo
+        id: generate_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.TEMPLATE_REPO_SYNC_ACTION_APP_ID }}
+          private-key: ${{ secrets.TEMPLATE_REPO_SYNC_ACTION_PKEY }}
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
+          token: ${{ steps.generate_token.outputs.token }}
       - name: setup git
         run: |
           git config user.name github-int-test
@@ -88,7 +93,7 @@ jobs:
         with:
           repoPath: HanseltimeIndustries/test-private-template
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          remoteRepoToken: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
+          remoteRepoToken: ${{ steps.generate_token.outputs.token }}
           templateBranch: main
           commitMsg: "build(boilerplate-int-test): synchronize template repo"
           branchPrefix: ${{ inputs.templatePrefix }}
@@ -121,10 +126,15 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      # Create git client with PAT that has access to the private template
+      - name: Generate token to read from source repo
+        id: generate_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.TEMPLATE_REPO_SYNC_ACTION_APP_ID }}
+          private-key: ${{ secrets.TEMPLATE_REPO_SYNC_ACTION_PKEY }}
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
+          token: ${{ steps.generate_token.outputs.token }}
       - name: setup git
         run: |
           git config user.name github-int-test
@@ -141,7 +151,7 @@ jobs:
         with:
           repoPath: HanseltimeIndustries/test-private-template
           githubToken: ${{ secrets.GITHUB_TOKEN }}
-          remoteRepoToken: ${{ secrets.PRIVATE_TEMPLATE_TEST_PAT }}
+          remoteRepoToken: ${{ steps.generate_token.outputs.token }}
           templateBranch: main
           commitMsg: "build(boilerplate-int-test): synchronize template repo"
           branchPrefix: ${{ inputs.templatePrefix }}-after-ref

@@ -107,7 +107,7 @@ correct PAT with your `actions/checkout`.
 
 ### 1. Using a Github app
 
-You can create and use a [GitHub App](<[github-app](https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/about-creating-github-apps)>) to handle access to the private template repository.
+You can create and use a [GitHub App](https://docs.github.com/en/apps/creating-github-apps/about-creating-github-apps/about-creating-github-apps) to handle access to the private template repository.
 To generate a token for your app you can use a separate action like [tibdex/github-app-token](https://github.com/tibdex/github-app-token).
 You have to set up the checkout step with the generated token as well.
 
@@ -160,15 +160,15 @@ jobs:
     steps:
      - name: Generate token to read from source repo # see: https://github.com/tibdex/github-app-token
         id: generate_token
-        uses: tibdex/github-app-token@v1
+        uses: actions/create-github-app-token@v2
         with:
-          app_id: ${{ secrets.APP_ID }}
-          private_key: ${{ secrets.PRIVATE_KEY }}
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
 
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.SYNC_PAT }}
+          token: ${{ steps.generate_token.outputs.token }}
 
       - name: repo-sync
         uses: hanseltimeindustries/template-repo-sync-action@v1
