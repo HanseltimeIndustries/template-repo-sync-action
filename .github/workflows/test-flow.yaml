@@ -75,18 +75,11 @@ jobs:
           app-id: ${{ secrets.TEMPLATE_REPO_SYNC_ACTION_APP_ID }}
           private-key: ${{ secrets.TEMPLATE_REPO_SYNC_ACTION_PKEY }}
           owner: ${{ github.repository_owner }}
-          repositories: test-private-template
       - uses: actions/checkout@v6
       - name: setup git
         run: |
           git config user.name github-int-test
           git config user.email github-int-test@github.com
-      - name: test git
-        run: |
-          git config --get-all http.https://github.com/.extraheader
-          git config --list --show-origin --show-scope | grep "extraheader"
-          git -c http.https://github.com/.extraheader="" \
-          ls-remote "https://github_actions:${{ steps.generate_token.outputs.token }}@github.com/HanseltimeIndustries/test-private-template.git" "main"
       - name: install
         run: |
           npm ci
@@ -112,6 +105,7 @@ jobs:
             --expectedFromBranch "main" \
             --expectedFilesChanged "new_file.md" "package.json" "templatesync.json" "templatesync.local.json" \
             --expectedFromRepoPath "HanseltimeIndustries/test-private-template" \
+            --remoteRepoToken "${{ steps.generate_token.outputs.token }}" \
             --expectedBranchPrefix "${{ inputs.templatePrefix }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -122,11 +116,14 @@ jobs:
             --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
             --expectedFromBranch "main" \
             --expectedFromRepoPath "HanseltimeIndustries/test-private-template" \
+            --remoteRepoToken "${{ steps.generate_token.outputs.token }}" \
             --expectedBranchPrefix "${{ inputs.templatePrefix }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   private-int-test-after-ref:
+    # This test expects a certain set of files that ONLY changed after the new commit.
+    # NOTE - when updating the template repo for tests (infrequent, you will need to add an afterref commit too and update this sha)
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -138,9 +135,8 @@ jobs:
         with:
           app-id: ${{ secrets.TEMPLATE_REPO_SYNC_ACTION_APP_ID }}
           private-key: ${{ secrets.TEMPLATE_REPO_SYNC_ACTION_PKEY }}
+          owner: ${{ github.repository_owner }}
       - uses: actions/checkout@v4
-        with:
-          token: ${{ steps.generate_token.outputs.token }}
       - name: setup git
         run: |
           git config user.name github-int-test
@@ -161,7 +157,7 @@ jobs:
           templateBranch: main
           commitMsg: "build(boilerplate-int-test): synchronize template repo"
           branchPrefix: ${{ inputs.templatePrefix }}-after-ref
-          mockLocalConfig: '{ "afterRef": "85499cc1e4814cf7d8cd90e6eeb0a7e2e243a017" }'
+          mockLocalConfig: '{ "afterRef": "17b002a6ebb1bf8cde0a0a1f12b85f58a349547d" }'
       - name: assert
         run: |
           npx ts-node src/test-utils/confirm-repo-template.ts \
@@ -170,6 +166,7 @@ jobs:
             --expectedFromBranch "main" \
             --expectedFilesChanged "new_file.md" "templatesync.local.json" \
             --expectedFromRepoPath "HanseltimeIndustries/test-private-template" \
+            --remoteRepoToken "${{ steps.generate_token.outputs.token }}" \
             --expectedBranchPrefix "${{ inputs.templatePrefix }}-after-ref"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -180,6 +177,7 @@ jobs:
             --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
             --expectedFromBranch "main" \
             --expectedFromRepoPath "HanseltimeIndustries/test-private-template" \
+            --remoteRepoToken "${{ steps.generate_token.outputs.token }}" \
             --expectedBranchPrefix "${{ inputs.templatePrefix }}-after-ref"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

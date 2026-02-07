@@ -3,6 +3,7 @@ import { program } from "commander";
 import { getBranchName } from "../get-branch-name";
 import { DEFAULT_BRANCH_PREFIX } from "../constants";
 import { OWNER, REPO } from "./constants";
+import { withoutGhExtraHeader } from "../git-utils";
 
 interface IntTestCheckOptions {
   expectedPullNumber: string;
@@ -10,6 +11,7 @@ interface IntTestCheckOptions {
   expectedBranchPrefix: string;
   expectedFromBranch: string;
   expectedFromRepoPath: string;
+  remoteRepoToken: string;
 }
 
 program
@@ -24,6 +26,10 @@ program
   .requiredOption(
     "--expectedFromRepoPath <repo>",
     "The ower/repo we expect we synced from in the template repo",
+  )
+  .option(
+    "--remoteRepoToken <token>",
+    "If you need to auth to the remote repo, supply a read token",
   )
   .option(
     "--expectedBranchPrefix <prefix>",
@@ -59,13 +65,19 @@ async function main(options: IntTestCheckOptions) {
     auth: process.env.GITHUB_TOKEN,
   });
 
-  const repoUrl = `https://github.com/${options.expectedFromRepoPath}`;
-  const expectedBranchName = getBranchName({
+  const repoUrl = options.remoteRepoToken
+    ? `https://github_actions:${options.remoteRepoToken}@github.com/${options.expectedFromRepoPath}`
+    : `https://github.com/${options.expectedFromRepoPath}`;
+  console.log("branchPrefix" + options.expectedBranchPrefix);
+  const templateBranchOpts = {
     repoUrl,
     repoRoot: options.expectedRepoRoot,
     branchPrefix: options.expectedBranchPrefix,
     templateBranch: options.expectedFromBranch,
-  });
+  };
+  const expectedBranchName = options.remoteRepoToken
+    ? withoutGhExtraHeader(() => getBranchName(templateBranchOpts))
+    : getBranchName(templateBranchOpts);
 
   console.log(`Deleting branch ${expectedBranchName}...`);
   await octokit.rest.git.deleteRef({
