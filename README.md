@@ -104,20 +104,20 @@ good example of configuring the git client for such cross-hosting is provided. P
 If your template repository if public, then you don't need to authenticate to pull more information the template repository.
 
 If your template repository is private however, you will need to provide a `remoteRepoToken` that has permissions to read
-contents from the remote repository.  Since the normal `GITHUB_TOKEN` that might be used with `actions/checkout` only scopes
+contents from the remote repository. Since the normal `GITHUB_TOKEN` that might be used with `actions/checkout` only scopes
 to the current repository, you will need to either have a PAT or a github application that has read permissions for your template
 repository.
 
 #### Recommended - Github Application
 
 The most secure solution for accessing a private template repository would be to create a Github Application in your organization
-like `template-repo-reader` and then grant it `content` permissions on your template repository.  After that, if you follow the flows
+like `template-repo-reader` and then grant it `content` permissions on your template repository. After that, if you follow the flows
 below and reference the private key and app id, your derived repositories can use the same application to read the repository.
 
 #### Cheaper - PAT
 
 If you are on a Github license that does not allow you to set up Github applications (anything lower than a Team paid membership), then
-you will need to create and store a PAT with scoped read permissions to the template repository.  And provide it as specified in the 
+you will need to create and store a PAT with scoped read permissions to the template repository. And provide it as specified in the
 following flows.
 
 ### Authentication to write back to the current repository
@@ -131,8 +131,8 @@ Regardless of the type of token you create, you should have the following permis
 - Pull Requests - Read and Write
 - Workflow - Read & Write (unless you can guarantee that you will never update github actions files from the template)
 
-**Note** - Workflow permissions are not something permitted via the normal Github Actions `permissions:` field.  You will need to
-either use a PAT or Github Application if you want to sync github workflows. 
+**Note** - Workflow permissions are not something permitted via the normal Github Actions `permissions:` field. You will need to
+either use a PAT or Github Application if you want to sync github workflows.
 
 If you can ensure that you will never be synchronizing github actions workflows (by ensuring that
 you ignore `.github/**/*`), then you can forgo the Workflow permission as well. If not, you will have to use the

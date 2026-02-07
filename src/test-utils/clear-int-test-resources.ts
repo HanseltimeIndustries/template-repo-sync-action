@@ -86,13 +86,19 @@ async function main(options: IntTestCheckOptions) {
     ref: `heads/${expectedBranchName}`,
   });
 
-  console.log(`Deleteing pull request ${pullNumber}...`);
-  await octokit.rest.pulls.update({
-    owner: OWNER,
-    repo: REPO,
-    pull_number: pullNumber,
-    state: "closed",
-  });
+  try {
+    console.log(`Deleting pull request ${pullNumber}...`);
+    await octokit.rest.pulls.update({
+      owner: OWNER,
+      repo: REPO,
+      pull_number: pullNumber,
+      state: "closed",
+    });
+  } catch (err) {
+    console.error(
+      `Failed to remove PR.  Please manually delete PR ${pullNumber}\n${err}`,
+    );
+  }
 }
 
 void main(program.opts<IntTestCheckOptions>());
