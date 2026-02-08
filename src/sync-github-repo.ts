@@ -15,6 +15,7 @@ import {
   DEFAULT_TITLE_MSG,
 } from "./constants";
 import { getBranchName } from "./get-branch-name";
+import { withoutGhExtraHeader } from "./git-utils";
 import { writeFileSync } from "fs";
 
 export interface GithubOptions {
@@ -86,12 +87,16 @@ export async function syncGithubRepo(options: GithubOptions) {
   const baseRepoUrl = `github.com/${options.repoPath}.git`;
   const authedRepoUrl = `https://${options.remoteRepoToken ? `github_actions:${options.remoteRepoToken}@` : ""}${baseRepoUrl}`;
 
-  const branchName = getBranchName({
+  const templateBranchOpts = {
     branchPrefix,
     templateBranch: options.templateBranch,
-    repoUrl: `https://${baseRepoUrl}`,
+    repoUrl: authedRepoUrl,
     repoRoot,
-  });
+  };
+
+  const branchName = options.remoteRepoToken
+    ? withoutGhExtraHeader(() => getBranchName(templateBranchOpts))
+    : getBranchName(templateBranchOpts);
 
   // Check if the branch exists already and skip
   const output = execSync(`git ls-remote --heads origin "${branchName}"`)
@@ -141,13 +146,18 @@ export async function syncGithubRepo(options: GithubOptions) {
     const tempAppDir = await mkdtemp(join(getTempDir(), "template_sync_"));
 
     console.log("Calling template sync...");
-    const result = await templateSync({
+    const templateSyncOptions = {
       tmpCloneDir: tempAppDir,
       repoDir: options.repoRoot ?? process.cwd(),
       repoUrl: authedRepoUrl,
       updateAfterRef: options.updateAfterRef,
       branch: options.templateBranch,
-    });
+    };
+    const result = options.remoteRepoToken
+      ? await withoutGhExtraHeader(async () =>
+          templateSync(templateSyncOptions),
+        )
+      : await templateSync(templateSyncOptions);
 
     console.log("Committing all files...");
     // commit everything
