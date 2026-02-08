@@ -1,3 +1,10 @@
+## [2.0.2](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v2.0.1...v2.0.2) (2026-02-08)
+
+
+### Bug Fixes
+
+* upgrade to delete patched template-sync ([f938b33](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/f938b33696d1cff8f6de7dbc704e34a4453a931c))
+
 ## [2.0.1](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v2.0.0...v2.0.1) (2026-02-08)
 
 

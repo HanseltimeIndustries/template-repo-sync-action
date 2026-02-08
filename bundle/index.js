@@ -2561,13 +2561,13 @@ async function mergeFile(relPath, context) {
     const templatePath = (0, path_1.join)(tempCloneDir, relPath);
     // Unless there's a need, we remove files that were deleted and don't pass them to plugins yet
     if (context.fileOperation === "deleted") {
-        if ((0, fs_1.existsSync)(templatePath)) {
-            await (0, promises_1.rm)(templatePath);
-            return {
-                ignoredDueToLocal: false,
-                localChanges: [],
-            };
+        if ((0, fs_1.existsSync)(filePath)) {
+            await (0, promises_1.rm)(filePath);
         }
+        return {
+            ignoredDueToLocal: false,
+            localChanges: [],
+        };
     }
     const mergeConfig = templateSyncConfig.merge?.find((mergeConfig) => (0, micromatch_1.isMatch)(relPath, mergeConfig.glob));
     const localMergeConfig = localTemplateSyncConfig.merge?.find((mergeConfig) => (0, micromatch_1.isMatch)(relPath, mergeConfig.glob));
