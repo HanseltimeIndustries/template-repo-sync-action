@@ -27,11 +27,8 @@ jobs:
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-      - name: install
-        run: |
-          npm ci
       - name: sync-repos
-        uses: hanseltimeindustries/template-repo-sync-action@v1
+        uses: hanseltimeindustries/template-repo-sync-action@v2
         with:
           repoPath: HanseltimeIndustries/github-actions-template
           githubToken: ${{ steps.generate_template_token.outputs.token }}
