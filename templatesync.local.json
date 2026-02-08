@@ -3,6 +3,7 @@
   "ignore": [
     ".github/workflows/test-flow.yaml",
     ".github/workflows/pr-test.yaml",
-    ".github/workflows/release.yaml"
+    ".github/workflows/release.yaml",
+	"src/**/*"
   ]
 }
