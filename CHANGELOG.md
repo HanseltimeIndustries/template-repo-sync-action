@@ -1,3 +1,21 @@
+# [2.0.0](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v1.0.5...v2.0.0) (2026-02-08)
+
+
+### Bug Fixes
+
+* support github app in get branch ([fb389ed](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/fb389eda283122e5f8ed9b8a2bc64d320b814ca7))
+
+
+### Features
+
+* handle extraHeaders from checkout action ([eb84039](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/eb840393431cc2e5572f8eda3db0433ea73e2fb7))
+* switch to the new major version of template-repo-sync ([0b18714](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/0b18714584efc90d9dabafc5f03696f1b1841a74))
+
+
+### BREAKING CHANGES
+
+* the new version of template repo sync requires all repos to change their merge configuration
+
 ## [1.0.5](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v1.0.4...v1.0.5) (2024-06-09)
 
 
