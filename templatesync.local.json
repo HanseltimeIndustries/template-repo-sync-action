@@ -1,10 +1,3 @@
 {
-  "afterRef": "7deedd1669e0026c581f9a62a280af61d1296b89",
-  "ignore": [
-    ".github/workflows/test-flow.yaml",
-    ".github/workflows/pr-test.yaml",
-    ".github/workflows/release.yaml",
-	"bundle/**",
-	"src/**/*"
-  ]
+    "afterRef": "cf21d1cf596e6d54e121d8c4f08ecf22e796b7dc"
 }
