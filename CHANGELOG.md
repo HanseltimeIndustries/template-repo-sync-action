@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v2.0.2...v2.0.3) (2026-02-08)
+
+
+### Bug Fixes
+
+* branch naming logic to sha local config ([5df477f](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/5df477fd4c94b3278acc76f688844e9569a8a8cc))
+
 ## [2.0.2](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v2.0.1...v2.0.2) (2026-02-08)
 
 

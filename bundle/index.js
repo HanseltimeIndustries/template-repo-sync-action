@@ -61799,6 +61799,13 @@ const crypto_1 = __nccwpck_require__(6113);
 const fs_1 = __nccwpck_require__(7147);
 const path_1 = __nccwpck_require__(1017);
 const template_repo_sync_1 = __nccwpck_require__(8254);
+/**
+ * Returns the target branch name for our template sync repo
+ * which is derived from the current sha of the template repo and
+ * the current sha of the template.local.json file
+ * @param options
+ * @returns
+ */
 function getBranchName(options) {
     var _a;
     const { branchPrefix, repoRoot, repoUrl, templateBranch } = options;
@@ -61811,9 +61818,9 @@ function getBranchName(options) {
         throw new Error(`Could not get the current sha of ${repoUrl} for ${templateBranch}`);
     }
     let configHash;
-    if ((0, fs_1.existsSync)((0, path_1.resolve)(repoRoot, template_repo_sync_1.TEMPLATE_SYNC_LOCAL_CONFIG))) {
+    if ((0, fs_1.existsSync)((0, path_1.resolve)(repoRoot, `${template_repo_sync_1.TEMPLATE_SYNC_LOCAL_CONFIG}.json`))) {
         configHash = (0, crypto_1.createHash)("sha256")
-            .update((0, fs_1.readFileSync)((0, path_1.resolve)(repoRoot, template_repo_sync_1.TEMPLATE_SYNC_LOCAL_CONFIG)))
+            .update((0, fs_1.readFileSync)((0, path_1.resolve)(repoRoot, `${template_repo_sync_1.TEMPLATE_SYNC_LOCAL_CONFIG}.json`)))
             .digest("hex")
             .slice(0, 8);
     }

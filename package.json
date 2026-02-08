@@ -1,6 +1,6 @@
 {
   "name": "template-repo-sync-action",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A Github action that uses @hanseltime/template-repo-sync to create a PR with sync options",
   "main": "dist/action.js",
   "scripts": {
