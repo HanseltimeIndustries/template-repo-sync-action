@@ -2193,13 +2193,41 @@ exports.gitClone = gitClone;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.gitDiff = void 0;
 const child_process_1 = __nccwpck_require__(2081);
+/**
+ * For a given directory with a git configuration, this will return the modified, added, and
+ * deleted files since the last afterRef
+ * @param gitDir The git directory folder
+ * @param afterRef The git ref to look for diffs after
+ * @returns
+ */
 async function gitDiff(gitDir, afterRef) {
-    const diffFilesStr = (0, child_process_1.execSync)(`git diff ${afterRef}.. --name-only`, {
+    const baseCommand = `git diff ${afterRef}.. --no-renames --name-only`;
+    const modifiedFiles = (0, child_process_1.execSync)(`${baseCommand} --diff-filter=M`, {
         cwd: gitDir,
     })
         .toString()
-        .trim();
-    return diffFilesStr.split("\n");
+        .trim()
+        .split("\n")
+        .filter((s) => s !== "");
+    const addedFiles = (0, child_process_1.execSync)(`${baseCommand} --diff-filter=A`, {
+        cwd: gitDir,
+    })
+        .toString()
+        .trim()
+        .split("\n")
+        .filter((s) => s !== "");
+    const deletedFiles = (0, child_process_1.execSync)(`${baseCommand} --diff-filter=D`, {
+        cwd: gitDir,
+    })
+        .toString()
+        .trim()
+        .split("\n")
+        .filter((s) => s !== "");
+    return {
+        modified: modifiedFiles,
+        added: addedFiles,
+        deleted: deletedFiles,
+    };
 }
 exports.gitDiff = gitDiff;
 
@@ -2402,36 +2430,42 @@ exports.loadPlugin = void 0;
 const plugins_1 = __nccwpck_require__(9690);
 const fs_1 = __nccwpck_require__(7147);
 const path_1 = __nccwpck_require__(1017);
-async function loadPlugin(mergeConfig, forExt, configDir) {
-    let handler;
-    if (mergeConfig.plugin) {
-        // First check if this is a loal .js file
-        const localPath = (0, path_1.resolve)(configDir, mergeConfig.plugin);
-        const importPath = (0, fs_1.existsSync)(localPath) ? localPath : mergeConfig.plugin;
-        try {
-            // Sad workaround for testing since dynamic import segfaults
-            if (process.env.JEST_WORKER_ID !== undefined) {
-                // eslint-disable-next-line @typescript-eslint/no-var-requires
-                handler = require(importPath);
-            }
-            else {
-                handler = (await Promise.resolve(`${importPath}`).then(s => __importStar(require(s))));
-            }
-            if (!handler.merge) {
-                handler = handler
-                    .default;
-            }
+/**
+ * Loads the plugin associated with the merge config
+ * @param mergeConfig
+ * @param forExt
+ * @param configDir
+ * @returns
+ */
+async function loadPlugin(mergeConfig, configDir) {
+    if (mergeConfig.plugin.startsWith("_")) {
+        const defaultHandler = Object.values(plugins_1.defaultExtensionMap).find((el) => el.builtinName === mergeConfig.plugin);
+        if (!defaultHandler) {
+            throw new Error(`No builtin merge function supplied for ${mergeConfig.plugin}.  Cannot have merge config without custom plugin supplied.`);
         }
-        catch (err) {
-            console.error(err);
-            throw err;
+        return defaultHandler;
+    }
+    let handler;
+    // First check if this is a local .js file
+    const localPath = (0, path_1.resolve)(configDir, mergeConfig.plugin);
+    const importPath = (0, fs_1.existsSync)(localPath) ? localPath : mergeConfig.plugin;
+    try {
+        // Sad workaround for testing since dynamic import segfaults
+        if (process.env.JEST_WORKER_ID !== undefined) {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            handler = require(importPath);
+        }
+        else {
+            handler = (await Promise.resolve(`${importPath}`).then(s => __importStar(require(s))));
+        }
+        if (!handler.merge) {
+            handler = handler
+                .default;
         }
     }
-    else {
-        if (!plugins_1.defaultExtensionMap[forExt]) {
-            throw new Error(`No default merge function supplied for ${forExt}.  Cannot have mere config without custom plugin supplied.`);
-        }
-        handler = plugins_1.defaultExtensionMap[forExt];
+    catch (err) {
+        console.error(err);
+        throw err;
     }
     return handler;
 }
@@ -2525,50 +2559,49 @@ async function mergeFile(relPath, context) {
     const ext = (0, path_1.extname)(relPath);
     const filePath = (0, path_1.join)(cwd, relPath);
     const templatePath = (0, path_1.join)(tempCloneDir, relPath);
-    const mergeConfig = templateSyncConfig.merge?.[ext];
-    const localMergeConfig = localTemplateSyncConfig.merge?.[ext];
-    // Either write the merge or write
+    // Unless there's a need, we remove files that were deleted and don't pass them to plugins yet
+    if (context.fileOperation === "deleted") {
+        if ((0, fs_1.existsSync)(templatePath)) {
+            await (0, promises_1.rm)(templatePath);
+            return {
+                ignoredDueToLocal: false,
+                localChanges: [],
+            };
+        }
+    }
+    const mergeConfig = templateSyncConfig.merge?.find((mergeConfig) => (0, micromatch_1.isMatch)(relPath, mergeConfig.glob));
+    const localMergeConfig = localTemplateSyncConfig.merge?.find((mergeConfig) => (0, micromatch_1.isMatch)(relPath, mergeConfig.glob));
+    const mergeHandler = mergeConfig
+        ? await (0, load_plugin_1.loadPlugin)(mergeConfig, tempCloneDir)
+        : undefined;
+    const localMergeHandler = localMergeConfig
+        ? await (0, load_plugin_1.loadPlugin)(localMergeConfig, cwd)
+        : undefined;
+    // Either write the merge or write the file
     let fileContents;
     const localChanges = [];
-    if ((0, fs_1.existsSync)(filePath) && (mergeConfig || localMergeConfig)) {
+    if ((0, fs_1.existsSync)(filePath) && (mergeHandler || localMergeHandler)) {
         const originalCurrentFile = (await (0, promises_1.readFile)(filePath)).toString();
-        if (mergeConfig) {
-            // Apply the template's most recent merges
-            const handler = await (0, load_plugin_1.loadPlugin)(mergeConfig, ext, tempCloneDir);
-            const mergeOptions = mergeConfig.rules.find((rule) => {
-                return (0, micromatch_1.isMatch)(relPath, rule.glob);
+        if (mergeHandler) {
+            fileContents = await safeMerge(mergeHandler, mergeConfig?.plugin ?? `default for ${ext}`, originalCurrentFile, (await (0, promises_1.readFile)(templatePath)).toString(), {
+                relFilePath: relPath,
+                mergeArguments: mergeConfig?.options ?? {},
+                isLocalOptions: false,
             });
-            if (mergeOptions) {
-                fileContents = await safeMerge(handler, mergeConfig.plugin ?? `default for ${ext}`, originalCurrentFile, (await (0, promises_1.readFile)(templatePath)).toString(), {
-                    relFilePath: relPath,
-                    mergeArguments: mergeOptions.options,
-                    isLocalOptions: true,
-                });
-            }
-            else {
-                // Apply overwrite if we didn't set up merge
-                fileContents = (await (0, promises_1.readFile)(templatePath)).toString();
-            }
         }
         else {
             // Apply overwrite if we didn't set up merge
             fileContents = (await (0, promises_1.readFile)(templatePath)).toString();
         }
         // We apply the localMerge Config to the fileContent output by the template merge
-        if (localMergeConfig) {
-            const handler = await (0, load_plugin_1.loadPlugin)(localMergeConfig, ext, cwd);
-            const mergeOptions = localMergeConfig.rules.find((rule) => {
-                return (0, micromatch_1.isMatch)(relPath, rule.glob);
+        if (localMergeHandler) {
+            const localContents = await safeMerge(localMergeHandler, localMergeConfig?.plugin ?? `default for ${ext}`, originalCurrentFile, fileContents, {
+                relFilePath: relPath,
+                mergeArguments: localMergeConfig?.options ?? {},
+                isLocalOptions: true,
             });
-            if (mergeOptions) {
-                const localContents = await safeMerge(handler, localMergeConfig.plugin ?? `default for ${ext}`, originalCurrentFile, fileContents, {
-                    relFilePath: relPath,
-                    mergeArguments: mergeOptions.options,
-                    isLocalOptions: true,
-                });
-                localChanges.push(...(0, diff_1.diffLines)(fileContents, localContents));
-                fileContents = localContents;
-            }
+            localChanges.push(...(0, diff_1.diffLines)(fileContents, localContents));
+            fileContents = localContents;
         }
     }
     else {
@@ -2612,6 +2645,7 @@ exports.defaultExtensionMap = {
     ".json": {
         merge: json_merge_1.merge,
         validate: json_merge_1.validate,
+        builtinName: "_json",
     },
 };
 
@@ -2954,27 +2988,38 @@ async function templateSync(options) {
         filesToSync = await diffDriver(tempCloneDir, localTemplateSyncConfig.afterRef);
     }
     else {
-        filesToSync = (0, match_1.getAllFilesInDir)(tempCloneDir, [
-            ...templateSyncConfig.ignore,
-            ".git/**",
-        ]);
+        filesToSync = {
+            added: (0, match_1.getAllFilesInDir)(tempCloneDir, [
+                ...templateSyncConfig.ignore,
+                ".git/**",
+            ]),
+            deleted: [],
+            modified: [],
+        };
     }
     const localSkipFiles = [];
     const localFileChanges = {};
-    await Promise.all(filesToSync.map(async (f) => {
-        const result = await (0, merge_file_1.mergeFile)(f, {
-            localTemplateSyncConfig,
-            templateSyncConfig,
-            tempCloneDir,
-            cwd: options.repoDir,
-        });
-        if (result.ignoredDueToLocal) {
-            localSkipFiles.push(f);
-        }
-        else if (result?.localChanges && result.localChanges.length > 0) {
-            localFileChanges[f] = result.localChanges;
-        }
-    }));
+    const fileSyncFactory = (op) => {
+        return async (f) => {
+            const result = await (0, merge_file_1.mergeFile)(f, {
+                localTemplateSyncConfig,
+                templateSyncConfig,
+                tempCloneDir,
+                cwd: options.repoDir,
+                fileOperation: op,
+            });
+            if (result.ignoredDueToLocal) {
+                localSkipFiles.push(f);
+            }
+            else if (result?.localChanges && result.localChanges.length > 0) {
+                localFileChanges[f] = result.localChanges;
+            }
+        };
+    };
+    // Added and modified have the same setup for now
+    await Promise.all(filesToSync.added.map(fileSyncFactory("added")));
+    await Promise.all(filesToSync.modified.map(fileSyncFactory("modified")));
+    await Promise.all(filesToSync.deleted.map(fileSyncFactory("deleted")));
     // apply after ref
     if (options.updateAfterRef) {
         const ref = await currentRefDriver({
@@ -61782,6 +61827,82 @@ exports.getBranchName = getBranchName;
 
 /***/ }),
 
+/***/ 7213:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.withoutGhExtraHeader = void 0;
+const child_process_1 = __nccwpck_require__(2081);
+const EXPECTED_EXTRA_HEADER_ATTACH = "https://github.com/";
+const SCOPE_KEY = `http.${EXPECTED_EXTRA_HEADER_ATTACH}.extraheader`;
+/**
+ * Wraps a callback where we are making git calls so that it can remove the default Github extraheaders
+ * that might interfere with the other CLI calls.
+ *
+ * This is necessary for calling private template repo git actions when `actions/checkout` has persisted
+ * credentials (which is nice for most people doing other git commands in the same workflow on their triggering
+ * repo).
+ *
+ * Use this when you are explicitly controlling the auth to a github repo
+ * @param cb A callback that makes git commands
+ * @returns
+ */
+function withoutGhExtraHeader(cb) {
+    console.log("Looking up existing local github extraheaders...");
+    // Get existing headers that might ahve been configured
+    let existingHeaders = [];
+    try {
+        const raw = (0, child_process_1.execSync)(`git config --local --get-all ${SCOPE_KEY}`, {
+            stdio: ["ignore", "pipe", "ignore"],
+        })
+            .toString()
+            .trim();
+        if (raw) {
+            existingHeaders = raw.split("\n");
+        }
+    }
+    catch (err) {
+        let skip = false;
+        if (err instanceof Error && "status" in err) {
+            const status = err.status;
+            if (status === 1) {
+                console.warn(`No local extraheaders configured for git client - ${SCOPE_KEY}.`);
+                skip = true;
+            }
+            else {
+                console.error(`Git config lookup failed with status ${status}`);
+            }
+        }
+        if (!skip) {
+            throw err;
+        }
+    }
+    try {
+        console.log("Overriding local github extraheaders...");
+        // Override the header at the local repo level
+        (0, child_process_1.execSync)(`git config --local --replace-all ${SCOPE_KEY} ""`);
+        return cb();
+    }
+    finally {
+        console.log("Restoring local github extraheaders...");
+        // Add back any local headers or unset our override
+        if (existingHeaders.length > 0) {
+            for (const header of existingHeaders) {
+                (0, child_process_1.execSync)(`git config --local --add ${SCOPE_KEY} "${header}"`);
+            }
+        }
+        else {
+            (0, child_process_1.execSync)(`git config --local --unset-all ${SCOPE_KEY}`);
+        }
+    }
+}
+exports.withoutGhExtraHeader = withoutGhExtraHeader;
+
+
+/***/ }),
+
 /***/ 2363:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -61830,6 +61951,7 @@ const child_process_1 = __nccwpck_require__(2081);
 const template_repo_sync_1 = __nccwpck_require__(8254);
 const constants_1 = __nccwpck_require__(9042);
 const get_branch_name_1 = __nccwpck_require__(6041);
+const git_utils_1 = __nccwpck_require__(7213);
 const fs_1 = __nccwpck_require__(7147);
 function getTempDir() {
     return process.env["RUNNER_TEMP"] || (0, os_1.tmpdir)();
@@ -61844,12 +61966,15 @@ function syncGithubRepo(options) {
         // Note, we use git here so that we can change this around for other git providers more easily
         const baseRepoUrl = `github.com/${options.repoPath}.git`;
         const authedRepoUrl = `https://${options.remoteRepoToken ? `github_actions:${options.remoteRepoToken}@` : ""}${baseRepoUrl}`;
-        const branchName = (0, get_branch_name_1.getBranchName)({
+        const templateBranchOpts = {
             branchPrefix,
             templateBranch: options.templateBranch,
-            repoUrl: `https://${baseRepoUrl}`,
+            repoUrl: authedRepoUrl,
             repoRoot,
-        });
+        };
+        const branchName = options.remoteRepoToken
+            ? (0, git_utils_1.withoutGhExtraHeader)(() => (0, get_branch_name_1.getBranchName)(templateBranchOpts))
+            : (0, get_branch_name_1.getBranchName)(templateBranchOpts);
         // Check if the branch exists already and skip
         const output = (0, child_process_1.execSync)(`git ls-remote --heads origin "${branchName}"`)
             .toString()
@@ -61884,13 +62009,16 @@ function syncGithubRepo(options) {
             // Clone and merge on this branch
             const tempAppDir = yield (0, promises_1.mkdtemp)((0, path_1.join)(getTempDir(), "template_sync_"));
             console.log("Calling template sync...");
-            const result = yield (0, template_repo_sync_1.templateSync)({
+            const templateSyncOptions = {
                 tmpCloneDir: tempAppDir,
                 repoDir: (_c = options.repoRoot) !== null && _c !== void 0 ? _c : process.cwd(),
                 repoUrl: authedRepoUrl,
                 updateAfterRef: options.updateAfterRef,
                 branch: options.templateBranch,
-            });
+            };
+            const result = options.remoteRepoToken
+                ? yield (0, git_utils_1.withoutGhExtraHeader)(() => __awaiter(this, void 0, void 0, function* () { return (0, template_repo_sync_1.templateSync)(templateSyncOptions); }))
+                : yield (0, template_repo_sync_1.templateSync)(templateSyncOptions);
             console.log("Committing all files...");
             // commit everything
             (0, child_process_1.execSync)("git add .");
