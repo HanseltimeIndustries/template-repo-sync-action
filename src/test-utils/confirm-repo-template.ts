@@ -104,7 +104,7 @@ async function main(options: IntTestCheckOptions) {
     .toString()
     .trim();
   if (!branchOutput.includes(expectedBranchName)) {
-    throw new Error(`Expected ${expectedBranchName} to be on the repo2`);
+    throw new Error(`Expected ${expectedBranchName} to be on the repo!`);
   }
 
   execSync(`git fetch origin ${expectedBranchName}`);
