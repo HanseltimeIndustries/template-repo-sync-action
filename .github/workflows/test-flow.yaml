@@ -55,7 +55,7 @@ jobs:
       - name: linting
         run: |
           npm run lint
-          npx prettier . --check
+          npm run format
       - name: testing
         run: |
           npm run test
