@@ -154,7 +154,7 @@ jobs:
     steps:
       - name: Generate token to read from template repo
         id: generate_template_token
-        uses: actions/create-github-app-token
+        uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ secrets.TEMPLATE_READ_APP_ID }}
           private-key: ${{ secrets.TEMPLATE_READ_PRIVATE_KEY }}
