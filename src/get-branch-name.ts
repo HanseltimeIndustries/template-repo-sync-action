@@ -11,6 +11,13 @@ interface GetBranchNameOptions {
   branchPrefix: string;
 }
 
+/**
+ * Returns the target branch name for our template sync repo
+ * which is derived from the current sha of the template repo and
+ * the current sha of the template.local.json file
+ * @param options
+ * @returns
+ */
 export function getBranchName(options: GetBranchNameOptions) {
   const { branchPrefix, repoRoot, repoUrl, templateBranch } = options;
   const shaLine = execSync(`git ls-remote "${repoUrl}" "${templateBranch}"`)
@@ -25,9 +32,11 @@ export function getBranchName(options: GetBranchNameOptions) {
   }
 
   let configHash: string;
-  if (existsSync(resolve(repoRoot, TEMPLATE_SYNC_LOCAL_CONFIG))) {
+  if (existsSync(resolve(repoRoot, `${TEMPLATE_SYNC_LOCAL_CONFIG}.json`))) {
     configHash = createHash("sha256")
-      .update(readFileSync(resolve(repoRoot, TEMPLATE_SYNC_LOCAL_CONFIG)))
+      .update(
+        readFileSync(resolve(repoRoot, `${TEMPLATE_SYNC_LOCAL_CONFIG}.json`)),
+      )
       .digest("hex")
       .slice(0, 8);
   } else {
