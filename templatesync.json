@@ -1,0 +1,23 @@
+{
+    "ignore": [
+        "my-tools/**"
+    ],
+    "merge": [
+        {
+            "glob": "**/*.json",
+            "plugin": "_json",
+            "options": {
+                "paths": [
+                    [
+                        "$.repository",
+                        "merge-template"
+                    ],
+                    [
+                        "$.scripts",
+                        "merge-template"
+                    ]
+                ]
+            }
+        }
+    ]
+}
