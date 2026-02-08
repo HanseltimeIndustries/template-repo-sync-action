@@ -2953,6 +2953,7 @@ const ref_drivers_1 = __nccwpck_require__(4627);
 const formatting_1 = __nccwpck_require__(3566);
 const commentJSON = __importStar(__nccwpck_require__(3165));
 const checkout_drivers_1 = __nccwpck_require__(5447);
+const micromatch_1 = __nccwpck_require__(6228);
 exports.TEMPLATE_SYNC_CONFIG = "templatesync";
 exports.TEMPLATE_SYNC_LOCAL_CONFIG = "templatesync.local";
 async function templateSync(options) {
@@ -2997,6 +2998,10 @@ async function templateSync(options) {
             modified: [],
         };
     }
+    // Apply ignore filters
+    filesToSync.added = filesToSync.added.filter((f) => !(0, micromatch_1.some)(f, templateSyncConfig.ignore));
+    filesToSync.modified = filesToSync.modified.filter((f) => !(0, micromatch_1.some)(f, templateSyncConfig.ignore));
+    filesToSync.deleted = filesToSync.deleted.filter((f) => !(0, micromatch_1.some)(f, templateSyncConfig.ignore));
     const localSkipFiles = [];
     const localFileChanges = {};
     const fileSyncFactory = (op) => {

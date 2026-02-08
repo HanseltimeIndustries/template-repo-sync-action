@@ -1,3 +1,10 @@
+## [2.0.4](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v2.0.3...v2.0.4) (2026-02-08)
+
+
+### Bug Fixes
+
+* upgrade to solve ignore afterref bug ([d5b82a1](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/d5b82a1520df21d8bcb7c4956605dbf29d4ed69d))
+
 ## [2.0.3](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v2.0.2...v2.0.3) (2026-02-08)
 
 
