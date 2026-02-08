@@ -2193,13 +2193,41 @@ exports.gitClone = gitClone;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.gitDiff = void 0;
 const child_process_1 = __nccwpck_require__(2081);
+/**
+ * For a given directory with a git configuration, this will return the modified, added, and
+ * deleted files since the last afterRef
+ * @param gitDir The git directory folder
+ * @param afterRef The git ref to look for diffs after
+ * @returns
+ */
 async function gitDiff(gitDir, afterRef) {
-    const diffFilesStr = (0, child_process_1.execSync)(`git diff ${afterRef}.. --name-only`, {
+    const baseCommand = `git diff ${afterRef}.. --no-renames --name-only`;
+    const modifiedFiles = (0, child_process_1.execSync)(`${baseCommand} --diff-filter=M`, {
         cwd: gitDir,
     })
         .toString()
-        .trim();
-    return diffFilesStr.split("\n");
+        .trim()
+        .split("\n")
+        .filter((s) => s !== "");
+    const addedFiles = (0, child_process_1.execSync)(`${baseCommand} --diff-filter=A`, {
+        cwd: gitDir,
+    })
+        .toString()
+        .trim()
+        .split("\n")
+        .filter((s) => s !== "");
+    const deletedFiles = (0, child_process_1.execSync)(`${baseCommand} --diff-filter=D`, {
+        cwd: gitDir,
+    })
+        .toString()
+        .trim()
+        .split("\n")
+        .filter((s) => s !== "");
+    return {
+        modified: modifiedFiles,
+        added: addedFiles,
+        deleted: deletedFiles,
+    };
 }
 exports.gitDiff = gitDiff;
 
@@ -2531,6 +2559,16 @@ async function mergeFile(relPath, context) {
     const ext = (0, path_1.extname)(relPath);
     const filePath = (0, path_1.join)(cwd, relPath);
     const templatePath = (0, path_1.join)(tempCloneDir, relPath);
+    // Unless there's a need, we remove files that were deleted and don't pass them to plugins yet
+    if (context.fileOperation === "deleted") {
+        if ((0, fs_1.existsSync)(templatePath)) {
+            await (0, promises_1.rm)(templatePath);
+            return {
+                ignoredDueToLocal: false,
+                localChanges: [],
+            };
+        }
+    }
     const mergeConfig = templateSyncConfig.merge?.find((mergeConfig) => (0, micromatch_1.isMatch)(relPath, mergeConfig.glob));
     const localMergeConfig = localTemplateSyncConfig.merge?.find((mergeConfig) => (0, micromatch_1.isMatch)(relPath, mergeConfig.glob));
     const mergeHandler = mergeConfig
@@ -2950,27 +2988,38 @@ async function templateSync(options) {
         filesToSync = await diffDriver(tempCloneDir, localTemplateSyncConfig.afterRef);
     }
     else {
-        filesToSync = (0, match_1.getAllFilesInDir)(tempCloneDir, [
-            ...templateSyncConfig.ignore,
-            ".git/**",
-        ]);
+        filesToSync = {
+            added: (0, match_1.getAllFilesInDir)(tempCloneDir, [
+                ...templateSyncConfig.ignore,
+                ".git/**",
+            ]),
+            deleted: [],
+            modified: [],
+        };
     }
     const localSkipFiles = [];
     const localFileChanges = {};
-    await Promise.all(filesToSync.map(async (f) => {
-        const result = await (0, merge_file_1.mergeFile)(f, {
-            localTemplateSyncConfig,
-            templateSyncConfig,
-            tempCloneDir,
-            cwd: options.repoDir,
-        });
-        if (result.ignoredDueToLocal) {
-            localSkipFiles.push(f);
-        }
-        else if (result?.localChanges && result.localChanges.length > 0) {
-            localFileChanges[f] = result.localChanges;
-        }
-    }));
+    const fileSyncFactory = (op) => {
+        return async (f) => {
+            const result = await (0, merge_file_1.mergeFile)(f, {
+                localTemplateSyncConfig,
+                templateSyncConfig,
+                tempCloneDir,
+                cwd: options.repoDir,
+                fileOperation: op,
+            });
+            if (result.ignoredDueToLocal) {
+                localSkipFiles.push(f);
+            }
+            else if (result?.localChanges && result.localChanges.length > 0) {
+                localFileChanges[f] = result.localChanges;
+            }
+        };
+    };
+    // Added and modified have the same setup for now
+    await Promise.all(filesToSync.added.map(fileSyncFactory("added")));
+    await Promise.all(filesToSync.modified.map(fileSyncFactory("modified")));
+    await Promise.all(filesToSync.deleted.map(fileSyncFactory("deleted")));
     // apply after ref
     if (options.updateAfterRef) {
         const ref = await currentRefDriver({

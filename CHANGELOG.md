@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v2.0.0...v2.0.1) (2026-02-08)
+
+
+### Bug Fixes
+
+* update template-sync to handle deleted files ([0e674c1](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/0e674c173fa966847d6bebf7a6cf67887a709eb0))
+
 # [2.0.0](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v1.0.5...v2.0.0) (2026-02-08)
 
 
