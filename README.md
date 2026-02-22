@@ -19,6 +19,7 @@ the way the merge field works! You must make sure that all repos change that con
     - [1. Using a Github app for PR and template](#1-using-a-github-app-for-pr-and-template)
     - [2. Using a PAT for PR and template](#2-using-a-pat-for-pr-and-template)
 - [Example Use Case](#example-use-case)
+  - [Handling no-op syncs](#handling-no-op-syncs)
 <!-- Created with Markdown All in One Plugin in VsCode, rerun to update -->
 
 ## What it does
@@ -273,3 +274,12 @@ In your repo, you can now add a `templatesync.local.json` file:
 
 When you run your `sync-repo` action (however, you configured it), you will end up getting a message that we skipped jest.config.js even
 though there were some changes. The PR provided will have all other changes as directed by the template's sync config.
+
+
+## Handling no-op syncs
+
+In general, if you want to run this on a CRON to check if there is sync, this will
+gracefully report if there are no changes and will avoid creating a pr.
+
+If you are trying to detect if there were no changes, you can check to see if the
+`prNumber` output is empty.
