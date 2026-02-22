@@ -159,27 +159,31 @@ export async function syncGithubRepo(options: GithubOptions) {
 				)
 			: await templateSync(templateSyncOptions);
 
-		console.log("Committing all files...");
-		// commit everything
-		execSync("git add .");
-		execSync(`git commit -m "${commitMsg}"`);
-		execSync(`git push --set-upstream origin "${branchName}"`);
+		if (result.modifiedFiles.total > 0) {
+			console.log("Committing all files...");
+			// commit everything
+			execSync("git add .");
+			execSync(`git commit -m "${commitMsg}"`);
+			execSync(`git push --set-upstream origin "${branchName}"`);
 
-		console.log("Creating Pull Request...");
-		const resp = await octokit.rest.pulls.create({
-			owner: github.context.repo.owner,
-			repo: github.context.repo.repo,
-			head: branchName,
-			base: prToBranch,
-			title: DEFAULT_TITLE_MSG,
-			body: `
+			console.log("Creating Pull Request...");
+			const resp = await octokit.rest.pulls.create({
+				owner: github.context.repo.owner,
+				repo: github.context.repo.repo,
+				head: branchName,
+				base: prToBranch,
+				title: DEFAULT_TITLE_MSG,
+				body: `
     Template Synchronization Operation of ${baseRepoUrl} ${options.templateBranch}
 
     ${syncResultsToMd(result)}
     `,
-		});
+			});
 
-		core.setOutput("prNumber", resp.data.number);
+			core.setOutput("prNumber", resp.data.number);
+		} else {
+			console.log("No files were changed from template sync!");
+		}
 	} finally {
 		console.log(`Resetting to orignal ref: ${origRef}`);
 		execSync("git reset --hard");
