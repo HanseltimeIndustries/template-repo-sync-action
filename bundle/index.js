@@ -2349,6 +2349,23 @@ ${result.localFileChanges[file].reduce((diffS, change) => {
         }, "")}
 \`\`\``;
     }, "")}
+
+## Files Modified (${result.modifiedFiles.total})
+
+Added:
+${result.modifiedFiles.added.reduce((s, f) => {
+        return `${s}\n- ${f}`;
+    }, "")}
+
+Modified:
+${result.modifiedFiles.modified.reduce((s, f) => {
+        return `${s}\n- ${f}`;
+    }, "")}
+
+Deleted:
+${result.modifiedFiles.deleted.reduce((s, f) => {
+        return `${s}\n- ${f}`;
+    }, "")}
 `;
 }
 exports.syncResultsToMd = syncResultsToMd;
@@ -2980,12 +2997,29 @@ async function templateSync(options) {
     const templateSyncConfig = (0, fs_1.existsSync)(cloneConfigPath)
         ? commentJSON.parse((0, fs_1.readFileSync)(cloneConfigPath).toString())
         : { ignore: [] };
-    const localConfigPath = (0, path_1.join)(options.repoDir, `${exports.TEMPLATE_SYNC_LOCAL_CONFIG}.json`);
+    const localConfigFile = `${exports.TEMPLATE_SYNC_LOCAL_CONFIG}.json`;
+    const localConfigPath = (0, path_1.join)(options.repoDir, localConfigFile);
     const localTemplateSyncConfig = (0, fs_1.existsSync)(localConfigPath)
         ? commentJSON.parse((0, fs_1.readFileSync)(localConfigPath).toString())
         : { ignore: [] };
     let filesToSync;
+    const ref = await currentRefDriver({
+        rootDir: tempCloneDir,
+    });
     if (localTemplateSyncConfig.afterRef) {
+        if (ref === localTemplateSyncConfig.afterRef) {
+            // short circuit if the refs match
+            return {
+                localSkipFiles: [],
+                localFileChanges: {},
+                modifiedFiles: {
+                    added: [],
+                    modified: [],
+                    deleted: [],
+                    total: 0,
+                },
+            };
+        }
         filesToSync = await diffDriver(tempCloneDir, localTemplateSyncConfig.afterRef);
     }
     else {
@@ -3002,7 +3036,7 @@ async function templateSync(options) {
     filesToSync.added = filesToSync.added.filter((f) => !(0, micromatch_1.some)(f, templateSyncConfig.ignore));
     filesToSync.modified = filesToSync.modified.filter((f) => !(0, micromatch_1.some)(f, templateSyncConfig.ignore));
     filesToSync.deleted = filesToSync.deleted.filter((f) => !(0, micromatch_1.some)(f, templateSyncConfig.ignore));
-    const localSkipFiles = [];
+    const localSkipFiles = new Set();
     const localFileChanges = {};
     const fileSyncFactory = (op) => {
         return async (f) => {
@@ -3014,7 +3048,7 @@ async function templateSync(options) {
                 fileOperation: op,
             });
             if (result.ignoredDueToLocal) {
-                localSkipFiles.push(f);
+                localSkipFiles.add(f);
             }
             else if (result?.localChanges && result.localChanges.length > 0) {
                 localFileChanges[f] = result.localChanges;
@@ -3025,6 +3059,15 @@ async function templateSync(options) {
     await Promise.all(filesToSync.added.map(fileSyncFactory("added")));
     await Promise.all(filesToSync.modified.map(fileSyncFactory("modified")));
     await Promise.all(filesToSync.deleted.map(fileSyncFactory("deleted")));
+    // Report the files that changed in general
+    const actualAdded = filesToSync.added.filter((f) => !localSkipFiles.has(f));
+    const actualModified = filesToSync.modified.filter((f) => !localSkipFiles.has(f));
+    const actualDeleted = filesToSync.deleted.filter((f) => !localSkipFiles.has(f));
+    const modifiedFiles = {
+        added: actualAdded,
+        modified: actualModified,
+        deleted: actualDeleted,
+    };
     // apply after ref
     if (options.updateAfterRef) {
         const ref = await currentRefDriver({
@@ -3035,14 +3078,22 @@ async function templateSync(options) {
             const config = commentJSON.parse(configStr);
             config.afterRef = ref;
             (0, fs_1.writeFileSync)(localConfigPath, commentJSON.stringify(config, null, (0, formatting_1.inferJSONIndent)(configStr)));
+            modifiedFiles.modified.push(localConfigFile);
         }
         else {
             (0, fs_1.writeFileSync)(localConfigPath, commentJSON.stringify({ afterRef: ref }, null, 4));
+            modifiedFiles.added.push(localConfigFile);
         }
     }
     return {
-        localSkipFiles,
+        localSkipFiles: Array.from(localSkipFiles),
         localFileChanges,
+        modifiedFiles: {
+            ...modifiedFiles,
+            total: modifiedFiles.added.length +
+                modifiedFiles.deleted.length +
+                modifiedFiles.modified.length,
+        },
     };
 }
 exports.templateSync = templateSync;
@@ -62031,25 +62082,30 @@ function syncGithubRepo(options) {
             const result = options.remoteRepoToken
                 ? yield (0, git_utils_1.withoutGhExtraHeader)(() => __awaiter(this, void 0, void 0, function* () { return (0, template_repo_sync_1.templateSync)(templateSyncOptions); }))
                 : yield (0, template_repo_sync_1.templateSync)(templateSyncOptions);
-            console.log("Committing all files...");
-            // commit everything
-            (0, child_process_1.execSync)("git add .");
-            (0, child_process_1.execSync)(`git commit -m "${commitMsg}"`);
-            (0, child_process_1.execSync)(`git push --set-upstream origin "${branchName}"`);
-            console.log("Creating Pull Request...");
-            const resp = yield octokit.rest.pulls.create({
-                owner: github.context.repo.owner,
-                repo: github.context.repo.repo,
-                head: branchName,
-                base: prToBranch,
-                title: constants_1.DEFAULT_TITLE_MSG,
-                body: `
+            if (result.modifiedFiles.total > 0) {
+                console.log("Committing all files...");
+                // commit everything
+                (0, child_process_1.execSync)("git add .");
+                (0, child_process_1.execSync)(`git commit -m "${commitMsg}"`);
+                (0, child_process_1.execSync)(`git push --set-upstream origin "${branchName}"`);
+                console.log("Creating Pull Request...");
+                const resp = yield octokit.rest.pulls.create({
+                    owner: github.context.repo.owner,
+                    repo: github.context.repo.repo,
+                    head: branchName,
+                    base: prToBranch,
+                    title: constants_1.DEFAULT_TITLE_MSG,
+                    body: `
     Template Synchronization Operation of ${baseRepoUrl} ${options.templateBranch}
 
     ${(0, template_repo_sync_1.syncResultsToMd)(result)}
     `,
-            });
-            core.setOutput("prNumber", resp.data.number);
+                });
+                core.setOutput("prNumber", resp.data.number);
+            }
+            else {
+                console.log("No files were changed from template sync!");
+            }
         }
         finally {
             console.log(`Resetting to orignal ref: ${origRef}`);
