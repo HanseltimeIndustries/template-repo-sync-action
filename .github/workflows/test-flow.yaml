@@ -352,12 +352,13 @@ jobs:
         run: |
           npm run bundle
       - name: set up afterRef to match latest
+        id: latest_ref
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          LATEST_SHA=$(gh api repos/${{ github.repository }}/commits/main --template '{{.sha}}')
+          LATEST_SHA=$(gh api repos/HanseltimeIndustries/test-public-template/commits/main --template '{{.sha}}')
           # Change the SHA to the latest
-          jq --arg new_sha "$LATEST_SHA" '.afterRef = $new_sha' templatesync.local.json > temp.json && mv temp.json templatesync.local
+          echo "mock_local={\"afterRef\": \"${LATEST_SHA}\"}" >> $GITHUB_OUTPUT
       - name: sync-public-repo
         id: test_run
         uses: ./
@@ -367,20 +368,22 @@ jobs:
           templateBranch: main
           commitMsg: "build(boilerplate-int-test): synchronize template repo"
           branchPrefix: ${{ inputs.templatePrefix }}-noop
-          mockLocalConfig: "{}"
-      - name: assert
+          titleMsg: "Test No-op Auto-sync"
+          mockLocalConfig: '${{ steps.latest_ref.outputs.mock_local }}'
+      - name: assert no pull request created
+        id: check_branch
         run: |
-          npx ts-node src/test-utils/confirm-repo-template.ts \
-            --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
-            --expectedToBranch "main" \
-            --expectedFromBranch "main" \
-            --expectedFilesChanged "new_file.md" "package.json" "templatesync.json" "templatesync.local.json" \
-            --expectedFromRepoPath "HanseltimeIndustries/test-public-template" \
-            --expectedBranchPrefix "${{ inputs.templatePrefix }}-noop"
+          BRANCH="my-branch"
+          if [ -z "${{ steps.test_run.outputs.prNumber }}" ]; then
+            echo "No pull request number"
+          else
+            echo "A pull request was still created!"
+            exit 22
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: clean
-        if: always()
+        if: ${{ steps.test_run.outputs.prNumber }}
         run: |
           npx ts-node src/test-utils/clear-int-test-resources.ts \
             --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
