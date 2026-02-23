@@ -16,7 +16,7 @@ import {
 } from "./constants";
 import { getBranchName } from "./get-branch-name";
 import { withoutGhExtraHeader } from "./git-utils";
-import { writeFileSync } from "fs";
+import { readFileSync, writeFileSync } from "fs";
 
 export interface GithubOptions {
 	/**
@@ -136,10 +136,12 @@ export async function syncGithubRepo(options: GithubOptions) {
 		console.log(`Checking out ${branchName}`);
 		execSync(`git checkout -b ${branchName}`);
 		if (options.mockLocalConfig) {
+			console.log("Mocking templatesync.local.json...")
 			writeFileSync(
 				join(repoRoot, `${TEMPLATE_SYNC_LOCAL_CONFIG}.json`),
 				options.mockLocalConfig,
 			);
+			console.log(readFileSync(join(repoRoot, `${TEMPLATE_SYNC_LOCAL_CONFIG}.json`)).toString())
 		}
 
 		// Clone and merge on this branch
@@ -172,7 +174,7 @@ export async function syncGithubRepo(options: GithubOptions) {
 				repo: github.context.repo.repo,
 				head: branchName,
 				base: prToBranch,
-				title: DEFAULT_TITLE_MSG,
+				title: options.titleMsg ?? DEFAULT_TITLE_MSG,
 				body: `
     Template Synchronization Operation of ${baseRepoUrl} ${options.templateBranch}
 
