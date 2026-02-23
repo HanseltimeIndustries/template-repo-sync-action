@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v2.0.4...v2.1.0) (2026-02-22)
+
+
+### Features
+
+* do not fail if there are no changed files ([3d18af5](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/3d18af52e2ee4b54352d24e77436626b2741b36b))
+
 ## [1.0.2](https://github.com/HanseltimeIndustries/github-actions-template/compare/v1.0.1...v1.0.2) (2026-02-08)
 
 
