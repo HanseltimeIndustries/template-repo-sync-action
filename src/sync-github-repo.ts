@@ -136,12 +136,16 @@ export async function syncGithubRepo(options: GithubOptions) {
 		console.log(`Checking out ${branchName}`);
 		execSync(`git checkout -b ${branchName}`);
 		if (options.mockLocalConfig) {
-			console.log("Mocking templatesync.local.json...")
+			console.log("Mocking templatesync.local.json...");
 			writeFileSync(
 				join(repoRoot, `${TEMPLATE_SYNC_LOCAL_CONFIG}.json`),
 				options.mockLocalConfig,
 			);
-			console.log(readFileSync(join(repoRoot, `${TEMPLATE_SYNC_LOCAL_CONFIG}.json`)).toString())
+			console.log(
+				readFileSync(
+					join(repoRoot, `${TEMPLATE_SYNC_LOCAL_CONFIG}.json`),
+				).toString(),
+			);
 		}
 
 		// Clone and merge on this branch

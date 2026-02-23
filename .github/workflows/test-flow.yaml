@@ -370,19 +370,20 @@ jobs:
           branchPrefix: ${{ inputs.templatePrefix }}-noop
           titleMsg: "Test No-op Auto-sync"
           mockLocalConfig: '${{ steps.latest_ref.outputs.mock_local }}'
-      - name: assert
+      - name: assert no pull request created
+        id: check_branch
         run: |
-          npx ts-node src/test-utils/confirm-repo-template.ts \
-            --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
-            --expectedToBranch "main" \
-            --expectedFromBranch "main" \
-            --expectedFilesChanged "new_file.md" "package.json" "templatesync.json" "templatesync.local.json" \
-            --expectedFromRepoPath "HanseltimeIndustries/test-public-template" \
-            --expectedBranchPrefix "${{ inputs.templatePrefix }}-noop"
+          BRANCH="my-branch"
+          if [ -z "${{ steps.test_run.outputs.prNumber }}" ]; then
+            echo "No pull request number"
+          else
+            echo "A pull request was still created!"
+            exit 22
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: clean
-        if: always()
+        if: ${{ steps.test_run.outputs.prNumber }}
         run: |
           npx ts-node src/test-utils/clear-int-test-resources.ts \
             --expectedPullNumber "${{ steps.test_run.outputs.prNumber }}" \
