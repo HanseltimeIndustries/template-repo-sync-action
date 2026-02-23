@@ -1,3 +1,10 @@
+## [2.1.1](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v2.1.0...v2.1.1) (2026-02-23)
+
+
+### Bug Fixes
+
+* use specific title message and log mockLocal config ([222dbba](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/222dbbaa7c08371dbf832e5bf2620fdc8cb47cb4))
+
 # [2.1.0](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v2.0.4...v2.1.0) (2026-02-22)
 
 

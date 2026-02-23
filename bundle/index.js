@@ -62020,7 +62020,7 @@ function getTempDir() {
     return process.env["RUNNER_TEMP"] || (0, os_1.tmpdir)();
 }
 function syncGithubRepo(options) {
-    var _a, _b, _c;
+    var _a, _b, _c, _d;
     return __awaiter(this, void 0, void 0, function* () {
         const octokit = github.getOctokit(options.githubToken);
         const repoRoot = (_a = options.repoRoot) !== null && _a !== void 0 ? _a : process.cwd();
@@ -62067,7 +62067,9 @@ function syncGithubRepo(options) {
             console.log(`Checking out ${branchName}`);
             (0, child_process_1.execSync)(`git checkout -b ${branchName}`);
             if (options.mockLocalConfig) {
+                console.log("Mocking templatesync.local.json...");
                 (0, fs_1.writeFileSync)((0, path_1.join)(repoRoot, `${template_repo_sync_1.TEMPLATE_SYNC_LOCAL_CONFIG}.json`), options.mockLocalConfig);
+                console.log((0, fs_1.readFileSync)((0, path_1.join)(repoRoot, `${template_repo_sync_1.TEMPLATE_SYNC_LOCAL_CONFIG}.json`)).toString());
             }
             // Clone and merge on this branch
             const tempAppDir = yield (0, promises_1.mkdtemp)((0, path_1.join)(getTempDir(), "template_sync_"));
@@ -62094,7 +62096,7 @@ function syncGithubRepo(options) {
                     repo: github.context.repo.repo,
                     head: branchName,
                     base: prToBranch,
-                    title: constants_1.DEFAULT_TITLE_MSG,
+                    title: (_d = options.titleMsg) !== null && _d !== void 0 ? _d : constants_1.DEFAULT_TITLE_MSG,
                     body: `
     Template Synchronization Operation of ${baseRepoUrl} ${options.templateBranch}
 
