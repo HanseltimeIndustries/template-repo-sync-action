@@ -355,9 +355,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          LATEST_SHA=$(gh api repos/${{ github.repository }}/commits/main --template '{{.sha}}')
+          LATEST_SHA=$(gh api repos/HanseltimeIndustries/test-public-template/commits/main --template '{{.sha}}')
           # Change the SHA to the latest
-          jq --arg new_sha "$LATEST_SHA" '.afterRef = $new_sha' templatesync.local.json > temp.json && mv temp.json templatesync.local
+          jq --arg new_sha "$LATEST_SHA" '.afterRef = $new_sha' templatesync.local.json > temp.json && mv temp.json templatesync.local.json
+
+          cat templatesync.local.json
       - name: sync-public-repo
         id: test_run
         uses: ./
@@ -368,6 +370,7 @@ jobs:
           commitMsg: "build(boilerplate-int-test): synchronize template repo"
           branchPrefix: ${{ inputs.templatePrefix }}-noop
           mockLocalConfig: "{}"
+          titleMsg: "Test No-op Auto-sync"
       - name: assert
         run: |
           npx ts-node src/test-utils/confirm-repo-template.ts \
