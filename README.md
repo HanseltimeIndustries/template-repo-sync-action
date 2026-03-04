@@ -20,6 +20,7 @@ the way the merge field works! You must make sure that all repos change that con
     - [2. Using a PAT for PR and template](#2-using-a-pat-for-pr-and-template)
 - [Example Use Case](#example-use-case)
   - [Handling no-op syncs](#handling-no-op-syncs)
+  - [Handling misconfigured plugins](#handling-misconfigured-plugins)
 <!-- Created with Markdown All in One Plugin in VsCode, rerun to update -->
 
 ## What it does
@@ -283,3 +284,12 @@ gracefully report if there are no changes and will avoid creating a pr.
 
 If you are trying to detect if there were no changes, you can check to see if the
 `prNumber` output is empty.
+
+## Handling misconfigured plugins
+
+Once you are using merge plugins, you may run into the problem where a plugin that you have configured in your local
+does not have the correct options.  (Perhaps you updated the version of the plugin, etc.)
+
+If the plugin's validation phase fails, this action will throw an error.  We recommend that you wire in a notification
+step on failure to alert that there is some sort of misconfiguration in the configurations so that they can be troubleshot
+and fixed.
