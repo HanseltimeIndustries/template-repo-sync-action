@@ -1,3 +1,17 @@
+## [2.1.1](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v2.1.0...v2.1.1) (2026-02-23)
+
+
+### Bug Fixes
+
+* use specific title message and log mockLocal config ([222dbba](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/222dbbaa7c08371dbf832e5bf2620fdc8cb47cb4))
+
+# [2.1.0](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v2.0.4...v2.1.0) (2026-02-22)
+
+
+### Features
+
+* do not fail if there are no changed files ([3d18af5](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/3d18af52e2ee4b54352d24e77436626b2741b36b))
+
 ## [1.0.2](https://github.com/HanseltimeIndustries/github-actions-template/compare/v1.0.1...v1.0.2) (2026-02-08)
 
 
