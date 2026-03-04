@@ -1,3 +1,10 @@
+## [2.1.2](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v2.1.1...v2.1.2) (2026-03-04)
+
+
+### Bug Fixes
+
+* use validation plugin methods ([a96c6c2](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/a96c6c280904a6a82fedcd4c6c5580d672dac6ba))
+
 ## [2.1.1](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v2.1.0...v2.1.1) (2026-02-23)
 
 

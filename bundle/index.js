@@ -2971,6 +2971,7 @@ const formatting_1 = __nccwpck_require__(3566);
 const commentJSON = __importStar(__nccwpck_require__(3165));
 const checkout_drivers_1 = __nccwpck_require__(5447);
 const micromatch_1 = __nccwpck_require__(6228);
+const load_plugin_1 = __nccwpck_require__(5339);
 exports.TEMPLATE_SYNC_CONFIG = "templatesync";
 exports.TEMPLATE_SYNC_LOCAL_CONFIG = "templatesync.local";
 async function templateSync(options) {
@@ -3031,6 +3032,46 @@ async function templateSync(options) {
             deleted: [],
             modified: [],
         };
+    }
+    // Pre-load plugins and make sure the sync file is respected
+    // Synchronous since grpc servers take a second
+    const localValidateErrors = {};
+    const validateErrors = {};
+    for (const config of localTemplateSyncConfig.merge ?? []) {
+        const plugin = await (0, load_plugin_1.loadPlugin)(config, options.repoDir);
+        const errors = plugin.validate(config.options ?? {});
+        if (errors && errors.length > 0) {
+            localValidateErrors[config.plugin] = errors;
+        }
+    }
+    for (const config of templateSyncConfig.merge ?? []) {
+        const plugin = await (0, load_plugin_1.loadPlugin)(config, tempCloneDir);
+        const errors = plugin.validate(config.options ?? {});
+        if (errors && errors.length > 0) {
+            validateErrors[config.plugin] = errors;
+        }
+    }
+    let errorStr = "";
+    if (Object.keys(validateErrors).length > 0) {
+        errorStr = `${errorStr}templatesync.json plugin option errors:\n`;
+        for (const plugin in validateErrors) {
+            errorStr = `${errorStr}\tPlugin (${plugin}):\n`;
+            validateErrors[plugin].forEach((err) => {
+                errorStr = `${errorStr}\t\t${err}\n`;
+            });
+        }
+    }
+    if (Object.keys(localValidateErrors).length > 0) {
+        errorStr = `${errorStr}templatesync.local.json plugin option errors:\n`;
+        for (const plugin in localValidateErrors) {
+            errorStr = `${errorStr}\tPlugin (${plugin}):\n`;
+            localValidateErrors[plugin].forEach((err) => {
+                errorStr = `${errorStr}\t\t${err}\n`;
+            });
+        }
+    }
+    if (errorStr !== "") {
+        throw Error(errorStr);
     }
     // Apply ignore filters
     filesToSync.added = filesToSync.added.filter((f) => !(0, micromatch_1.some)(f, templateSyncConfig.ignore));
