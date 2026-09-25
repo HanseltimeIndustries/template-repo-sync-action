@@ -7,14 +7,14 @@
 		"format": "biome format",
 		"lint": "biome lint",
 		"bundle": "ncc build src/action.ts -o bundle",
-		"test": "echo \"Error: no test specified\"",
+		"test": "echo \"Error: no test specified\" && exit 1",
 		"build": "tsc",
 		"prepare": "husky",
 		"release": "npx semantic-release"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/HanseltimeIndustries/template-repo-sync-action.git"
+		"url": "git+https://github.com/HanseltimeIndustries/test-private-template.git"
 	},
 	"author": "",
 	"license": "ISC",
