@@ -1,3 +1,11 @@
+## [2.1.3](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v2.1.2...v2.1.3) (2026-09-25)
+
+
+### Bug Fixes
+
+* use the swc transpiled template-repo-sync ([20fbeb7](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/20fbeb7b6a1daa8c727a3867166f1962243d307c))
+* use the swc transpiled template-repo-sync ([ea6db3b](https://github.com/HanseltimeIndustries/template-repo-sync-action/commit/ea6db3bd12555baa4b64b10b65678feaf7677bf0))
+
 ## [2.1.2](https://github.com/HanseltimeIndustries/template-repo-sync-action/compare/v2.1.1...v2.1.2) (2026-03-04)
 
 

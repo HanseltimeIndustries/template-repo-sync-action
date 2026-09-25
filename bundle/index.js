@@ -1,6 +1,25 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 7036:
+/***/ ((module) => {
+
+function webpackEmptyAsyncContext(req) {
+	// Here Promise.resolve().then() is used instead of new Promise() to prevent
+	// uncaught exception popping up in devtools
+	return Promise.resolve().then(() => {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	});
+}
+webpackEmptyAsyncContext.keys = () => ([]);
+webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
+webpackEmptyAsyncContext.id = 7036;
+module.exports = webpackEmptyAsyncContext;
+
+/***/ }),
+
 /***/ 7351:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -2087,19 +2106,26 @@ function isLoopbackAddress(host) {
 
 /***/ }),
 
-/***/ 3136:
+/***/ 5419:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.gitCheckout = void 0;
-const child_process_1 = __nccwpck_require__(2081);
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "gitCheckout", ({
+    enumerable: true,
+    get: function() {
+        return gitCheckout;
+    }
+}));
+const _child_process = __nccwpck_require__(2081);
 async function gitCheckout(options) {
     const { branch, remoteName, tmpDir } = options;
-    const remoteInfo = (0, child_process_1.execSync)(`git remote show ${remoteName}`, {
+    const remoteInfo = (0, _child_process.execSync)(`git remote show ${remoteName}`, {
         cwd: tmpDir,
-        env: process.env,
+        env: process.env
     }).toString();
     const defaultMatch = /HEAD branch:\s*([a-zA-Z0-9_-]+)/.exec(remoteInfo);
     if (!defaultMatch || !defaultMatch[1]) {
@@ -2108,201 +2134,220 @@ async function gitCheckout(options) {
     const defaultBranch = defaultMatch[1];
     // Skip this if the default branch is already pulled
     if (defaultBranch !== branch) {
-        (0, child_process_1.execSync)(`git fetch ${remoteName} ${branch}`, {
+        (0, _child_process.execSync)(`git fetch ${remoteName} ${branch}`, {
             cwd: tmpDir,
-            env: process.env,
+            env: process.env
         });
-        (0, child_process_1.execSync)(`git checkout -b ${branch} --track ${remoteName}/${branch}`, {
+        (0, _child_process.execSync)(`git checkout -b ${branch} --track ${remoteName}/${branch}`, {
             cwd: tmpDir,
-            env: process.env,
+            env: process.env
         });
     }
     return true;
 }
-exports.gitCheckout = gitCheckout;
 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9jaGVja291dC1kcml2ZXJzL2dpdC1jaGVja291dC50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBleGVjU3luYyB9IGZyb20gXCJjaGlsZF9wcm9jZXNzXCI7XG5cbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBnaXRDaGVja291dChvcHRpb25zOiB7XG5cdC8qKiBUaGUgZGlyZWN0b3J5IHdoZXJlIHdlIGNsb25lZCB0byAqL1xuXHR0bXBEaXI6IHN0cmluZztcblx0LyoqIFRoZSBuYW1lIG9mIHRoZSByZW1vdGUgdGhhdCBnaXQgY2hlY2tzIG91dCBhZ2FpbnN0ICovXG5cdHJlbW90ZU5hbWU6IHN0cmluZztcblx0LyoqIFRoZSBicmFuY2ggdG8gY2hlY2tvdXQgYWdhaW5zdCAqL1xuXHRicmFuY2g6IHN0cmluZztcbn0pOiBQcm9taXNlPGJvb2xlYW4+IHtcblx0Y29uc3QgeyBicmFuY2gsIHJlbW90ZU5hbWUsIHRtcERpciB9ID0gb3B0aW9ucztcblxuXHRjb25zdCByZW1vdGVJbmZvID0gZXhlY1N5bmMoYGdpdCByZW1vdGUgc2hvdyAke3JlbW90ZU5hbWV9YCwge1xuXHRcdGN3ZDogdG1wRGlyLFxuXHRcdGVudjogcHJvY2Vzcy5lbnYsXG5cdH0pLnRvU3RyaW5nKCk7XG5cdGNvbnN0IGRlZmF1bHRNYXRjaCA9IC9IRUFEIGJyYW5jaDpcXHMqKFthLXpBLVowLTlfLV0rKS8uZXhlYyhyZW1vdGVJbmZvKTtcblx0aWYgKCFkZWZhdWx0TWF0Y2ggfHwgIWRlZmF1bHRNYXRjaFsxXSkge1xuXHRcdHRocm93IG5ldyBFcnJvcihcblx0XHRcdGBDb3VsZCBub3QgZGV0ZXJtaW5lIGRlZmF1bHQgYnJhbmNoIG9mIGNsb25lZCByZXBvLlxcbkF0dGVtcHRlZCB0byBmaW5kIGluIHJlbW90ZSBpbmZvOlxcbiR7cmVtb3RlSW5mb30gYCxcblx0XHQpO1xuXHR9XG5cblx0Y29uc3QgZGVmYXVsdEJyYW5jaCA9IGRlZmF1bHRNYXRjaFsxXTtcblx0Ly8gU2tpcCB0aGlzIGlmIHRoZSBkZWZhdWx0IGJyYW5jaCBpcyBhbHJlYWR5IHB1bGxlZFxuXHRpZiAoZGVmYXVsdEJyYW5jaCAhPT0gYnJhbmNoKSB7XG5cdFx0ZXhlY1N5bmMoYGdpdCBmZXRjaCAke3JlbW90ZU5hbWV9ICR7YnJhbmNofWAsIHtcblx0XHRcdGN3ZDogdG1wRGlyLFxuXHRcdFx0ZW52OiBwcm9jZXNzLmVudixcblx0XHR9KTtcblx0XHRleGVjU3luYyhgZ2l0IGNoZWNrb3V0IC1iICR7YnJhbmNofSAtLXRyYWNrICR7cmVtb3RlTmFtZX0vJHticmFuY2h9YCwge1xuXHRcdFx0Y3dkOiB0bXBEaXIsXG5cdFx0XHRlbnY6IHByb2Nlc3MuZW52LFxuXHRcdH0pO1xuXHR9XG5cblx0cmV0dXJuIHRydWU7XG59XG4iXSwibmFtZXMiOlsiZ2l0Q2hlY2tvdXQiLCJvcHRpb25zIiwiYnJhbmNoIiwicmVtb3RlTmFtZSIsInRtcERpciIsInJlbW90ZUluZm8iLCJleGVjU3luYyIsImN3ZCIsImVudiIsInByb2Nlc3MiLCJ0b1N0cmluZyIsImRlZmF1bHRNYXRjaCIsImV4ZWMiLCJFcnJvciIsImRlZmF1bHRCcmFuY2giXSwibWFwcGluZ3MiOiI7Ozs7K0JBRXNCQTs7O2VBQUFBOzs7K0JBRkc7QUFFbEIsZUFBZUEsWUFBWUMsT0FPakM7SUFDQSxNQUFNLEVBQUVDLE1BQU0sRUFBRUMsVUFBVSxFQUFFQyxNQUFNLEVBQUUsR0FBR0g7SUFFdkMsTUFBTUksYUFBYUMsSUFBQUEsdUJBQVEsRUFBQyxDQUFDLGdCQUFnQixFQUFFSCxZQUFZLEVBQUU7UUFDNURJLEtBQUtIO1FBQ0xJLEtBQUtDLFFBQVFELEdBQUc7SUFDakIsR0FBR0UsUUFBUTtJQUNYLE1BQU1DLGVBQWUsa0NBQWtDQyxJQUFJLENBQUNQO0lBQzVELElBQUksQ0FBQ00sZ0JBQWdCLENBQUNBLFlBQVksQ0FBQyxFQUFFLEVBQUU7UUFDdEMsTUFBTSxJQUFJRSxNQUNULENBQUMsdUZBQXVGLEVBQUVSLFdBQVcsQ0FBQyxDQUFDO0lBRXpHO0lBRUEsTUFBTVMsZ0JBQWdCSCxZQUFZLENBQUMsRUFBRTtJQUNyQyxvREFBb0Q7SUFDcEQsSUFBSUcsa0JBQWtCWixRQUFRO1FBQzdCSSxJQUFBQSx1QkFBUSxFQUFDLENBQUMsVUFBVSxFQUFFSCxXQUFXLENBQUMsRUFBRUQsUUFBUSxFQUFFO1lBQzdDSyxLQUFLSDtZQUNMSSxLQUFLQyxRQUFRRCxHQUFHO1FBQ2pCO1FBQ0FGLElBQUFBLHVCQUFRLEVBQUMsQ0FBQyxnQkFBZ0IsRUFBRUosT0FBTyxTQUFTLEVBQUVDLFdBQVcsQ0FBQyxFQUFFRCxRQUFRLEVBQUU7WUFDckVLLEtBQUtIO1lBQ0xJLEtBQUtDLFFBQVFELEdBQUc7UUFDakI7SUFDRDtJQUVBLE9BQU87QUFDUiJ9
 
 /***/ }),
 
-/***/ 5447:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ 5942:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
+Object.defineProperty(exports, "__esModule", ({
+    value: true
 }));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__nccwpck_require__(3136), exports);
-__exportStar(__nccwpck_require__(3550), exports);
+_export_star(__nccwpck_require__(5419), exports);
+_export_star(__nccwpck_require__(6833), exports);
+function _export_star(from, to) {
+    Object.keys(from).forEach(function(k) {
+        if (k !== "default" && !Object.prototype.hasOwnProperty.call(to, k)) {
+            Object.defineProperty(to, k, {
+                enumerable: true,
+                get: function() {
+                    return from[k];
+                }
+            });
+        }
+    });
+    return from;
+}
 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9jaGVja291dC1kcml2ZXJzL2luZGV4LnRzIl0sInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCAqIGZyb20gXCIuL2dpdC1jaGVja291dFwiO1xuZXhwb3J0ICogZnJvbSBcIi4vdHlwZXNcIjtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O3FCQUFjO3FCQUNBIn0=
 
 /***/ }),
 
-/***/ 3550:
+/***/ 6833:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
+/**
+ * A function that will checkout a given "branch" after the repo has been
+ * "cloned" by a clone drvier.
+ *
+ * @returns true if the checkout succeeded
+ */ 
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9jaGVja291dC1kcml2ZXJzL3R5cGVzLnRzIl0sInNvdXJjZXNDb250ZW50IjpbIi8qKlxuICogQSBmdW5jdGlvbiB0aGF0IHdpbGwgY2hlY2tvdXQgYSBnaXZlbiBcImJyYW5jaFwiIGFmdGVyIHRoZSByZXBvIGhhcyBiZWVuXG4gKiBcImNsb25lZFwiIGJ5IGEgY2xvbmUgZHJ2aWVyLlxuICpcbiAqIEByZXR1cm5zIHRydWUgaWYgdGhlIGNoZWNrb3V0IHN1Y2NlZWRlZFxuICovXG5leHBvcnQgdHlwZSBUZW1wbGF0ZUNoZWNrb3V0RHJpdmVyRm4gPSAob3B0aW9uczoge1xuXHQvKiogVGhlIGRpcmVjdG9yeSB3aGVyZSB3ZSBjbG9uZWQgdG8gKi9cblx0dG1wRGlyOiBzdHJpbmc7XG5cdC8qKiBUaGUgbmFtZSBvZiB0aGUgcmVtb3RlIHRoYXQgZ2l0IGNoZWNrcyBvdXQgYWdhaW5zdCAqL1xuXHRyZW1vdGVOYW1lOiBzdHJpbmc7XG5cdC8qKiBUaGUgYnJhbmNoIHRvIGNoZWNrb3V0IGFnYWluc3QgKi9cblx0YnJhbmNoOiBzdHJpbmc7XG59KSA9PiBQcm9taXNlPGJvb2xlYW4+O1xuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7OztDQUtDIn0=
 
 /***/ }),
 
-/***/ 1215:
+/***/ 9070:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.gitClone = void 0;
-const child_process_1 = __nccwpck_require__(2081);
-const path_1 = __nccwpck_require__(1017);
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "gitClone", ({
+    enumerable: true,
+    get: function() {
+        return gitClone;
+    }
+}));
+const _child_process = __nccwpck_require__(2081);
+const _path = __nccwpck_require__(1017);
 const CLONE_DIR = "cloned_repo";
 async function gitClone(tmpDir, repoUrl) {
-    (0, child_process_1.execSync)(`git clone ${repoUrl} ${CLONE_DIR}`, {
+    (0, _child_process.execSync)(`git clone ${repoUrl} ${CLONE_DIR}`, {
         cwd: tmpDir,
-        env: process.env,
+        env: process.env
     });
     return {
-        dir: (0, path_1.resolve)(tmpDir, CLONE_DIR),
-        remoteName: "origin",
+        dir: (0, _path.resolve)(tmpDir, CLONE_DIR),
+        remoteName: "origin"
     };
 }
-exports.gitClone = gitClone;
 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9jbG9uZS1kcml2ZXJzL2dpdC1jbG9uZS50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBleGVjU3luYyB9IGZyb20gXCJjaGlsZF9wcm9jZXNzXCI7XG5pbXBvcnQgeyByZXNvbHZlIH0gZnJvbSBcInBhdGhcIjtcbmltcG9ydCB0eXBlIHsgQ2xvbmVSZXR1cm4gfSBmcm9tIFwiLi90eXBlc1wiO1xuXG5jb25zdCBDTE9ORV9ESVIgPSBcImNsb25lZF9yZXBvXCI7XG5cbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBnaXRDbG9uZShcblx0dG1wRGlyOiBzdHJpbmcsXG5cdHJlcG9Vcmw6IHN0cmluZyxcbik6IFByb21pc2U8Q2xvbmVSZXR1cm4+IHtcblx0ZXhlY1N5bmMoYGdpdCBjbG9uZSAke3JlcG9Vcmx9ICR7Q0xPTkVfRElSfWAsIHtcblx0XHRjd2Q6IHRtcERpcixcblx0XHRlbnY6IHByb2Nlc3MuZW52LFxuXHR9KTtcblxuXHRyZXR1cm4ge1xuXHRcdGRpcjogcmVzb2x2ZSh0bXBEaXIsIENMT05FX0RJUiksXG5cdFx0cmVtb3RlTmFtZTogXCJvcmlnaW5cIixcblx0fTtcbn1cbiJdLCJuYW1lcyI6WyJnaXRDbG9uZSIsIkNMT05FX0RJUiIsInRtcERpciIsInJlcG9VcmwiLCJleGVjU3luYyIsImN3ZCIsImVudiIsInByb2Nlc3MiLCJkaXIiLCJyZXNvbHZlIiwicmVtb3RlTmFtZSJdLCJtYXBwaW5ncyI6Ijs7OzsrQkFNc0JBOzs7ZUFBQUE7OzsrQkFORztzQkFDRDtBQUd4QixNQUFNQyxZQUFZO0FBRVgsZUFBZUQsU0FDckJFLE1BQWMsRUFDZEMsT0FBZTtJQUVmQyxJQUFBQSx1QkFBUSxFQUFDLENBQUMsVUFBVSxFQUFFRCxRQUFRLENBQUMsRUFBRUYsV0FBVyxFQUFFO1FBQzdDSSxLQUFLSDtRQUNMSSxLQUFLQyxRQUFRRCxHQUFHO0lBQ2pCO0lBRUEsT0FBTztRQUNORSxLQUFLQyxJQUFBQSxhQUFPLEVBQUNQLFFBQVFEO1FBQ3JCUyxZQUFZO0lBQ2I7QUFDRCJ9
 
 /***/ }),
 
-/***/ 6042:
+/***/ 873:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.gitDiff = void 0;
-const child_process_1 = __nccwpck_require__(2081);
-/**
- * For a given directory with a git configuration, this will return the modified, added, and
- * deleted files since the last afterRef
- * @param gitDir The git directory folder
- * @param afterRef The git ref to look for diffs after
- * @returns
- */
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "gitDiff", ({
+    enumerable: true,
+    get: function() {
+        return gitDiff;
+    }
+}));
+const _child_process = __nccwpck_require__(2081);
 async function gitDiff(gitDir, afterRef) {
     const baseCommand = `git diff ${afterRef}.. --no-renames --name-only`;
-    const modifiedFiles = (0, child_process_1.execSync)(`${baseCommand} --diff-filter=M`, {
-        cwd: gitDir,
-    })
-        .toString()
-        .trim()
-        .split("\n")
-        .filter((s) => s !== "");
-    const addedFiles = (0, child_process_1.execSync)(`${baseCommand} --diff-filter=A`, {
-        cwd: gitDir,
-    })
-        .toString()
-        .trim()
-        .split("\n")
-        .filter((s) => s !== "");
-    const deletedFiles = (0, child_process_1.execSync)(`${baseCommand} --diff-filter=D`, {
-        cwd: gitDir,
-    })
-        .toString()
-        .trim()
-        .split("\n")
-        .filter((s) => s !== "");
+    const modifiedFiles = (0, _child_process.execSync)(`${baseCommand} --diff-filter=M`, {
+        cwd: gitDir
+    }).toString().trim().split("\n").filter((s)=>s !== "");
+    const addedFiles = (0, _child_process.execSync)(`${baseCommand} --diff-filter=A`, {
+        cwd: gitDir
+    }).toString().trim().split("\n").filter((s)=>s !== "");
+    const deletedFiles = (0, _child_process.execSync)(`${baseCommand} --diff-filter=D`, {
+        cwd: gitDir
+    }).toString().trim().split("\n").filter((s)=>s !== "");
     return {
         modified: modifiedFiles,
         added: addedFiles,
-        deleted: deletedFiles,
+        deleted: deletedFiles
     };
 }
-exports.gitDiff = gitDiff;
 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9kaWZmLWRyaXZlcnMvZ2l0LWRpZmYudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgZXhlY1N5bmMgfSBmcm9tIFwiY2hpbGRfcHJvY2Vzc1wiO1xuXG4vKipcbiAqIEZvciBhIGdpdmVuIGRpcmVjdG9yeSB3aXRoIGEgZ2l0IGNvbmZpZ3VyYXRpb24sIHRoaXMgd2lsbCByZXR1cm4gdGhlIG1vZGlmaWVkLCBhZGRlZCwgYW5kXG4gKiBkZWxldGVkIGZpbGVzIHNpbmNlIHRoZSBsYXN0IGFmdGVyUmVmXG4gKiBAcGFyYW0gZ2l0RGlyIFRoZSBnaXQgZGlyZWN0b3J5IGZvbGRlclxuICogQHBhcmFtIGFmdGVyUmVmIFRoZSBnaXQgcmVmIHRvIGxvb2sgZm9yIGRpZmZzIGFmdGVyXG4gKiBAcmV0dXJuc1xuICovXG5leHBvcnQgYXN5bmMgZnVuY3Rpb24gZ2l0RGlmZihnaXREaXI6IHN0cmluZywgYWZ0ZXJSZWY6IHN0cmluZykge1xuXHRjb25zdCBiYXNlQ29tbWFuZCA9IGBnaXQgZGlmZiAke2FmdGVyUmVmfS4uIC0tbm8tcmVuYW1lcyAtLW5hbWUtb25seWA7XG5cdGNvbnN0IG1vZGlmaWVkRmlsZXMgPSBleGVjU3luYyhgJHtiYXNlQ29tbWFuZH0gLS1kaWZmLWZpbHRlcj1NYCwge1xuXHRcdGN3ZDogZ2l0RGlyLFxuXHR9KVxuXHRcdC50b1N0cmluZygpXG5cdFx0LnRyaW0oKVxuXHRcdC5zcGxpdChcIlxcblwiKVxuXHRcdC5maWx0ZXIoKHMpID0+IHMgIT09IFwiXCIpO1xuXHRjb25zdCBhZGRlZEZpbGVzID0gZXhlY1N5bmMoYCR7YmFzZUNvbW1hbmR9IC0tZGlmZi1maWx0ZXI9QWAsIHtcblx0XHRjd2Q6IGdpdERpcixcblx0fSlcblx0XHQudG9TdHJpbmcoKVxuXHRcdC50cmltKClcblx0XHQuc3BsaXQoXCJcXG5cIilcblx0XHQuZmlsdGVyKChzKSA9PiBzICE9PSBcIlwiKTtcblx0Y29uc3QgZGVsZXRlZEZpbGVzID0gZXhlY1N5bmMoYCR7YmFzZUNvbW1hbmR9IC0tZGlmZi1maWx0ZXI9RGAsIHtcblx0XHRjd2Q6IGdpdERpcixcblx0fSlcblx0XHQudG9TdHJpbmcoKVxuXHRcdC50cmltKClcblx0XHQuc3BsaXQoXCJcXG5cIilcblx0XHQuZmlsdGVyKChzKSA9PiBzICE9PSBcIlwiKTtcblxuXHRyZXR1cm4ge1xuXHRcdG1vZGlmaWVkOiBtb2RpZmllZEZpbGVzLFxuXHRcdGFkZGVkOiBhZGRlZEZpbGVzLFxuXHRcdGRlbGV0ZWQ6IGRlbGV0ZWRGaWxlcyxcblx0fTtcbn1cbiJdLCJuYW1lcyI6WyJnaXREaWZmIiwiZ2l0RGlyIiwiYWZ0ZXJSZWYiLCJiYXNlQ29tbWFuZCIsIm1vZGlmaWVkRmlsZXMiLCJleGVjU3luYyIsImN3ZCIsInRvU3RyaW5nIiwidHJpbSIsInNwbGl0IiwiZmlsdGVyIiwicyIsImFkZGVkRmlsZXMiLCJkZWxldGVkRmlsZXMiLCJtb2RpZmllZCIsImFkZGVkIiwiZGVsZXRlZCJdLCJtYXBwaW5ncyI6Ijs7OzsrQkFTc0JBOzs7ZUFBQUE7OzsrQkFURztBQVNsQixlQUFlQSxRQUFRQyxNQUFjLEVBQUVDLFFBQWdCO0lBQzdELE1BQU1DLGNBQWMsQ0FBQyxTQUFTLEVBQUVELFNBQVMsMkJBQTJCLENBQUM7SUFDckUsTUFBTUUsZ0JBQWdCQyxJQUFBQSx1QkFBUSxFQUFDLEdBQUdGLFlBQVksZ0JBQWdCLENBQUMsRUFBRTtRQUNoRUcsS0FBS0w7SUFDTixHQUNFTSxRQUFRLEdBQ1JDLElBQUksR0FDSkMsS0FBSyxDQUFDLE1BQ05DLE1BQU0sQ0FBQyxDQUFDQyxJQUFNQSxNQUFNO0lBQ3RCLE1BQU1DLGFBQWFQLElBQUFBLHVCQUFRLEVBQUMsR0FBR0YsWUFBWSxnQkFBZ0IsQ0FBQyxFQUFFO1FBQzdERyxLQUFLTDtJQUNOLEdBQ0VNLFFBQVEsR0FDUkMsSUFBSSxHQUNKQyxLQUFLLENBQUMsTUFDTkMsTUFBTSxDQUFDLENBQUNDLElBQU1BLE1BQU07SUFDdEIsTUFBTUUsZUFBZVIsSUFBQUEsdUJBQVEsRUFBQyxHQUFHRixZQUFZLGdCQUFnQixDQUFDLEVBQUU7UUFDL0RHLEtBQUtMO0lBQ04sR0FDRU0sUUFBUSxHQUNSQyxJQUFJLEdBQ0pDLEtBQUssQ0FBQyxNQUNOQyxNQUFNLENBQUMsQ0FBQ0MsSUFBTUEsTUFBTTtJQUV0QixPQUFPO1FBQ05HLFVBQVVWO1FBQ1ZXLE9BQU9IO1FBQ1BJLFNBQVNIO0lBQ1Y7QUFDRCJ9
 
 /***/ }),
 
-/***/ 7989:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ 3150:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
+Object.defineProperty(exports, "__esModule", ({
+    value: true
 }));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__nccwpck_require__(5553), exports);
-__exportStar(__nccwpck_require__(6042), exports);
+_export_star(__nccwpck_require__(873), exports);
+_export_star(__nccwpck_require__(3492), exports);
+function _export_star(from, to) {
+    Object.keys(from).forEach(function(k) {
+        if (k !== "default" && !Object.prototype.hasOwnProperty.call(to, k)) {
+            Object.defineProperty(to, k, {
+                enumerable: true,
+                get: function() {
+                    return from[k];
+                }
+            });
+        }
+    });
+    return from;
+}
 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9kaWZmLWRyaXZlcnMvaW5kZXgudHMiXSwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0ICogZnJvbSBcIi4vZ2l0LWRpZmZcIjtcbmV4cG9ydCAqIGZyb20gXCIuL3R5cGVzXCI7XG4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7OztxQkFBYztxQkFDQSJ9
 
 /***/ }),
 
-/***/ 5553:
+/***/ 3492:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiJ9
 
 /***/ }),
 
-/***/ 3566:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ 4175:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
+Object.defineProperty(exports, "__esModule", ({
+    value: true
 }));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__nccwpck_require__(2277), exports);
-__exportStar(__nccwpck_require__(5124), exports);
+_export_star(__nccwpck_require__(661), exports);
+_export_star(__nccwpck_require__(6257), exports);
+function _export_star(from, to) {
+    Object.keys(from).forEach(function(k) {
+        if (k !== "default" && !Object.prototype.hasOwnProperty.call(to, k)) {
+            Object.defineProperty(to, k, {
+                enumerable: true,
+                get: function() {
+                    return from[k];
+                }
+            });
+        }
+    });
+    return from;
+}
 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9mb3JtYXR0aW5nL2luZGV4LnRzIl0sInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCAqIGZyb20gXCIuL2luZmVyLWpzb24taW5kZW50XCI7XG5leHBvcnQgKiBmcm9tIFwiLi9zeW5jLXJlc3VsdHMtdG8tbWRcIjtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O3FCQUFjO3FCQUNBIn0=
 
 /***/ }),
 
-/***/ 5124:
+/***/ 661:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.inferJSONIndent = void 0;
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "inferJSONIndent", ({
+    enumerable: true,
+    get: function() {
+        return inferJSONIndent;
+    }
+}));
 const spacingRegex = /[{[]\n?(?<spacing>\s+)["tf\d]/;
 function inferJSONIndent(rawJSON) {
     const match = spacingRegex.exec(rawJSON);
@@ -2317,34 +2362,41 @@ function inferJSONIndent(rawJSON) {
     const lastNewLine = spacing.lastIndexOf("\n");
     return match?.groups.spacing.slice(lastNewLine >= 0 ? lastNewLine + 1 : 0);
 }
-exports.inferJSONIndent = inferJSONIndent;
 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9mb3JtYXR0aW5nL2luZmVyLWpzb24taW5kZW50LnRzIl0sInNvdXJjZXNDb250ZW50IjpbImNvbnN0IHNwYWNpbmdSZWdleCA9IC9be1tdXFxuPyg/PHNwYWNpbmc+XFxzKylbXCJ0ZlxcZF0vO1xuZXhwb3J0IGZ1bmN0aW9uIGluZmVySlNPTkluZGVudChyYXdKU09OOiBzdHJpbmcpIHtcblx0Y29uc3QgbWF0Y2ggPSBzcGFjaW5nUmVnZXguZXhlYyhyYXdKU09OKTtcblx0aWYgKCFtYXRjaD8uZ3JvdXBzPy5zcGFjaW5nKSB7XG5cdFx0Ly8gZXNsaW50LWRpc2FibGUtbmV4dC1saW5lIG5vLWNvbnNvbGVcblx0XHRjb25zb2xlLndhcm4oXG5cdFx0XHRgQ291bGQgbm90IGZpbmQganNvbiBpbmRlbnRhdGlvbiBmb3IganNvbiBzdHJpbmc6ICR7cmF3SlNPTi5zbGljZSg0MCl9IC4uLiBcXG5EZWZhdWx0aW5nIHRvIDQgc3BhY2VzYCxcblx0XHQpO1xuXHRcdC8vIEZvdXIgc3BhY2VzXG5cdFx0cmV0dXJuIFwiICAgIFwiO1xuXHR9XG5cdGNvbnN0IHNwYWNpbmcgPSBtYXRjaC5ncm91cHMuc3BhY2luZztcblx0Ly8gSGFuZGxlIHRoZSBjYXNlIHdoZXJlIHRoZXJlIHdlcmUgbXVsdGlwbGUgbmV3bGluZXMgYmVmb3JlIGEgdmFsdWVcblx0Y29uc3QgbGFzdE5ld0xpbmUgPSBzcGFjaW5nLmxhc3RJbmRleE9mKFwiXFxuXCIpO1xuXHRyZXR1cm4gbWF0Y2g/Lmdyb3Vwcy5zcGFjaW5nLnNsaWNlKGxhc3ROZXdMaW5lID49IDAgPyBsYXN0TmV3TGluZSArIDEgOiAwKTtcbn1cbiJdLCJuYW1lcyI6WyJpbmZlckpTT05JbmRlbnQiLCJzcGFjaW5nUmVnZXgiLCJyYXdKU09OIiwibWF0Y2giLCJleGVjIiwiZ3JvdXBzIiwic3BhY2luZyIsImNvbnNvbGUiLCJ3YXJuIiwic2xpY2UiLCJsYXN0TmV3TGluZSIsImxhc3RJbmRleE9mIl0sIm1hcHBpbmdzIjoiOzs7OytCQUNnQkE7OztlQUFBQTs7O0FBRGhCLE1BQU1DLGVBQWU7QUFDZCxTQUFTRCxnQkFBZ0JFLE9BQWU7SUFDOUMsTUFBTUMsUUFBUUYsYUFBYUcsSUFBSSxDQUFDRjtJQUNoQyxJQUFJLENBQUNDLE9BQU9FLFFBQVFDLFNBQVM7UUFDNUIsc0NBQXNDO1FBQ3RDQyxRQUFRQyxJQUFJLENBQ1gsQ0FBQyxpREFBaUQsRUFBRU4sUUFBUU8sS0FBSyxDQUFDLElBQUksNkJBQTZCLENBQUM7UUFFckcsY0FBYztRQUNkLE9BQU87SUFDUjtJQUNBLE1BQU1ILFVBQVVILE1BQU1FLE1BQU0sQ0FBQ0MsT0FBTztJQUNwQyxvRUFBb0U7SUFDcEUsTUFBTUksY0FBY0osUUFBUUssV0FBVyxDQUFDO0lBQ3hDLE9BQU9SLE9BQU9FLE9BQU9DLFFBQVFHLE1BQU1DLGVBQWUsSUFBSUEsY0FBYyxJQUFJO0FBQ3pFIn0=
 
 /***/ }),
 
-/***/ 2277:
+/***/ 6257:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.syncResultsToMd = void 0;
-const template_sync_1 = __nccwpck_require__(3621);
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "syncResultsToMd", ({
+    enumerable: true,
+    get: function() {
+        return syncResultsToMd;
+    }
+}));
+const _templatesync = __nccwpck_require__(3166);
 function syncResultsToMd(result) {
-    return `# ${template_sync_1.TEMPLATE_SYNC_LOCAL_CONFIG} 
+    return `# ${_templatesync.TEMPLATE_SYNC_LOCAL_CONFIG} 
 
 ## Stopped the following files from syncing:
 
-${result.localSkipFiles.reduce((s, file) => {
+${result.localSkipFiles.reduce((s, file)=>{
         return `${s}* ${file}\n`;
     }, "")}
 
 ## Changed the following files from what they would have synced:
 
-${Object.keys(result.localFileChanges).reduce((s, file) => {
+${Object.keys(result.localFileChanges).reduce((s, file)=>{
         return `${s}${file}
 \`\`\`diff
-${result.localFileChanges[file].reduce((diffS, change) => {
+${result.localFileChanges[file].reduce((diffS, change)=>{
             return `${diffS}\n${makeChangeIntoDiffLines(change)}`;
         }, "")}
 \`\`\``;
@@ -2353,110 +2405,86 @@ ${result.localFileChanges[file].reduce((diffS, change) => {
 ## Files Modified (${result.modifiedFiles.total})
 
 Added:
-${result.modifiedFiles.added.reduce((s, f) => {
+${result.modifiedFiles.added.reduce((s, f)=>{
         return `${s}\n- ${f}`;
     }, "")}
 
 Modified:
-${result.modifiedFiles.modified.reduce((s, f) => {
+${result.modifiedFiles.modified.reduce((s, f)=>{
         return `${s}\n- ${f}`;
     }, "")}
 
 Deleted:
-${result.modifiedFiles.deleted.reduce((s, f) => {
+${result.modifiedFiles.deleted.reduce((s, f)=>{
         return `${s}\n- ${f}`;
     }, "")}
 `;
 }
-exports.syncResultsToMd = syncResultsToMd;
 function makeChangeIntoDiffLines(change, nonchangeMax = 3) {
     const operator = change.added ? "+" : change.removed ? "-" : "";
-    if (!operator &&
-        nonchangeMax > 0 &&
-        change.count &&
-        change.count > nonchangeMax) {
+    if (!operator && nonchangeMax > 0 && change.count && change.count > nonchangeMax) {
         const lines = change.value.split("\n");
         const partial = lines.slice(lines.length - nonchangeMax);
         return `...\n${partial.join("\n")}\n`;
     }
-    return change.value.split("\n").reduce((s, line) => {
+    return change.value.split("\n").reduce((s, line)=>{
         return `${s}${operator}${line}\n`;
     }, "");
 }
 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9mb3JtYXR0aW5nL3N5bmMtcmVzdWx0cy10by1tZC50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgdHlwZSB7IENoYW5nZSB9IGZyb20gXCJkaWZmXCI7XG5pbXBvcnQgdHlwZSB7IFRlbXBsYXRlU3luY1JldHVybiB9IGZyb20gXCIuLi90ZW1wbGF0ZS1zeW5jXCI7XG5pbXBvcnQgeyBURU1QTEFURV9TWU5DX0xPQ0FMX0NPTkZJRyB9IGZyb20gXCIuLi90ZW1wbGF0ZS1zeW5jXCI7XG5cbmV4cG9ydCBmdW5jdGlvbiBzeW5jUmVzdWx0c1RvTWQocmVzdWx0OiBUZW1wbGF0ZVN5bmNSZXR1cm4pIHtcblx0cmV0dXJuIGAjICR7VEVNUExBVEVfU1lOQ19MT0NBTF9DT05GSUd9IFxuXG4jIyBTdG9wcGVkIHRoZSBmb2xsb3dpbmcgZmlsZXMgZnJvbSBzeW5jaW5nOlxuXG4ke3Jlc3VsdC5sb2NhbFNraXBGaWxlcy5yZWR1Y2UoKHMsIGZpbGUpID0+IHtcblx0cmV0dXJuIGAke3N9KiAke2ZpbGV9XFxuYDtcbn0sIFwiXCIpfVxuXG4jIyBDaGFuZ2VkIHRoZSBmb2xsb3dpbmcgZmlsZXMgZnJvbSB3aGF0IHRoZXkgd291bGQgaGF2ZSBzeW5jZWQ6XG5cbiR7T2JqZWN0LmtleXMocmVzdWx0LmxvY2FsRmlsZUNoYW5nZXMpLnJlZHVjZSgocywgZmlsZSkgPT4ge1xuXHRyZXR1cm4gYCR7c30ke2ZpbGV9XG5cXGBcXGBcXGBkaWZmXG4ke3Jlc3VsdC5sb2NhbEZpbGVDaGFuZ2VzW2ZpbGVdLnJlZHVjZSgoZGlmZlMsIGNoYW5nZSkgPT4ge1xuXHRyZXR1cm4gYCR7ZGlmZlN9XFxuJHttYWtlQ2hhbmdlSW50b0RpZmZMaW5lcyhjaGFuZ2UpfWA7XG59LCBcIlwiKX1cblxcYFxcYFxcYGA7XG59LCBcIlwiKX1cblxuIyMgRmlsZXMgTW9kaWZpZWQgKCR7cmVzdWx0Lm1vZGlmaWVkRmlsZXMudG90YWx9KVxuXG5BZGRlZDpcbiR7cmVzdWx0Lm1vZGlmaWVkRmlsZXMuYWRkZWQucmVkdWNlKChzLCBmKSA9PiB7XG5cdHJldHVybiBgJHtzfVxcbi0gJHtmfWA7XG59LCBcIlwiKX1cblxuTW9kaWZpZWQ6XG4ke3Jlc3VsdC5tb2RpZmllZEZpbGVzLm1vZGlmaWVkLnJlZHVjZSgocywgZikgPT4ge1xuXHRyZXR1cm4gYCR7c31cXG4tICR7Zn1gO1xufSwgXCJcIil9XG5cbkRlbGV0ZWQ6XG4ke3Jlc3VsdC5tb2RpZmllZEZpbGVzLmRlbGV0ZWQucmVkdWNlKChzLCBmKSA9PiB7XG5cdHJldHVybiBgJHtzfVxcbi0gJHtmfWA7XG59LCBcIlwiKX1cbmA7XG59XG5cbmZ1bmN0aW9uIG1ha2VDaGFuZ2VJbnRvRGlmZkxpbmVzKGNoYW5nZTogQ2hhbmdlLCBub25jaGFuZ2VNYXggPSAzKSB7XG5cdGNvbnN0IG9wZXJhdG9yID0gY2hhbmdlLmFkZGVkID8gXCIrXCIgOiBjaGFuZ2UucmVtb3ZlZCA/IFwiLVwiIDogXCJcIjtcblxuXHRpZiAoXG5cdFx0IW9wZXJhdG9yICYmXG5cdFx0bm9uY2hhbmdlTWF4ID4gMCAmJlxuXHRcdGNoYW5nZS5jb3VudCAmJlxuXHRcdGNoYW5nZS5jb3VudCA+IG5vbmNoYW5nZU1heFxuXHQpIHtcblx0XHRjb25zdCBsaW5lcyA9IGNoYW5nZS52YWx1ZS5zcGxpdChcIlxcblwiKTtcblx0XHRjb25zdCBwYXJ0aWFsID0gbGluZXMuc2xpY2UobGluZXMubGVuZ3RoIC0gbm9uY2hhbmdlTWF4KTtcblx0XHRyZXR1cm4gYC4uLlxcbiR7cGFydGlhbC5qb2luKFwiXFxuXCIpfVxcbmA7XG5cdH1cblxuXHRyZXR1cm4gY2hhbmdlLnZhbHVlLnNwbGl0KFwiXFxuXCIpLnJlZHVjZSgocywgbGluZSkgPT4ge1xuXHRcdHJldHVybiBgJHtzfSR7b3BlcmF0b3J9JHtsaW5lfVxcbmA7XG5cdH0sIFwiXCIpO1xufVxuIl0sIm5hbWVzIjpbInN5bmNSZXN1bHRzVG9NZCIsInJlc3VsdCIsIlRFTVBMQVRFX1NZTkNfTE9DQUxfQ09ORklHIiwibG9jYWxTa2lwRmlsZXMiLCJyZWR1Y2UiLCJzIiwiZmlsZSIsIk9iamVjdCIsImtleXMiLCJsb2NhbEZpbGVDaGFuZ2VzIiwiZGlmZlMiLCJjaGFuZ2UiLCJtYWtlQ2hhbmdlSW50b0RpZmZMaW5lcyIsIm1vZGlmaWVkRmlsZXMiLCJ0b3RhbCIsImFkZGVkIiwiZiIsIm1vZGlmaWVkIiwiZGVsZXRlZCIsIm5vbmNoYW5nZU1heCIsIm9wZXJhdG9yIiwicmVtb3ZlZCIsImNvdW50IiwibGluZXMiLCJ2YWx1ZSIsInNwbGl0IiwicGFydGlhbCIsInNsaWNlIiwibGVuZ3RoIiwiam9pbiIsImxpbmUiXSwibWFwcGluZ3MiOiI7Ozs7K0JBSWdCQTs7O2VBQUFBOzs7OEJBRjJCO0FBRXBDLFNBQVNBLGdCQUFnQkMsTUFBMEI7SUFDekQsT0FBTyxDQUFDLEVBQUUsRUFBRUMsd0NBQTBCLENBQUM7Ozs7QUFJeEMsRUFBRUQsT0FBT0UsY0FBYyxDQUFDQyxNQUFNLENBQUMsQ0FBQ0MsR0FBR0M7UUFDbEMsT0FBTyxHQUFHRCxFQUFFLEVBQUUsRUFBRUMsS0FBSyxFQUFFLENBQUM7SUFDekIsR0FBRyxJQUFJOzs7O0FBSVAsRUFBRUMsT0FBT0MsSUFBSSxDQUFDUCxPQUFPUSxnQkFBZ0IsRUFBRUwsTUFBTSxDQUFDLENBQUNDLEdBQUdDO1FBQ2pELE9BQU8sR0FBR0QsSUFBSUMsS0FBSzs7QUFFcEIsRUFBRUwsT0FBT1EsZ0JBQWdCLENBQUNILEtBQUssQ0FBQ0YsTUFBTSxDQUFDLENBQUNNLE9BQU9DO1lBQzlDLE9BQU8sR0FBR0QsTUFBTSxFQUFFLEVBQUVFLHdCQUF3QkQsU0FBUztRQUN0RCxHQUFHLElBQUk7TUFDRCxDQUFDO0lBQ1AsR0FBRyxJQUFJOzttQkFFWSxFQUFFVixPQUFPWSxhQUFhLENBQUNDLEtBQUssQ0FBQzs7O0FBR2hELEVBQUViLE9BQU9ZLGFBQWEsQ0FBQ0UsS0FBSyxDQUFDWCxNQUFNLENBQUMsQ0FBQ0MsR0FBR1c7UUFDdkMsT0FBTyxHQUFHWCxFQUFFLElBQUksRUFBRVcsR0FBRztJQUN0QixHQUFHLElBQUk7OztBQUdQLEVBQUVmLE9BQU9ZLGFBQWEsQ0FBQ0ksUUFBUSxDQUFDYixNQUFNLENBQUMsQ0FBQ0MsR0FBR1c7UUFDMUMsT0FBTyxHQUFHWCxFQUFFLElBQUksRUFBRVcsR0FBRztJQUN0QixHQUFHLElBQUk7OztBQUdQLEVBQUVmLE9BQU9ZLGFBQWEsQ0FBQ0ssT0FBTyxDQUFDZCxNQUFNLENBQUMsQ0FBQ0MsR0FBR1c7UUFDekMsT0FBTyxHQUFHWCxFQUFFLElBQUksRUFBRVcsR0FBRztJQUN0QixHQUFHLElBQUk7QUFDUCxDQUFDO0FBQ0Q7QUFFQSxTQUFTSix3QkFBd0JELE1BQWMsRUFBRVEsZUFBZSxDQUFDO0lBQ2hFLE1BQU1DLFdBQVdULE9BQU9JLEtBQUssR0FBRyxNQUFNSixPQUFPVSxPQUFPLEdBQUcsTUFBTTtJQUU3RCxJQUNDLENBQUNELFlBQ0RELGVBQWUsS0FDZlIsT0FBT1csS0FBSyxJQUNaWCxPQUFPVyxLQUFLLEdBQUdILGNBQ2Q7UUFDRCxNQUFNSSxRQUFRWixPQUFPYSxLQUFLLENBQUNDLEtBQUssQ0FBQztRQUNqQyxNQUFNQyxVQUFVSCxNQUFNSSxLQUFLLENBQUNKLE1BQU1LLE1BQU0sR0FBR1Q7UUFDM0MsT0FBTyxDQUFDLEtBQUssRUFBRU8sUUFBUUcsSUFBSSxDQUFDLE1BQU0sRUFBRSxDQUFDO0lBQ3RDO0lBRUEsT0FBT2xCLE9BQU9hLEtBQUssQ0FBQ0MsS0FBSyxDQUFDLE1BQU1yQixNQUFNLENBQUMsQ0FBQ0MsR0FBR3lCO1FBQzFDLE9BQU8sR0FBR3pCLElBQUllLFdBQVdVLEtBQUssRUFBRSxDQUFDO0lBQ2xDLEdBQUc7QUFDSiJ9
 
 /***/ }),
 
-/***/ 8254:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ 2828:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
+Object.defineProperty(exports, "__esModule", ({
+    value: true
 }));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__nccwpck_require__(548), exports);
-__exportStar(__nccwpck_require__(3621), exports);
-__exportStar(__nccwpck_require__(3566), exports);
+_export_star(__nccwpck_require__(4175), exports);
+_export_star(__nccwpck_require__(3166), exports);
+_export_star(__nccwpck_require__(582), exports);
+function _export_star(from, to) {
+    Object.keys(from).forEach(function(k) {
+        if (k !== "default" && !Object.prototype.hasOwnProperty.call(to, k)) {
+            Object.defineProperty(to, k, {
+                enumerable: true,
+                get: function() {
+                    return from[k];
+                }
+            });
+        }
+    });
+    return from;
+}
 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9pbmRleC50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgKiBmcm9tIFwiLi9mb3JtYXR0aW5nXCI7XG5leHBvcnQgKiBmcm9tIFwiLi90ZW1wbGF0ZS1zeW5jXCI7XG5leHBvcnQgKiBmcm9tIFwiLi90eXBlc1wiO1xuIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7cUJBQWM7cUJBQ0E7cUJBQ0EifQ==
 
 /***/ }),
 
-/***/ 5339:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ 2619:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
+Object.defineProperty(exports, "__esModule", ({
+    value: true
 }));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.loadPlugin = void 0;
-const plugins_1 = __nccwpck_require__(9690);
-const fs_1 = __nccwpck_require__(7147);
-const path_1 = __nccwpck_require__(1017);
-/**
- * Loads the plugin associated with the merge config
- * @param mergeConfig
- * @param forExt
- * @param configDir
- * @returns
- */
+Object.defineProperty(exports, "loadPlugin", ({
+    enumerable: true,
+    get: function() {
+        return loadPlugin;
+    }
+}));
+const _fs = __nccwpck_require__(7147);
+const _path = __nccwpck_require__(1017);
+const _plugins = __nccwpck_require__(1107);
 async function loadPlugin(mergeConfig, configDir) {
     if (mergeConfig.plugin.startsWith("_")) {
-        const defaultHandler = Object.values(plugins_1.defaultExtensionMap).find((el) => el.builtinName === mergeConfig.plugin);
+        const defaultHandler = Object.values(_plugins.defaultExtensionMap).find((el)=>el.builtinName === mergeConfig.plugin);
         if (!defaultHandler) {
             throw new Error(`No builtin merge function supplied for ${mergeConfig.plugin}.  Cannot have merge config without custom plugin supplied.`);
         }
@@ -2464,179 +2492,174 @@ async function loadPlugin(mergeConfig, configDir) {
     }
     let handler;
     // First check if this is a local .js file
-    const localPath = (0, path_1.resolve)(configDir, mergeConfig.plugin);
-    const importPath = (0, fs_1.existsSync)(localPath) ? localPath : mergeConfig.plugin;
+    const localPath = (0, _path.resolve)(configDir, mergeConfig.plugin);
+    const importPath = (0, _fs.existsSync)(localPath) ? localPath : mergeConfig.plugin;
     try {
         // Sad workaround for testing since dynamic import segfaults
         if (process.env.JEST_WORKER_ID !== undefined) {
             // eslint-disable-next-line @typescript-eslint/no-var-requires
             handler = require(importPath);
-        }
-        else {
-            handler = (await Promise.resolve(`${importPath}`).then(s => __importStar(require(s))));
+        } else {
+            handler = await __nccwpck_require__(7036)(importPath);
         }
         if (!handler.merge) {
-            handler = handler
-                .default;
+            handler = handler.default;
         }
-    }
-    catch (err) {
+    } catch (err) {
         console.error(err);
         throw err;
     }
     return handler;
 }
-exports.loadPlugin = loadPlugin;
 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9sb2FkLXBsdWdpbi50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBleGlzdHNTeW5jIH0gZnJvbSBcImZzXCI7XG5pbXBvcnQgeyByZXNvbHZlIH0gZnJvbSBcInBhdGhcIjtcbmltcG9ydCB7IGRlZmF1bHRFeHRlbnNpb25NYXAgfSBmcm9tIFwiLi9wbHVnaW5zXCI7XG5pbXBvcnQgdHlwZSB7IE1lcmdlQ29uZmlnLCBNZXJnZVBsdWdpbiB9IGZyb20gXCIuL3R5cGVzXCI7XG5cbi8qKlxuICogTG9hZHMgdGhlIHBsdWdpbiBhc3NvY2lhdGVkIHdpdGggdGhlIG1lcmdlIGNvbmZpZ1xuICogQHBhcmFtIG1lcmdlQ29uZmlnXG4gKiBAcGFyYW0gZm9yRXh0XG4gKiBAcGFyYW0gY29uZmlnRGlyXG4gKiBAcmV0dXJuc1xuICovXG5leHBvcnQgYXN5bmMgZnVuY3Rpb24gbG9hZFBsdWdpbjxUPihcblx0bWVyZ2VDb25maWc6IE1lcmdlQ29uZmlnPFQ+LFxuXHRjb25maWdEaXI6IHN0cmluZyxcbik6IFByb21pc2U8TWVyZ2VQbHVnaW48VD4+IHtcblx0aWYgKG1lcmdlQ29uZmlnLnBsdWdpbi5zdGFydHNXaXRoKFwiX1wiKSkge1xuXHRcdGNvbnN0IGRlZmF1bHRIYW5kbGVyID0gT2JqZWN0LnZhbHVlcyhkZWZhdWx0RXh0ZW5zaW9uTWFwKS5maW5kKFxuXHRcdFx0KGVsKSA9PiBlbC5idWlsdGluTmFtZSA9PT0gbWVyZ2VDb25maWcucGx1Z2luLFxuXHRcdCk7XG5cdFx0aWYgKCFkZWZhdWx0SGFuZGxlcikge1xuXHRcdFx0dGhyb3cgbmV3IEVycm9yKFxuXHRcdFx0XHRgTm8gYnVpbHRpbiBtZXJnZSBmdW5jdGlvbiBzdXBwbGllZCBmb3IgJHttZXJnZUNvbmZpZy5wbHVnaW59LiAgQ2Fubm90IGhhdmUgbWVyZ2UgY29uZmlnIHdpdGhvdXQgY3VzdG9tIHBsdWdpbiBzdXBwbGllZC5gLFxuXHRcdFx0KTtcblx0XHR9XG5cdFx0cmV0dXJuIGRlZmF1bHRIYW5kbGVyIGFzIE1lcmdlUGx1Z2luPFQ+O1xuXHR9XG5cblx0bGV0IGhhbmRsZXI6IE1lcmdlUGx1Z2luPHVua25vd24+O1xuXHQvLyBGaXJzdCBjaGVjayBpZiB0aGlzIGlzIGEgbG9jYWwgLmpzIGZpbGVcblx0Y29uc3QgbG9jYWxQYXRoID0gcmVzb2x2ZShjb25maWdEaXIsIG1lcmdlQ29uZmlnLnBsdWdpbik7XG5cdGNvbnN0IGltcG9ydFBhdGggPSBleGlzdHNTeW5jKGxvY2FsUGF0aCkgPyBsb2NhbFBhdGggOiBtZXJnZUNvbmZpZy5wbHVnaW47XG5cdHRyeSB7XG5cdFx0Ly8gU2FkIHdvcmthcm91bmQgZm9yIHRlc3Rpbmcgc2luY2UgZHluYW1pYyBpbXBvcnQgc2VnZmF1bHRzXG5cdFx0aWYgKHByb2Nlc3MuZW52LkpFU1RfV09SS0VSX0lEICE9PSB1bmRlZmluZWQpIHtcblx0XHRcdC8vIGVzbGludC1kaXNhYmxlLW5leHQtbGluZSBAdHlwZXNjcmlwdC1lc2xpbnQvbm8tdmFyLXJlcXVpcmVzXG5cdFx0XHRoYW5kbGVyID0gcmVxdWlyZShpbXBvcnRQYXRoKSBhcyBNZXJnZVBsdWdpbjx1bmtub3duPjtcblx0XHR9IGVsc2Uge1xuXHRcdFx0aGFuZGxlciA9IChhd2FpdCBpbXBvcnQoaW1wb3J0UGF0aCkpIGFzIE1lcmdlUGx1Z2luPHVua25vd24+O1xuXHRcdH1cblx0XHRpZiAoIWhhbmRsZXIubWVyZ2UpIHtcblx0XHRcdGhhbmRsZXIgPSAoaGFuZGxlciBhcyB1bmtub3duIGFzIHsgZGVmYXVsdDogTWVyZ2VQbHVnaW48dW5rbm93bj4gfSlcblx0XHRcdFx0LmRlZmF1bHQ7XG5cdFx0fVxuXHR9IGNhdGNoIChlcnIpIHtcblx0XHRjb25zb2xlLmVycm9yKGVycik7XG5cdFx0dGhyb3cgZXJyO1xuXHR9XG5cblx0cmV0dXJuIGhhbmRsZXIgYXMgTWVyZ2VQbHVnaW48VD47XG59XG4iXSwibmFtZXMiOlsibG9hZFBsdWdpbiIsIm1lcmdlQ29uZmlnIiwiY29uZmlnRGlyIiwicGx1Z2luIiwic3RhcnRzV2l0aCIsImRlZmF1bHRIYW5kbGVyIiwiT2JqZWN0IiwidmFsdWVzIiwiZGVmYXVsdEV4dGVuc2lvbk1hcCIsImZpbmQiLCJlbCIsImJ1aWx0aW5OYW1lIiwiRXJyb3IiLCJoYW5kbGVyIiwibG9jYWxQYXRoIiwicmVzb2x2ZSIsImltcG9ydFBhdGgiLCJleGlzdHNTeW5jIiwicHJvY2VzcyIsImVudiIsIkpFU1RfV09SS0VSX0lEIiwidW5kZWZpbmVkIiwicmVxdWlyZSIsIm1lcmdlIiwiZGVmYXVsdCIsImVyciIsImNvbnNvbGUiLCJlcnJvciJdLCJtYXBwaW5ncyI6Ijs7OzsrQkFZc0JBOzs7ZUFBQUE7OztvQkFaSztzQkFDSDt5QkFDWTtBQVU3QixlQUFlQSxXQUNyQkMsV0FBMkIsRUFDM0JDLFNBQWlCO0lBRWpCLElBQUlELFlBQVlFLE1BQU0sQ0FBQ0MsVUFBVSxDQUFDLE1BQU07UUFDdkMsTUFBTUMsaUJBQWlCQyxPQUFPQyxNQUFNLENBQUNDLDRCQUFtQixFQUFFQyxJQUFJLENBQzdELENBQUNDLEtBQU9BLEdBQUdDLFdBQVcsS0FBS1YsWUFBWUUsTUFBTTtRQUU5QyxJQUFJLENBQUNFLGdCQUFnQjtZQUNwQixNQUFNLElBQUlPLE1BQ1QsQ0FBQyx1Q0FBdUMsRUFBRVgsWUFBWUUsTUFBTSxDQUFDLDJEQUEyRCxDQUFDO1FBRTNIO1FBQ0EsT0FBT0U7SUFDUjtJQUVBLElBQUlRO0lBQ0osMENBQTBDO0lBQzFDLE1BQU1DLFlBQVlDLElBQUFBLGFBQU8sRUFBQ2IsV0FBV0QsWUFBWUUsTUFBTTtJQUN2RCxNQUFNYSxhQUFhQyxJQUFBQSxjQUFVLEVBQUNILGFBQWFBLFlBQVliLFlBQVlFLE1BQU07SUFDekUsSUFBSTtRQUNILDREQUE0RDtRQUM1RCxJQUFJZSxRQUFRQyxHQUFHLENBQUNDLGNBQWMsS0FBS0MsV0FBVztZQUM3Qyw4REFBOEQ7WUFDOURSLFVBQVVTLFFBQVFOO1FBQ25CLE9BQU87WUFDTkgsVUFBVyxNQUFNLE1BQU0sQ0FBQ0c7UUFDekI7UUFDQSxJQUFJLENBQUNILFFBQVFVLEtBQUssRUFBRTtZQUNuQlYsVUFBVSxBQUFDQSxRQUNUVyxPQUFPO1FBQ1Y7SUFDRCxFQUFFLE9BQU9DLEtBQUs7UUFDYkMsUUFBUUMsS0FBSyxDQUFDRjtRQUNkLE1BQU1BO0lBQ1A7SUFFQSxPQUFPWjtBQUNSIn0=
 
 /***/ }),
 
-/***/ 7445:
+/***/ 7163:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getAllFilesInDir = exports.invertMatchPatterns = void 0;
-const fs_1 = __nccwpck_require__(7147);
-const micromatch_1 = __nccwpck_require__(6228);
-const path_1 = __nccwpck_require__(1017);
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+_export(exports, {
+    getAllFilesInDir: function() {
+        return getAllFilesInDir;
+    },
+    invertMatchPatterns: function() {
+        return invertMatchPatterns;
+    }
+});
+const _fs = __nccwpck_require__(7147);
+const _micromatch = __nccwpck_require__(6228);
+const _path = __nccwpck_require__(1017);
 function invertMatchPatterns(patterns) {
-    return patterns.map((pattern) => {
+    return patterns.map((pattern)=>{
         if (pattern.startsWith("!")) {
             return pattern.slice(1);
         }
         return `!${pattern}`;
     });
 }
-exports.invertMatchPatterns = invertMatchPatterns;
-/**
- * Gets all the files in the directory recursively while avoiding any micromatch patterns
- * that would match for ignoring
- *
- * @param dir
- * @param ignorePatterns
- * @returns
- */
 function getAllFilesInDir(dir, ignorePatterns) {
     return recurseDirsForFiles(dir, ignorePatterns);
 }
-exports.getAllFilesInDir = getAllFilesInDir;
 function recurseDirsForFiles(dirpath, ignorePatterns, relativeRoot = "") {
-    return (0, fs_1.readdirSync)(dirpath, {
-        withFileTypes: true,
-    }).reduce((files, f) => {
-        const relPath = (0, path_1.join)(relativeRoot, f.name);
-        if ((0, micromatch_1.some)(relPath, ignorePatterns)) {
+    return (0, _fs.readdirSync)(dirpath, {
+        withFileTypes: true
+    }).reduce((files, f)=>{
+        const relPath = (0, _path.join)(relativeRoot, f.name);
+        if ((0, _micromatch.some)(relPath, ignorePatterns)) {
             return files;
         }
         // Ensure we aren't ignoring these folders explicitly
         if (f.isDirectory()) {
-            files.push(...recurseDirsForFiles((0, path_1.join)(dirpath, f.name), ignorePatterns, relPath));
-        }
-        else {
+            files.push(...recurseDirsForFiles((0, _path.join)(dirpath, f.name), ignorePatterns, relPath));
+        } else {
             files.push(relPath);
         }
         return files;
     }, []);
 }
 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9tYXRjaC50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyByZWFkZGlyU3luYyB9IGZyb20gXCJmc1wiO1xuaW1wb3J0IHsgc29tZSB9IGZyb20gXCJtaWNyb21hdGNoXCI7XG5pbXBvcnQgeyBqb2luIH0gZnJvbSBcInBhdGhcIjtcblxuZXhwb3J0IGZ1bmN0aW9uIGludmVydE1hdGNoUGF0dGVybnMocGF0dGVybnM6IHN0cmluZ1tdKSB7XG5cdHJldHVybiBwYXR0ZXJucy5tYXAoKHBhdHRlcm4pID0+IHtcblx0XHRpZiAocGF0dGVybi5zdGFydHNXaXRoKFwiIVwiKSkge1xuXHRcdFx0cmV0dXJuIHBhdHRlcm4uc2xpY2UoMSk7XG5cdFx0fVxuXHRcdHJldHVybiBgISR7cGF0dGVybn1gO1xuXHR9KTtcbn1cblxuLyoqXG4gKiBHZXRzIGFsbCB0aGUgZmlsZXMgaW4gdGhlIGRpcmVjdG9yeSByZWN1cnNpdmVseSB3aGlsZSBhdm9pZGluZyBhbnkgbWljcm9tYXRjaCBwYXR0ZXJuc1xuICogdGhhdCB3b3VsZCBtYXRjaCBmb3IgaWdub3JpbmdcbiAqXG4gKiBAcGFyYW0gZGlyXG4gKiBAcGFyYW0gaWdub3JlUGF0dGVybnNcbiAqIEByZXR1cm5zXG4gKi9cbmV4cG9ydCBmdW5jdGlvbiBnZXRBbGxGaWxlc0luRGlyKFxuXHRkaXI6IHN0cmluZyxcblx0aWdub3JlUGF0dGVybnM6IHN0cmluZ1tdLFxuKTogc3RyaW5nW10ge1xuXHRyZXR1cm4gcmVjdXJzZURpcnNGb3JGaWxlcyhkaXIsIGlnbm9yZVBhdHRlcm5zKTtcbn1cblxuZnVuY3Rpb24gcmVjdXJzZURpcnNGb3JGaWxlcyhcblx0ZGlycGF0aDogc3RyaW5nLFxuXHRpZ25vcmVQYXR0ZXJuczogc3RyaW5nW10sXG5cdHJlbGF0aXZlUm9vdCA9IFwiXCIsXG4pOiBzdHJpbmdbXSB7XG5cdHJldHVybiByZWFkZGlyU3luYyhkaXJwYXRoLCB7XG5cdFx0d2l0aEZpbGVUeXBlczogdHJ1ZSxcblx0fSkucmVkdWNlKChmaWxlcywgZikgPT4ge1xuXHRcdGNvbnN0IHJlbFBhdGggPSBqb2luKHJlbGF0aXZlUm9vdCwgZi5uYW1lKTtcblx0XHRpZiAoc29tZShyZWxQYXRoLCBpZ25vcmVQYXR0ZXJucykpIHtcblx0XHRcdHJldHVybiBmaWxlcztcblx0XHR9XG5cblx0XHQvLyBFbnN1cmUgd2UgYXJlbid0IGlnbm9yaW5nIHRoZXNlIGZvbGRlcnMgZXhwbGljaXRseVxuXHRcdGlmIChmLmlzRGlyZWN0b3J5KCkpIHtcblx0XHRcdGZpbGVzLnB1c2goXG5cdFx0XHRcdC4uLnJlY3Vyc2VEaXJzRm9yRmlsZXMoam9pbihkaXJwYXRoLCBmLm5hbWUpLCBpZ25vcmVQYXR0ZXJucywgcmVsUGF0aCksXG5cdFx0XHQpO1xuXHRcdH0gZWxzZSB7XG5cdFx0XHRmaWxlcy5wdXNoKHJlbFBhdGgpO1xuXHRcdH1cblx0XHRyZXR1cm4gZmlsZXM7XG5cdH0sIFtdIGFzIHN0cmluZ1tdKTtcbn1cbiJdLCJuYW1lcyI6WyJnZXRBbGxGaWxlc0luRGlyIiwiaW52ZXJ0TWF0Y2hQYXR0ZXJucyIsInBhdHRlcm5zIiwibWFwIiwicGF0dGVybiIsInN0YXJ0c1dpdGgiLCJzbGljZSIsImRpciIsImlnbm9yZVBhdHRlcm5zIiwicmVjdXJzZURpcnNGb3JGaWxlcyIsImRpcnBhdGgiLCJyZWxhdGl2ZVJvb3QiLCJyZWFkZGlyU3luYyIsIndpdGhGaWxlVHlwZXMiLCJyZWR1Y2UiLCJmaWxlcyIsImYiLCJyZWxQYXRoIiwiam9pbiIsIm5hbWUiLCJzb21lIiwiaXNEaXJlY3RvcnkiLCJwdXNoIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7OztJQXFCZ0JBLGdCQUFnQjtlQUFoQkE7O0lBakJBQyxtQkFBbUI7ZUFBbkJBOzs7b0JBSlk7NEJBQ1A7c0JBQ0E7QUFFZCxTQUFTQSxvQkFBb0JDLFFBQWtCO0lBQ3JELE9BQU9BLFNBQVNDLEdBQUcsQ0FBQyxDQUFDQztRQUNwQixJQUFJQSxRQUFRQyxVQUFVLENBQUMsTUFBTTtZQUM1QixPQUFPRCxRQUFRRSxLQUFLLENBQUM7UUFDdEI7UUFDQSxPQUFPLENBQUMsQ0FBQyxFQUFFRixTQUFTO0lBQ3JCO0FBQ0Q7QUFVTyxTQUFTSixpQkFDZk8sR0FBVyxFQUNYQyxjQUF3QjtJQUV4QixPQUFPQyxvQkFBb0JGLEtBQUtDO0FBQ2pDO0FBRUEsU0FBU0Msb0JBQ1JDLE9BQWUsRUFDZkYsY0FBd0IsRUFDeEJHLGVBQWUsRUFBRTtJQUVqQixPQUFPQyxJQUFBQSxlQUFXLEVBQUNGLFNBQVM7UUFDM0JHLGVBQWU7SUFDaEIsR0FBR0MsTUFBTSxDQUFDLENBQUNDLE9BQU9DO1FBQ2pCLE1BQU1DLFVBQVVDLElBQUFBLFVBQUksRUFBQ1AsY0FBY0ssRUFBRUcsSUFBSTtRQUN6QyxJQUFJQyxJQUFBQSxnQkFBSSxFQUFDSCxTQUFTVCxpQkFBaUI7WUFDbEMsT0FBT087UUFDUjtRQUVBLHFEQUFxRDtRQUNyRCxJQUFJQyxFQUFFSyxXQUFXLElBQUk7WUFDcEJOLE1BQU1PLElBQUksSUFDTmIsb0JBQW9CUyxJQUFBQSxVQUFJLEVBQUNSLFNBQVNNLEVBQUVHLElBQUksR0FBR1gsZ0JBQWdCUztRQUVoRSxPQUFPO1lBQ05GLE1BQU1PLElBQUksQ0FBQ0w7UUFDWjtRQUNBLE9BQU9GO0lBQ1IsR0FBRyxFQUFFO0FBQ04ifQ==
 
 /***/ }),
 
-/***/ 3904:
+/***/ 3625:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.mergeFile = void 0;
-const micromatch_1 = __nccwpck_require__(6228);
-const path_1 = __nccwpck_require__(1017);
-const fs_1 = __nccwpck_require__(7147);
-const promises_1 = __nccwpck_require__(3292);
-const load_plugin_1 = __nccwpck_require__(5339);
-const diff_1 = __nccwpck_require__(1672);
-const fs_extra_1 = __nccwpck_require__(5630);
-/**
- * Applies the merge to a file according to the context information.
- *
- * Returns true if merged and false if skipped
- * @param relPath
- * @param context
- * @returns
- */
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "mergeFile", ({
+    enumerable: true,
+    get: function() {
+        return mergeFile;
+    }
+}));
+const _diff = __nccwpck_require__(1672);
+const _fs = __nccwpck_require__(7147);
+const _promises = __nccwpck_require__(3292);
+const _fsextra = __nccwpck_require__(5630);
+const _micromatch = __nccwpck_require__(6228);
+const _path = __nccwpck_require__(1017);
+const _loadplugin = __nccwpck_require__(2619);
 async function mergeFile(relPath, context) {
     const { localTemplateSyncConfig, templateSyncConfig, tempCloneDir, cwd } = context;
-    if ((0, micromatch_1.some)(relPath, localTemplateSyncConfig.ignore)) {
+    if ((0, _micromatch.some)(relPath, localTemplateSyncConfig.ignore)) {
         return {
-            ignoredDueToLocal: true,
+            ignoredDueToLocal: true
         };
     }
-    const ext = (0, path_1.extname)(relPath);
-    const filePath = (0, path_1.join)(cwd, relPath);
-    const templatePath = (0, path_1.join)(tempCloneDir, relPath);
+    const ext = (0, _path.extname)(relPath);
+    const filePath = (0, _path.join)(cwd, relPath);
+    const templatePath = (0, _path.join)(tempCloneDir, relPath);
     // Unless there's a need, we remove files that were deleted and don't pass them to plugins yet
     if (context.fileOperation === "deleted") {
-        if ((0, fs_1.existsSync)(filePath)) {
-            await (0, promises_1.rm)(filePath);
+        if ((0, _fs.existsSync)(filePath)) {
+            await (0, _promises.rm)(filePath);
         }
         return {
             ignoredDueToLocal: false,
-            localChanges: [],
+            localChanges: []
         };
     }
-    const mergeConfig = templateSyncConfig.merge?.find((mergeConfig) => (0, micromatch_1.isMatch)(relPath, mergeConfig.glob));
-    const localMergeConfig = localTemplateSyncConfig.merge?.find((mergeConfig) => (0, micromatch_1.isMatch)(relPath, mergeConfig.glob));
-    const mergeHandler = mergeConfig
-        ? await (0, load_plugin_1.loadPlugin)(mergeConfig, tempCloneDir)
-        : undefined;
-    const localMergeHandler = localMergeConfig
-        ? await (0, load_plugin_1.loadPlugin)(localMergeConfig, cwd)
-        : undefined;
+    const mergeConfig = templateSyncConfig.merge?.find((mc)=>(0, _micromatch.isMatch)(relPath, mc.glob));
+    const localMergeConfig = localTemplateSyncConfig.merge?.find((mc)=>(0, _micromatch.isMatch)(relPath, mc.glob));
+    const mergeHandler = mergeConfig ? await (0, _loadplugin.loadPlugin)(mergeConfig, tempCloneDir) : undefined;
+    const localMergeHandler = localMergeConfig ? await (0, _loadplugin.loadPlugin)(localMergeConfig, cwd) : undefined;
     // Either write the merge or write the file
     let fileContents;
     const localChanges = [];
-    if ((0, fs_1.existsSync)(filePath) && (mergeHandler || localMergeHandler)) {
-        const originalCurrentFile = (await (0, promises_1.readFile)(filePath)).toString();
+    if ((0, _fs.existsSync)(filePath) && (mergeHandler || localMergeHandler)) {
+        const originalCurrentFile = (await (0, _promises.readFile)(filePath)).toString();
         if (mergeHandler) {
-            fileContents = await safeMerge(mergeHandler, mergeConfig?.plugin ?? `default for ${ext}`, originalCurrentFile, (await (0, promises_1.readFile)(templatePath)).toString(), {
+            fileContents = await safeMerge(mergeHandler, mergeConfig?.plugin ?? `default for ${ext}`, originalCurrentFile, (await (0, _promises.readFile)(templatePath)).toString(), {
                 relFilePath: relPath,
                 mergeArguments: mergeConfig?.options ?? {},
-                isLocalOptions: false,
+                isLocalOptions: false
             });
-        }
-        else {
+        } else {
             // Apply overwrite if we didn't set up merge
-            fileContents = (await (0, promises_1.readFile)(templatePath)).toString();
+            fileContents = (await (0, _promises.readFile)(templatePath)).toString();
         }
         // We apply the localMerge Config to the fileContent output by the template merge
         if (localMergeHandler) {
             const localContents = await safeMerge(localMergeHandler, localMergeConfig?.plugin ?? `default for ${ext}`, originalCurrentFile, fileContents, {
                 relFilePath: relPath,
                 mergeArguments: localMergeConfig?.options ?? {},
-                isLocalOptions: true,
+                isLocalOptions: true
             });
-            localChanges.push(...(0, diff_1.diffLines)(fileContents, localContents));
+            localChanges.push(...(0, _diff.diffLines)(fileContents, localContents));
             fileContents = localContents;
         }
-    }
-    else {
+    } else {
         // Just perform simple overwrite
-        fileContents = (await (0, promises_1.readFile)(templatePath)).toString();
+        fileContents = (await (0, _promises.readFile)(templatePath)).toString();
     }
-    await (0, fs_extra_1.outputFile)(filePath, fileContents);
+    await (0, _fsextra.outputFile)(filePath, fileContents);
+    // Keep permission bits (e.g. executable scripts) in line with the template
+    await (0, _promises.chmod)(filePath, (await (0, _promises.stat)(templatePath)).mode & 0o777);
     return {
         ignoredDueToLocal: false,
-        localChanges,
+        localChanges
     };
 }
-exports.mergeFile = mergeFile;
 /**
  * Simple helper function to ensure that we don't let bad plugins corrupt the call flow
  * @param plugin
- */
-async function safeMerge(plugin, pluginPath, current, fromTemplate, context) {
+ */ async function safeMerge(plugin, pluginPath, current, fromTemplate, context) {
     const ret = await plugin.merge(current, fromTemplate, context);
     if (typeof ret !== "string") {
         throw new Error(`Plugin ${pluginPath} did not return string for merge function!  This is not allowed!`);
@@ -2647,69 +2670,111 @@ async function safeMerge(plugin, pluginPath, current, fromTemplate, context) {
     return ret;
 }
 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy9tZXJnZS1maWxlLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB0eXBlIHsgQ2hhbmdlIH0gZnJvbSBcImRpZmZcIjtcbmltcG9ydCB7IGRpZmZMaW5lcyB9IGZyb20gXCJkaWZmXCI7XG5pbXBvcnQgeyBleGlzdHNTeW5jIH0gZnJvbSBcImZzXCI7XG5pbXBvcnQgeyBjaG1vZCwgcmVhZEZpbGUsIHJtLCBzdGF0IH0gZnJvbSBcImZzL3Byb21pc2VzXCI7XG5pbXBvcnQgeyBvdXRwdXRGaWxlIH0gZnJvbSBcImZzLWV4dHJhXCI7XG5pbXBvcnQgeyBpc01hdGNoLCBzb21lIH0gZnJvbSBcIm1pY3JvbWF0Y2hcIjtcbmltcG9ydCB7IGV4dG5hbWUsIGpvaW4gfSBmcm9tIFwicGF0aFwiO1xuaW1wb3J0IHsgbG9hZFBsdWdpbiB9IGZyb20gXCIuL2xvYWQtcGx1Z2luXCI7XG5pbXBvcnQgdHlwZSB7IENvbmZpZywgRmlsZU9wZXJhdGlvbiwgTWVyZ2VDb250ZXh0LCBNZXJnZVBsdWdpbiB9IGZyb20gXCIuL3R5cGVzXCI7XG5cbmludGVyZmFjZSBNZXJnZUZpbGVPcHRpb25zIHtcblx0bG9jYWxUZW1wbGF0ZVN5bmNDb25maWc6IENvbmZpZztcblx0dGVtcGxhdGVTeW5jQ29uZmlnOiBDb25maWc7XG5cdHRlbXBDbG9uZURpcjogc3RyaW5nO1xuXHRjd2Q6IHN0cmluZztcblx0ZmlsZU9wZXJhdGlvbjogRmlsZU9wZXJhdGlvbjtcbn1cblxuaW50ZXJmYWNlIE1lcmdlRmlsZVJldHVybiB7XG5cdC8qKlxuXHQgKiBJZiB0aGUgZmlsZSB3YXMgaWdub3JlZCBkdWUgdG8gdGhlIGxvY2FsIGNvbmZpZ1xuXHQgKi9cblx0aWdub3JlZER1ZVRvTG9jYWw6IGJvb2xlYW47XG5cdC8qKlxuXHQgKiBPbmx5IGF2YWlsYWJsZSBpZiB0aGUgZmlsZSB3YXNuJ3QgaWdub3JlZCwgdGhpcyBpcyBhIGxpc3Qgb2YgbGluZURpZmZzXG5cdCAqIGZyb20gdGhlIGRpZmYgbGlicmFyeSB0aGF0IHdlcmUgYXBwbGllZCB0byB3aGF0IHdvdWxkJ3ZlIGJlZW4gY2hhbmdlZCBieVxuXHQgKiB0aGUgYmFzZSB0ZW1wbGF0ZXN5bmMgcmVwb1xuXHQgKi9cblx0bG9jYWxDaGFuZ2VzPzogQ2hhbmdlW107XG59XG5cbi8qKlxuICogQXBwbGllcyB0aGUgbWVyZ2UgdG8gYSBmaWxlIGFjY29yZGluZyB0byB0aGUgY29udGV4dCBpbmZvcm1hdGlvbi5cbiAqXG4gKiBSZXR1cm5zIHRydWUgaWYgbWVyZ2VkIGFuZCBmYWxzZSBpZiBza2lwcGVkXG4gKiBAcGFyYW0gcmVsUGF0aFxuICogQHBhcmFtIGNvbnRleHRcbiAqIEByZXR1cm5zXG4gKi9cbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBtZXJnZUZpbGUoXG5cdHJlbFBhdGg6IHN0cmluZyxcblx0Y29udGV4dDogTWVyZ2VGaWxlT3B0aW9ucyxcbik6IFByb21pc2U8TWVyZ2VGaWxlUmV0dXJuPiB7XG5cdGNvbnN0IHsgbG9jYWxUZW1wbGF0ZVN5bmNDb25maWcsIHRlbXBsYXRlU3luY0NvbmZpZywgdGVtcENsb25lRGlyLCBjd2QgfSA9XG5cdFx0Y29udGV4dDtcblxuXHRpZiAoc29tZShyZWxQYXRoLCBsb2NhbFRlbXBsYXRlU3luY0NvbmZpZy5pZ25vcmUpKSB7XG5cdFx0cmV0dXJuIHtcblx0XHRcdGlnbm9yZWREdWVUb0xvY2FsOiB0cnVlLFxuXHRcdH07XG5cdH1cblxuXHRjb25zdCBleHQgPSBleHRuYW1lKHJlbFBhdGgpO1xuXHRjb25zdCBmaWxlUGF0aCA9IGpvaW4oY3dkLCByZWxQYXRoKTtcblx0Y29uc3QgdGVtcGxhdGVQYXRoID0gam9pbih0ZW1wQ2xvbmVEaXIsIHJlbFBhdGgpO1xuXG5cdC8vIFVubGVzcyB0aGVyZSdzIGEgbmVlZCwgd2UgcmVtb3ZlIGZpbGVzIHRoYXQgd2VyZSBkZWxldGVkIGFuZCBkb24ndCBwYXNzIHRoZW0gdG8gcGx1Z2lucyB5ZXRcblx0aWYgKGNvbnRleHQuZmlsZU9wZXJhdGlvbiA9PT0gXCJkZWxldGVkXCIpIHtcblx0XHRpZiAoZXhpc3RzU3luYyhmaWxlUGF0aCkpIHtcblx0XHRcdGF3YWl0IHJtKGZpbGVQYXRoKTtcblx0XHR9XG5cdFx0cmV0dXJuIHtcblx0XHRcdGlnbm9yZWREdWVUb0xvY2FsOiBmYWxzZSxcblx0XHRcdGxvY2FsQ2hhbmdlczogW10sXG5cdFx0fTtcblx0fVxuXG5cdGNvbnN0IG1lcmdlQ29uZmlnID0gdGVtcGxhdGVTeW5jQ29uZmlnLm1lcmdlPy5maW5kKChtYykgPT5cblx0XHRpc01hdGNoKHJlbFBhdGgsIG1jLmdsb2IpLFxuXHQpO1xuXHRjb25zdCBsb2NhbE1lcmdlQ29uZmlnID0gbG9jYWxUZW1wbGF0ZVN5bmNDb25maWcubWVyZ2U/LmZpbmQoKG1jKSA9PlxuXHRcdGlzTWF0Y2gocmVsUGF0aCwgbWMuZ2xvYiksXG5cdCk7XG5cblx0Y29uc3QgbWVyZ2VIYW5kbGVyID0gbWVyZ2VDb25maWdcblx0XHQ/IGF3YWl0IGxvYWRQbHVnaW4obWVyZ2VDb25maWcsIHRlbXBDbG9uZURpcilcblx0XHQ6IHVuZGVmaW5lZDtcblx0Y29uc3QgbG9jYWxNZXJnZUhhbmRsZXIgPSBsb2NhbE1lcmdlQ29uZmlnXG5cdFx0PyBhd2FpdCBsb2FkUGx1Z2luKGxvY2FsTWVyZ2VDb25maWcsIGN3ZClcblx0XHQ6IHVuZGVmaW5lZDtcblxuXHQvLyBFaXRoZXIgd3JpdGUgdGhlIG1lcmdlIG9yIHdyaXRlIHRoZSBmaWxlXG5cdGxldCBmaWxlQ29udGVudHM6IHN0cmluZztcblx0Y29uc3QgbG9jYWxDaGFuZ2VzOiBDaGFuZ2VbXSA9IFtdO1xuXHRpZiAoZXhpc3RzU3luYyhmaWxlUGF0aCkgJiYgKG1lcmdlSGFuZGxlciB8fCBsb2NhbE1lcmdlSGFuZGxlcikpIHtcblx0XHRjb25zdCBvcmlnaW5hbEN1cnJlbnRGaWxlID0gKGF3YWl0IHJlYWRGaWxlKGZpbGVQYXRoKSkudG9TdHJpbmcoKTtcblx0XHRpZiAobWVyZ2VIYW5kbGVyKSB7XG5cdFx0XHRmaWxlQ29udGVudHMgPSBhd2FpdCBzYWZlTWVyZ2UoXG5cdFx0XHRcdG1lcmdlSGFuZGxlcixcblx0XHRcdFx0bWVyZ2VDb25maWc/LnBsdWdpbiA/PyBgZGVmYXVsdCBmb3IgJHtleHR9YCxcblx0XHRcdFx0b3JpZ2luYWxDdXJyZW50RmlsZSxcblx0XHRcdFx0KGF3YWl0IHJlYWRGaWxlKHRlbXBsYXRlUGF0aCkpLnRvU3RyaW5nKCksXG5cdFx0XHRcdHtcblx0XHRcdFx0XHRyZWxGaWxlUGF0aDogcmVsUGF0aCxcblx0XHRcdFx0XHRtZXJnZUFyZ3VtZW50czogbWVyZ2VDb25maWc/Lm9wdGlvbnMgPz8ge30sXG5cdFx0XHRcdFx0aXNMb2NhbE9wdGlvbnM6IGZhbHNlLFxuXHRcdFx0XHR9LFxuXHRcdFx0KTtcblx0XHR9IGVsc2Uge1xuXHRcdFx0Ly8gQXBwbHkgb3ZlcndyaXRlIGlmIHdlIGRpZG4ndCBzZXQgdXAgbWVyZ2Vcblx0XHRcdGZpbGVDb250ZW50cyA9IChhd2FpdCByZWFkRmlsZSh0ZW1wbGF0ZVBhdGgpKS50b1N0cmluZygpO1xuXHRcdH1cblxuXHRcdC8vIFdlIGFwcGx5IHRoZSBsb2NhbE1lcmdlIENvbmZpZyB0byB0aGUgZmlsZUNvbnRlbnQgb3V0cHV0IGJ5IHRoZSB0ZW1wbGF0ZSBtZXJnZVxuXHRcdGlmIChsb2NhbE1lcmdlSGFuZGxlcikge1xuXHRcdFx0Y29uc3QgbG9jYWxDb250ZW50cyA9IGF3YWl0IHNhZmVNZXJnZShcblx0XHRcdFx0bG9jYWxNZXJnZUhhbmRsZXIsXG5cdFx0XHRcdGxvY2FsTWVyZ2VDb25maWc/LnBsdWdpbiA/PyBgZGVmYXVsdCBmb3IgJHtleHR9YCxcblx0XHRcdFx0b3JpZ2luYWxDdXJyZW50RmlsZSxcblx0XHRcdFx0ZmlsZUNvbnRlbnRzLFxuXHRcdFx0XHR7XG5cdFx0XHRcdFx0cmVsRmlsZVBhdGg6IHJlbFBhdGgsXG5cdFx0XHRcdFx0bWVyZ2VBcmd1bWVudHM6IGxvY2FsTWVyZ2VDb25maWc/Lm9wdGlvbnMgPz8ge30sXG5cdFx0XHRcdFx0aXNMb2NhbE9wdGlvbnM6IHRydWUsXG5cdFx0XHRcdH0sXG5cdFx0XHQpO1xuXHRcdFx0bG9jYWxDaGFuZ2VzLnB1c2goLi4uZGlmZkxpbmVzKGZpbGVDb250ZW50cywgbG9jYWxDb250ZW50cykpO1xuXHRcdFx0ZmlsZUNvbnRlbnRzID0gbG9jYWxDb250ZW50cztcblx0XHR9XG5cdH0gZWxzZSB7XG5cdFx0Ly8gSnVzdCBwZXJmb3JtIHNpbXBsZSBvdmVyd3JpdGVcblx0XHRmaWxlQ29udGVudHMgPSAoYXdhaXQgcmVhZEZpbGUodGVtcGxhdGVQYXRoKSkudG9TdHJpbmcoKTtcblx0fVxuXHRhd2FpdCBvdXRwdXRGaWxlKGZpbGVQYXRoLCBmaWxlQ29udGVudHMpO1xuXHQvLyBLZWVwIHBlcm1pc3Npb24gYml0cyAoZS5nLiBleGVjdXRhYmxlIHNjcmlwdHMpIGluIGxpbmUgd2l0aCB0aGUgdGVtcGxhdGVcblx0YXdhaXQgY2htb2QoZmlsZVBhdGgsIChhd2FpdCBzdGF0KHRlbXBsYXRlUGF0aCkpLm1vZGUgJiAwbzc3Nyk7XG5cdHJldHVybiB7XG5cdFx0aWdub3JlZER1ZVRvTG9jYWw6IGZhbHNlLFxuXHRcdGxvY2FsQ2hhbmdlcyxcblx0fTtcbn1cblxuLyoqXG4gKiBTaW1wbGUgaGVscGVyIGZ1bmN0aW9uIHRvIGVuc3VyZSB0aGF0IHdlIGRvbid0IGxldCBiYWQgcGx1Z2lucyBjb3JydXB0IHRoZSBjYWxsIGZsb3dcbiAqIEBwYXJhbSBwbHVnaW5cbiAqL1xuYXN5bmMgZnVuY3Rpb24gc2FmZU1lcmdlKFxuXHRwbHVnaW46IE1lcmdlUGx1Z2luPHVua25vd24+LFxuXHRwbHVnaW5QYXRoOiBzdHJpbmcsXG5cdGN1cnJlbnQ6IHN0cmluZyxcblx0ZnJvbVRlbXBsYXRlOiBzdHJpbmcsXG5cdGNvbnRleHQ6IE1lcmdlQ29udGV4dCxcbikge1xuXHRjb25zdCByZXQgPSBhd2FpdCBwbHVnaW4ubWVyZ2UoY3VycmVudCwgZnJvbVRlbXBsYXRlLCBjb250ZXh0KTtcblx0aWYgKHR5cGVvZiByZXQgIT09IFwic3RyaW5nXCIpIHtcblx0XHR0aHJvdyBuZXcgRXJyb3IoXG5cdFx0XHRgUGx1Z2luICR7cGx1Z2luUGF0aH0gZGlkIG5vdCByZXR1cm4gc3RyaW5nIGZvciBtZXJnZSBmdW5jdGlvbiEgIFRoaXMgaXMgbm90IGFsbG93ZWQhYCxcblx0XHQpO1xuXHR9XG5cblx0aWYgKCFyZXQpIHtcblx0XHR0aHJvdyBuZXcgRXJyb3IoXG5cdFx0XHRgUGx1Z2luICR7cGx1Z2luUGF0aH0gc2hvdWxkIG5vdCBtYWtlIGEgbWVyZ2UgYmUgYW4gZW1wdHkgc3RyaW5nIWAsXG5cdFx0KTtcblx0fVxuXHRyZXR1cm4gcmV0IGFzIHN0cmluZztcbn1cbiJdLCJuYW1lcyI6WyJtZXJnZUZpbGUiLCJyZWxQYXRoIiwiY29udGV4dCIsImxvY2FsVGVtcGxhdGVTeW5jQ29uZmlnIiwidGVtcGxhdGVTeW5jQ29uZmlnIiwidGVtcENsb25lRGlyIiwiY3dkIiwic29tZSIsImlnbm9yZSIsImlnbm9yZWREdWVUb0xvY2FsIiwiZXh0IiwiZXh0bmFtZSIsImZpbGVQYXRoIiwiam9pbiIsInRlbXBsYXRlUGF0aCIsImZpbGVPcGVyYXRpb24iLCJleGlzdHNTeW5jIiwicm0iLCJsb2NhbENoYW5nZXMiLCJtZXJnZUNvbmZpZyIsIm1lcmdlIiwiZmluZCIsIm1jIiwiaXNNYXRjaCIsImdsb2IiLCJsb2NhbE1lcmdlQ29uZmlnIiwibWVyZ2VIYW5kbGVyIiwibG9hZFBsdWdpbiIsInVuZGVmaW5lZCIsImxvY2FsTWVyZ2VIYW5kbGVyIiwiZmlsZUNvbnRlbnRzIiwib3JpZ2luYWxDdXJyZW50RmlsZSIsInJlYWRGaWxlIiwidG9TdHJpbmciLCJzYWZlTWVyZ2UiLCJwbHVnaW4iLCJyZWxGaWxlUGF0aCIsIm1lcmdlQXJndW1lbnRzIiwib3B0aW9ucyIsImlzTG9jYWxPcHRpb25zIiwibG9jYWxDb250ZW50cyIsInB1c2giLCJkaWZmTGluZXMiLCJvdXRwdXRGaWxlIiwiY2htb2QiLCJzdGF0IiwibW9kZSIsInBsdWdpblBh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
 
 /***/ }),
 
-/***/ 9690:
+/***/ 1107:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.defaultExtensionMap = void 0;
-const json_merge_1 = __nccwpck_require__(8127);
-exports.defaultExtensionMap = {
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "defaultExtensionMap", ({
+    enumerable: true,
+    get: function() {
+        return defaultExtensionMap;
+    }
+}));
+const _jsonmerge = __nccwpck_require__(3813);
+const defaultExtensionMap = {
     ".json": {
-        merge: json_merge_1.merge,
-        validate: json_merge_1.validate,
-        builtinName: "_json",
-    },
+        merge: _jsonmerge.merge,
+        validate: _jsonmerge.validate,
+        builtinName: "_json"
+    }
 };
 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9wbHVnaW5zL2luZGV4LnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB0eXBlIHsgSnNvbkZpbGVNZXJnZU9wdGlvbnMsIE1lcmdlUGx1Z2luIH0gZnJvbSBcIi4uL3R5cGVzXCI7XG5pbXBvcnQgeyBtZXJnZSBhcyBqc29uTWVyZ2UsIHZhbGlkYXRlIGFzIGpzb25WYWxpZGF0ZSB9IGZyb20gXCIuL2pzb24tbWVyZ2VcIjtcblxuZXhwb3J0IGNvbnN0IGRlZmF1bHRFeHRlbnNpb25NYXAgPSB7XG5cdFwiLmpzb25cIjoge1xuXHRcdG1lcmdlOiBqc29uTWVyZ2UsXG5cdFx0dmFsaWRhdGU6IGpzb25WYWxpZGF0ZSxcblx0XHRidWlsdGluTmFtZTogXCJfanNvblwiLFxuXHR9LFxufSBhcyB7XG5cdFtleHQ6IHN0cmluZ106IE1lcmdlUGx1Z2luPEpzb25GaWxlTWVyZ2VPcHRpb25zPiAmIHsgYnVpbHRpbk5hbWU6IHN0cmluZyB9O1xufTtcbiJdLCJuYW1lcyI6WyJkZWZhdWx0RXh0ZW5zaW9uTWFwIiwibWVyZ2UiLCJqc29uTWVyZ2UiLCJ2YWxpZGF0ZSIsImpzb25WYWxpZGF0ZSIsImJ1aWx0aW5OYW1lIl0sIm1hcHBpbmdzIjoiOzs7OytCQUdhQTs7O2VBQUFBOzs7MkJBRmdEO0FBRXRELE1BQU1BLHNCQUFzQjtJQUNsQyxTQUFTO1FBQ1JDLE9BQU9DLGdCQUFTO1FBQ2hCQyxVQUFVQyxtQkFBWTtRQUN0QkMsYUFBYTtJQUNkO0FBQ0QifQ==
 
 /***/ }),
 
-/***/ 8127:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ 3813:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
+Object.defineProperty(exports, "__esModule", ({
+    value: true
 }));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+_export(exports, {
+    merge: function() {
+        return merge;
+    },
+    validate: function() {
+        return validate;
+    }
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.merge = exports.validate = void 0;
-const lodash_merge_1 = __importDefault(__nccwpck_require__(6247));
-const jsonpath_1 = __importDefault(__nccwpck_require__(4378));
-const infer_json_indent_1 = __nccwpck_require__(5124);
-const commentJSON = __importStar(__nccwpck_require__(3165));
+const _commentjson = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(3165));
+const _jsonpath = /*#__PURE__*/ _interop_require_default(__nccwpck_require__(4378));
+const _lodashmerge = /*#__PURE__*/ _interop_require_default(__nccwpck_require__(6247));
+const _inferjsonindent = __nccwpck_require__(661);
+function _interop_require_default(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
 function stringOptionError(value) {
-    if (value === "overwrite" ||
-        value === "merge-template" ||
-        value === "merge-current") {
+    if (value === "overwrite" || value === "merge-template" || value === "merge-current") {
         return;
     }
     return `${value} must be one of type overwrite, merge-template, or merge-current`;
@@ -2723,8 +2788,7 @@ function validate(options) {
             errors.push(errMsg);
         }
         return errors;
-    }
-    else {
+    } else {
         if (typeof options !== "object") {
             errors.push(`Options must be an object and not ${typeof options}`);
             return errors;
@@ -2740,29 +2804,26 @@ function validate(options) {
     }
     const optionsCast = options;
     const optionKeys = Object.keys(optionsCast);
-    optionKeys.forEach((k) => {
+    optionKeys.forEach((k)=>{
         if (k === "paths") {
-            optionsCast.paths.forEach((pathObj) => {
-                const [jsonPath, options] = pathObj;
+            optionsCast.paths.forEach((pathObj)=>{
+                const [jsonPath, opts] = pathObj;
                 if (jsonPath.startsWith("$.")) {
                     try {
-                        jsonpath_1.default.parse(jsonPath);
-                    }
-                    catch (err) {
+                        _jsonpath.default.parse(jsonPath);
+                    } catch (err) {
                         errors.push(`Invalid jsonpath key: ${err}`);
                         return;
                     }
-                    const errMsg = stringOptionError(options);
+                    const errMsg = stringOptionError(opts);
                     if (errMsg) {
                         errors.push(`jsonpath ${jsonPath}: ${errMsg}`);
                     }
-                }
-                else {
+                } else {
                     errors.push(`Unrecognized jsonpath syntax: ${jsonPath}`);
                 }
             });
-        }
-        else {
+        } else {
             if (k === "ignoreNewProperties" || k === "missingIsDelete") {
                 return;
             }
@@ -2771,88 +2832,80 @@ function validate(options) {
     });
     return errors;
 }
-exports.validate = validate;
 async function merge(current, fromTemplateRepo, context) {
     if (context.mergeArguments === "overwrite") {
         return fromTemplateRepo;
     }
-    const currentJson = commentJSON.parse(current);
-    const fromTemplateJson = commentJSON.parse(fromTemplateRepo);
+    const currentJson = _commentjson.parse(current);
+    const fromTemplateJson = _commentjson.parse(fromTemplateRepo);
     if (context.mergeArguments === "merge-current") {
         // Performs Lodash Merge with current as the override
-        return commentJSON.stringify((0, lodash_merge_1.default)(fromTemplateJson, currentJson), null, (0, infer_json_indent_1.inferJSONIndent)(current));
+        return _commentjson.stringify((0, _lodashmerge.default)(fromTemplateJson, currentJson), null, (0, _inferjsonindent.inferJSONIndent)(current));
     }
     if (context.mergeArguments === "merge-template") {
         // Performs Lodash Merge with current as the override
-        return commentJSON.stringify((0, lodash_merge_1.default)(currentJson, fromTemplateJson), null, (0, infer_json_indent_1.inferJSONIndent)(current));
+        return _commentjson.stringify((0, _lodashmerge.default)(currentJson, fromTemplateJson), null, (0, _inferjsonindent.inferJSONIndent)(current));
     }
     const { missingIsDelete, ignoreNewProperties, paths } = context.mergeArguments;
-    const returnJson = commentJSON.parse(current);
-    paths.forEach((p) => {
+    const returnJson = _commentjson.parse(current);
+    paths.forEach((p)=>{
         const [jPath, overrideType] = p;
         const fromTemplatePaths = new Map();
         if (overrideType === "merge-template") {
             // We want to make sure there aren't extra paths from the template that didn't get added
-            jsonpath_1.default.nodes(fromTemplateJson, jPath).forEach((n) => {
-                fromTemplatePaths.set(jsonpath_1.default.stringify(n.path), n.path);
+            _jsonpath.default.nodes(fromTemplateJson, jPath).forEach((n)=>{
+                fromTemplatePaths.set(_jsonpath.default.stringify(n.path), n.path);
             });
         }
-        jsonpath_1.default.nodes(currentJson, jPath).forEach(({ path, value }) => {
+        _jsonpath.default.nodes(currentJson, jPath).forEach(({ path, value })=>{
             // This solves for wildcard operators
-            const fullPath = jsonpath_1.default.stringify(path);
+            const fullPath = _jsonpath.default.stringify(path);
             // track the paths in the template we've walked
             fromTemplatePaths.delete(fullPath);
-            jsonpath_1.default.apply(returnJson, fullPath, () => {
-                const templateValue = jsonpath_1.default.value(fromTemplateJson, fullPath);
+            _jsonpath.default.apply(returnJson, fullPath, ()=>{
+                const templateValue = _jsonpath.default.value(fromTemplateJson, fullPath);
                 if (overrideType === "merge-template") {
                     if (templateValue === undefined) {
                         if (missingIsDelete) {
                             return templateValue;
                         }
-                    }
-                    else {
+                    } else {
                         return applyValueMerge(value, templateValue);
                     }
-                }
-                else if (overrideType === "merge-current") {
+                } else if (overrideType === "merge-current") {
                     return applyValueMerge(templateValue, value);
-                }
-                else if (overrideType === "overwrite") {
+                } else if (overrideType === "overwrite") {
                     if (templateValue !== undefined || missingIsDelete) {
                         return templateValue;
                     }
-                }
-                else {
+                } else {
                     throw new Error(`Unexpected JsonPath merge value ${overrideType}`);
                 }
                 return value;
             });
         });
         if (!ignoreNewProperties) {
-            for (const fromTemplatePath of fromTemplatePaths.values()) {
+            for (const fromTemplatePath of fromTemplatePaths.values()){
                 applyPerPath(fromTemplatePath, returnJson, fromTemplateJson);
             }
         }
     });
     if (!ignoreNewProperties) {
-        Object.keys(fromTemplateJson).forEach((key) => {
+        Object.keys(fromTemplateJson).forEach((key)=>{
             if (!returnJson[key]) {
                 returnJson[key] = fromTemplateJson[key];
             }
         });
     }
-    return commentJSON.stringify(returnJson, null, (0, infer_json_indent_1.inferJSONIndent)(current));
+    return _commentjson.stringify(returnJson, null, (0, _inferjsonindent.inferJSONIndent)(current));
 }
-exports.merge = merge;
 /**
  * A merge from a template to template perspective is either melding objects
  * or completely overwriting primitive types
- */
-function applyValueMerge(base, toMerge) {
+ */ function applyValueMerge(base, toMerge) {
     if (typeof base === "object" && typeof toMerge === "object") {
-        return (0, lodash_merge_1.default)(base, toMerge);
-    }
-    else {
+        return (0, _lodashmerge.default)(base, toMerge);
+    } else {
         return toMerge;
     }
 }
@@ -2864,11 +2917,8 @@ function applyValueMerge(base, toMerge) {
  * @param onto
  * @param map
  * @param forIdx
- */
-function applyPerPath(nodePath, 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-onto, 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ */ function applyPerPath(nodePath, // eslint-disable-next-line @typescript-eslint/no-explicit-any
+onto, // eslint-disable-next-line @typescript-eslint/no-explicit-any
 map, forIdx = 0) {
     if (nodePath[forIdx] === "$") {
         applyPerPath(nodePath, onto, map, forIdx + 1);
@@ -2882,130 +2932,172 @@ map, forIdx = 0) {
     onto[selector] = map[selector];
 }
 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9wbHVnaW5zL2pzb24tbWVyZ2UudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0ICogYXMgY29tbWVudEpTT04gZnJvbSBcImNvbW1lbnQtanNvblwiO1xuaW1wb3J0IHR5cGUgeyBQYXRoQ29tcG9uZW50IH0gZnJvbSBcImpzb25wYXRoXCI7XG5pbXBvcnQganAgZnJvbSBcImpzb25wYXRoXCI7XG5pbXBvcnQgbG9kYXNoTWVyZ2UgZnJvbSBcImxvZGFzaC5tZXJnZVwiO1xuaW1wb3J0IHsgaW5mZXJKU09OSW5kZW50IH0gZnJvbSBcIi4uL2Zvcm1hdHRpbmcvaW5mZXItanNvbi1pbmRlbnRcIjtcbmltcG9ydCB0eXBlIHtcblx0SnNvbkZpbGVNZXJnZU9wdGlvbnMsXG5cdEpzb25QYXRoT3ZlcnJpZGVzLFxuXHRNZXJnZUNvbnRleHQsXG59IGZyb20gXCIuLi90eXBlc1wiO1xuXG5mdW5jdGlvbiBzdHJpbmdPcHRpb25FcnJvcih2YWx1ZTogc3RyaW5nKSB7XG5cdGlmIChcblx0XHR2YWx1ZSA9PT0gXCJvdmVyd3JpdGVcIiB8fFxuXHRcdHZhbHVlID09PSBcIm1lcmdlLXRlbXBsYXRlXCIgfHxcblx0XHR2YWx1ZSA9PT0gXCJtZXJnZS1jdXJyZW50XCJcblx0KSB7XG5cdFx0cmV0dXJuO1xuXHR9XG5cdHJldHVybiBgJHt2YWx1ZX0gbXVzdCBiZSBvbmUgb2YgdHlwZSBvdmVyd3JpdGUsIG1lcmdlLXRlbXBsYXRlLCBvciBtZXJnZS1jdXJyZW50YDtcbn1cblxuZXhwb3J0IGZ1bmN0aW9uIHZhbGlkYXRlKG9wdGlvbnM6IHVua25vd24pIHtcblx0Y29uc3QgZXJyb3JzOiBzdHJpbmdbXSA9IFtdO1xuXG5cdC8vIGNoZWNrIGZvciBmbGF0IG9wdGlvbnNcblx0aWYgKHR5cGVvZiBvcHRpb25zID09PSBcInN0cmluZ1wiKSB7XG5cdFx0Y29uc3QgZXJyTXNnID0gc3RyaW5nT3B0aW9uRXJyb3Iob3B0aW9ucyk7XG5cdFx0aWYgKGVyck1zZykge1xuXHRcdFx0ZXJyb3JzLnB1c2goZXJyTXNnKTtcblx0XHR9XG5cdFx0cmV0dXJuIGVycm9ycztcblx0fSBlbHNlIHtcblx0XHRpZiAodHlwZW9mIG9wdGlvbnMgIT09IFwib2JqZWN0XCIpIHtcblx0XHRcdGVycm9ycy5wdXNoKGBPcHRpb25zIG11c3QgYmUgYW4gb2JqZWN0IGFuZCBub3QgJHt0eXBlb2Ygb3B0aW9uc31gKTtcblx0XHRcdHJldHVybiBlcnJvcnM7XG5cdFx0fVxuXG5cdFx0aWYgKEFycmF5LmlzQXJyYXkob3B0aW9ucykpIHtcblx0XHRcdGVycm9ycy5wdXNoKGBPcHRpb25zIG11c3QgYmUgYW4gb2JqZWN0IGFuZCBub3QgQXJyYXlgKTtcblx0XHRcdHJldHVybiBlcnJvcnM7XG5cdFx0fVxuXG5cdFx0aWYgKG9wdGlvbnMgPT09IG51bGwpIHtcblx0XHRcdGVycm9ycy5wdXNoKFwiT3B0aW9ucyBjYW5ub3QgYmUgbnVsbFwiKTtcblx0XHRcdHJldHVybiBlcnJvcnM7XG5cdFx0fVxuXHR9XG5cblx0Y29uc3Qgb3B0aW9uc0Nhc3QgPSBvcHRpb25zIGFzIEpzb25QYXRoT3ZlcnJpZGVzO1xuXHRjb25zdCBvcHRpb25LZXlzID0gT2JqZWN0LmtleXMoXG5cdFx0b3B0aW9uc0Nhc3QsXG5cdCkgYXMgdW5rbm93biBhcyAoa2V5b2YgSnNvblBhdGhPdmVycmlkZXMpW107XG5cdG9wdGlvbktleXMuZm9yRWFjaCgoaykgPT4ge1xuXHRcdGlmIChrID09PSBcInBhdGhzXCIpIHtcblx0XHRcdG9wdGlvbnNDYXN0LnBhdGhzLmZvckVhY2goKHBhdGhPYmopID0+IHtcblx0XHRcdFx0Y29uc3QgW2pzb25QYXRoLCBvcHRzXSA9IHBhdGhPYmo7XG5cdFx0XHRcdGlmIChqc29uUGF0aC5zdGFydHNXaXRoKFwiJC5cIikpIHtcblx0XHRcdFx0XHR0cnkge1xuXHRcdFx0XHRcdFx0anAucGFyc2UoanNvblBhdGgpO1xuXHRcdFx0XHRcdH0gY2F0Y2ggKGVycikge1xuXHRcdFx0XHRcdFx0ZXJyb3JzLnB1c2goYEludmFsaWQganNvbnBhdGgga2V5OiAke2Vycn1gKTtcblx0XHRcdFx0XHRcdHJldHVybjtcblx0XHRcdFx0XHR9XG5cdFx0XHRcdFx0Y29uc3QgZXJyTXNnID0gc3RyaW5nT3B0aW9uRXJyb3Iob3B0cyk7XG5cdFx0XHRcdFx0aWYgKGVyck1zZykge1xuXHRcdFx0XHRcdFx0ZXJyb3JzLnB1c2goYGpzb25wYXRoICR7anNvblBhdGh9OiAke2Vyck1zZ31gKTtcblx0XHRcdFx0XHR9XG5cdFx0XHRcdH0gZWxzZSB7XG5cdFx0XHRcdFx0ZXJyb3JzLnB1c2goYFVucmVjb2duaXplZCBqc29ucGF0aCBzeW50YXg6ICR7anNvblBhdGh9YCk7XG5cdFx0XHRcdH1cblx0XHRcdH0pO1xuXHRcdH0gZWxzZSB7XG5cdFx0XHRpZiAoayA9PT0gXCJpZ25vcmVOZXdQcm9wZXJ0aWVzXCIgfHwgayA9PT0gXCJtaXNzaW5nSXNEZWxldGVcIikge1xuXHRcdFx0XHRyZXR1cm47XG5cdFx0XHR9XG5cdFx0XHRlcnJvcnMucHVzaChgVW5yZWNvZ25pemVkIGtleTogJHtrfWApO1xuXHRcdH1cblx0fSk7XG5cdHJldHVybiBlcnJvcnM7XG59XG5cbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBtZXJnZShcblx0Y3VycmVudDogc3RyaW5nLFxuXHRmcm9tVGVtcGxhdGVSZXBvOiBzdHJpbmcsXG5cdGNvbnRleHQ6IE1lcmdlQ29udGV4dDxKc29uRmlsZU1lcmdlT3B0aW9ucz4sXG4pOiBQcm9taXNlPHN0cmluZz4ge1xuXHRpZiAoY29udGV4dC5tZXJnZUFyZ3VtZW50cyA9PT0gXCJvdmVyd3JpdGVcIikge1xuXHRcdHJldHVybiBmcm9tVGVtcGxhdGVSZXBvO1xuXHR9XG5cblx0Y29uc3QgY3VycmVudEpzb24gPSBjb21tZW50SlNPTi5wYXJzZShjdXJyZW50KSBhcyBjb21tZW50SlNPTi5Db21tZW50T2JqZWN0O1xuXHRjb25zdCBmcm9tVGVtcGxhdGVKc29uID0gY29tbWVudEpTT04ucGFyc2UoXG5cdFx0ZnJvbVRlbXBsYXRlUmVwbyxcblx0KSBhcyBjb21tZW50SlNPTi5Db21tZW50T2JqZWN0O1xuXG5cdGlmIChjb250ZXh0Lm1lcmdlQXJndW1lbnRzID09PSBcIm1lcmdlLWN1cnJlbnRcIikge1xuXHRcdC8vIFBlcmZvcm1zIExvZGFzaCBNZXJnZSB3aXRoIGN1cnJlbnQgYXMgdGhlIG92ZXJyaWRlXG5cdFx0cmV0dXJuIGNvbW1lbnRKU09OLnN0cmluZ2lmeShcblx0XHRcdGxvZGFzaE1lcmdlKGZyb21UZW1wbGF0ZUpzb24sIGN1cnJlbnRKc29uKSxcblx0XHRcdG51bGwsXG5cdFx0XHRpbmZlckpTT05JbmRlbnQoY3VycmVudCksXG5cdFx0KTtcblx0fVxuXG5cdGlmIChjb250ZXh0Lm1lcmdlQXJndW1lbnRzID09PSBcIm1lcmdlLXRlbXBsYXRlXCIpIHtcblx0XHQvLyBQZXJmb3JtcyBMb2Rhc2ggTWVyZ2Ugd2l0aCBjdXJyZW50IGFzIHRoZSBvdmVycmlkZVxuXHRcdHJldHVybiBjb21tZW50SlNPTi5zdHJpbmdpZnkoXG5cdFx0XHRsb2Rhc2hNZXJnZShjdXJyZW50SnNvbiwgZnJvbVRlbXBsYXRlSnNvbiksXG5cdFx0XHRudWxsLFxuXHRcdFx0aW5mZXJKU09OSW5kZW50KGN1cnJlbnQpLFxuXHRcdCk7XG5cdH1cblxuXHRjb25zdCB7IG1pc3NpbmdJc0RlbGV0ZSwgaWdub3JlTmV3UHJvcGVydGllcywgcGF0aHMgfSA9XG5cdFx0Y29udGV4dC5tZXJnZUFyZ3VtZW50cyBhcyBKc29uUGF0aE92ZXJyaWRlcztcblxuXHRjb25zdCByZXR1cm5Kc29uID0gY29tbWVudEpTT04ucGFyc2UoY3VycmVudCkgYXMgY29tbWVudEpTT04uQ29tbWVudE9iamVjdDtcblx0cGF0aHMuZm9yRWFjaCgocCkgPT4ge1xuXHRcdGNvbnN0IFtqUGF0aCwgb3ZlcnJpZGVUeXBlXSA9IHA7XG5cblx0XHRjb25zdCBmcm9tVGVtcGxhdGVQYXRoczogTWFwPHN0cmluZywgUGF0aENvbXBvbmVudFtdPiA9IG5ldyBNYXAoKTtcblx0XHRpZiAob3ZlcnJpZGVUeXBlID09PSBcIm1lcmdlLXRlbXBsYXRlXCIpIHtcblx0XHRcdC8vIFdlIHdhbnQgdG8gbWFrZSBzdXJlIHRoZXJlIGFyZW4ndCBleHRyYSBwYXRocyBmcm9tIHRoZSB0ZW1wbGF0ZSB0aGF0IGRpZG4ndCBnZXQgYWRkZWRcblx0XHRcdGpwLm5vZGVzKGZyb21UZW1wbGF0ZUpzb24sIGpQYXRoKS5mb3JFYWNoKChuKSA9PiB7XG5cdFx0XHRcdGZyb21UZW1wbGF0ZVBhdGhzLnNldChqcC5zdHJpbmdpZnkobi5wYXRoKSwgbi5wYXRoKTtcblx0XHRcdH0pO1xuXHRcdH1cblx0XHRqcC5ub2RlcyhjdXJyZW50SnNvbiwgalBhdGgpLmZvckVhY2goKHsgcGF0aCwgdmFsdWUgfSkgPT4ge1xuXHRcdFx0Ly8gVGhpcyBzb2x2ZXMgZm9yIHdpbGRjYXJkIG9wZXJhdG9yc1xuXHRcdFx0Y29uc3QgZnVsbFBhdGggPSBqcC5zdHJpbmdpZnkocGF0aCk7XG5cdFx0XHQvLyB0cmFjayB0aGUgcGF0aHMgaW4gdGhlIHRlbXBsYXRlIHdlJ3ZlIHdhbGtlZFxuXHRcdFx0ZnJvbVRlbXBsYXRlUGF0aHMuZGVsZXRlKGZ1bGxQYXRoKTtcblx0XHRcdGpwLmFwcGx5KHJldHVybkpzb24sIGZ1bGxQYXRoLCAoKSA9PiB7XG5cdFx0XHRcdGNvbnN0IHRlbXBsYXRlVmFsdWUgPSBqcC52YWx1ZShmcm9tVGVtcGxhdGVKc29uLCBmdWxsUGF0aCk7XG5cdFx0XHRcdGlmIChvdmVycmlkZVR5cGUgPT09IFwibWVyZ2UtdGVtcGxhdGVcIikge1xuXHRcdFx0XHRcdGlmICh0ZW1wbGF0ZVZhbHVlID09PSB1bmRlZmluZWQpIHtcblx0XHRcdFx0XHRcdGlmIChtaXNzaW5nSXNEZWxldGUpIHtcblx0XHRcdFx0XHRcdFx0cmV0dXJuIHRlbXBsYXRlVmFsdWU7XG5cdFx0XHRcdFx0XHR9XG5cdFx0XHRcdFx0fSBlbHNlIHtcblx0XHRcdFx0XHRcdHJldHVybiBhcHBseVZhbHVlTWVyZ2UodmFsdWUsIHRlbXBsYXRlVmFsdWUpO1xuXHRcdFx0XHRcdH1cblx0XHRcdFx0fSBlbHNlIGlmIChvdmVycmlkZVR5cGUgPT09IFwibWVyZ2UtY3VycmVudFwiKSB7XG5cdFx0XHRcdFx0cmV0dXJuIGFwcGx5VmFsdWVNZXJnZSh0ZW1wbGF0ZVZhbHVlLCB2YWx1ZSk7XG5cdFx0XHRcdH0gZWxzZSBpZiAob3ZlcnJpZGVUeXBlID09PSBcIm92ZXJ3cml0ZVwiKSB7XG5cdFx0XHRcdFx0aWYgKHRlbXBsYXRlVmFsdWUgIT09IHVuZGVmaW5lZCB8fCBtaXNzaW5nSXNEZWxldGUpIHtcblx0XHRcdFx0XHRcdHJldHVybiB0ZW1wbGF0ZVZhbHVlO1xuXHRcdFx0XHRcdH1cblx0XHRcdFx0fSBlbHNlIHtcblx0XHRcdFx0XHR0aHJvdyBuZXcgRXJyb3IoYFVuZXhwZWN0ZWQgSnNvblBhdGggbWVyZ2UgdmFsdWUgJHtvdmVycmlkZVR5cGV9YCk7XG5cdFx0XHRcdH1cblx0XHRcdFx0cmV0dXJuIHZhbHVlO1xuXHRcdFx0fSk7XG5cdFx0fSk7XG5cblx0XHRpZiAoIWlnbm9yZU5ld1Byb3BlcnRpZXMpIHtcblx0XHRcdGZvciAoY29uc3QgZnJvbVRlbXBsYXRlUGF0aCBvZiBmcm9tVGVtcGxhdGVQYXRocy52YWx1ZXMoKSkge1xuXHRcdFx0XHRhcHBseVBlclBhdGgoZnJvbVRlbXBsYXRlUGF0aCwgcmV0dXJuSnNvbiwgZnJvbVRlbXBsYXRlSnNvbik7XG5cdFx0XHR9XG5cdFx0fVxuXHR9KTtcblxuXHRpZiAoIWlnbm9yZU5ld1Byb3BlcnRpZXMpIHtcblx0XHRPYmplY3Qua2V5cyhmcm9tVGVtcGxhdGVKc29uKS5mb3JFYWNoKChrZXkpID0+IHtcblx0XHRcdGlmICghcmV0dXJuSnNvbltrZXldKSB7XG5cdFx0XHRcdHJldHVybkpzb25ba2V5XSA9IGZyb21UZW1wbGF0ZUpzb25ba2V5XTtcblx0XHRcdH1cblx0XHR9KTtcblx0fVxuXG5cdHJldHVybiBjb21tZW50SlNPTi5zdHJpbmdpZnkocmV0dXJuSnNvbiwgbnVsbCwgaW5mZXJKU09OSW5kZW50KGN1cnJlbnQpKTtcbn1cblxuLyoqXG4gKiBBIG1lcmdlIGZyb20gYSB0ZW1wbGF0ZSB0byB0ZW1wbGF0ZSBwZXJzcGVjdGl2ZSBpcyBlaXRoZXIgbWVsZGluZyBvYmplY3RzXG4gKiBvciBjb21wbGV0ZWx5IG92ZXJ3cml0aW5nIHByaW1pdGl2ZSB0eXBlc1xuICovXG5mdW5jdGlvbiBhcHBseVZhbHVlTWVyZ2UoYmFzZTogdW5rbm93biwgdG9NZXJnZTogdW5rbm93bikge1xuXHRpZiAodHlwZW9mIGJhc2UgPT09IFwib2JqZWN0XCIgJiYgdHlwZW9mIHRvTWVyZ2UgPT09IFwib2JqZWN0XCIpIHtcblx0XHRyZXR1cm4gbG9kYXNoTWVyZ2UoYmFzZSwgdG9NZXJnZSk7XG5cdH0gZWxzZSB7XG5cdFx0cmV0dXJuIHRvTWVyZ2U7XG5cdH1cbn1cblxuLyoqXG4gKiBHaXZlbiBhIG5vZGVQYXRoIG9uIHRoZSBcIm1hcFwiIHRyZWUsIHRoaXMgd2lsbCBnbyB0byB0aGUgZmlyc3QgbWlzc2luZyBlbGVtZW50XG4gKiBhbmQgY29weSB0aGF0IG5vZGUgb250byB0aGUgb2JqZWN0XG4gKlxuICogQHBhcmFtIG5vZGVQYXRoXG4gKiBAcGFyYW0gb250b1xuICogQHBhcmFtIG1hcFxuICogQHBhcmFtIGZvcklkeFxuICovXG5mdW5jdGlvbiBhcHBseVBlclBhdGgoXG5cdG5vZGVQYXRoOiBqcC5QYXRoQ29tcG9uZW50W10sXG5cdC8vIGVzbGludC1kaXNhYmxlLW5leHQtbGluZSBAdHlwZXNjcmlwdC1lc2xpbnQvbm8tZXhwbGljaXQtYW55XG5cdG9udG86IGFueSxcblx0Ly8gZXNsaW50LWRpc2FibGUtbmV4dC1saW5lIEB0eXBlc2NyaXB0LWVzbGludC9uby1leHBsaWNpdC1hbnlcblx0bWFwOiBhbnksXG5cdGZvcklkeCA9IDAsXG4pIHtcblx0aWYgKG5vZGVQYXRoW2ZvcklkeF0gPT09IFwiJFwiKSB7XG5cdFx0YXBwbHlQZXJQYXRoKG5vZGVQYXRoLCBvbnRvLCBtYXAsIGZvcklkeCArIDEpO1xuXHRcdHJldHVybjtcblx0fVxuXG5cdGNvbnN0IHNlbGVjdG9yID0gbm9kZVBhdGhbZm9ySWR4XTtcblx0aWYgKG9udG9bc2VsZWN0b3JdKSB7XG5cdFx0YXBwbHlQZXJQYXRoKG5vZGVQYXRoLCBvbnRvW3NlbGVjdG9yXSwgbWFwW3NlbGVjdG9yXSwgZm9ySWR4ICsgMSk7XG5cdFx0cmV0dXJuO1xuXHR9XG5cblx0b250b1tzZWxlY3Rvcl0gPSBtYXBbc2VsZWN0b3JdO1xufVxuIl0sIm5hbWVzIjpbIm1lcmdlIiwidmFsaWRhdGUiLCJzdHJpbmdPcHRpb25FcnJvciIsInZhbHVlIiwib3B0aW9ucyIsImVycm9ycyIsImVyck1zZyIsInB1c2giLCJBcnJheSIsImlzQXJyYXkiLCJvcHRpb25zQ2FzdCIsIm9wdGlvbktleXMiLCJPYmplY3QiLCJrZXlzIiwiZm9yRWFjaCIsImsiLCJwYXRocyIsInBhdGhPYmoiLCJqc29uUGF0aCIsIm9wdHMiLCJzdGFydHNXaXRoIiwianAiLCJwYXJzZSIsImVyciIsImN1cnJlbnQiLCJmcm9tVGVtcGxhdGVSZXBvIiwiY29udGV4dCIsIm1lcmdlQXJndW1lbnRzIiwiY3VycmVudEpzb24iLCJjb21tZW50SlNPTiIsImZyb21UZW1wbGF0ZUpzb24iLCJzdHJpbmdpZnkiLCJsb2Rhc2hNZXJnZSIsImluZmVySlNPTkluZGVudCIsIm1pc3NpbmdJc0RlbGV0ZSIsImlnbm9yZU5ld1Byb3BlcnRpZXMiLCJyZXR1cm5Kc29uIiwicCIsImpQYXRoIiwib3ZlcnJpZGVUeXBlIiwiZnJvbVRlbXBsYXRlUGF0aHMiLCJNYXAiLCJub2RlcyIsIm4iLCJzZXQiLCJwYXRoIiwiZnVsbFBhdGgiLCJkZWxldGUiLCJhcHBseSIsInRlbXBsYXRlVmFsdWUiLCJ1bmRlZmluZWQiLCJhcHBseVZhbHVlTWVyZ2UiLCJFcnJvciIsImZyb21UZW1wbGF0ZVBhdGgiLCJ2YWx1ZXMiLCJhcHBseVBlclBhdGgiLCJrZXkiLCJiYXNlIiwidG9NZXJn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
 
 /***/ }),
 
-/***/ 4595:
+/***/ 2313:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.gitCurrentRef = void 0;
-const child_process_1 = __nccwpck_require__(2081);
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+Object.defineProperty(exports, "gitCurrentRef", ({
+    enumerable: true,
+    get: function() {
+        return gitCurrentRef;
+    }
+}));
+const _child_process = __nccwpck_require__(2081);
 async function gitCurrentRef(options) {
-    return (0, child_process_1.execSync)(`git rev-parse HEAD`, {
-        cwd: options.rootDir,
-    })
-        .toString()
-        .trim();
+    return (0, _child_process.execSync)(`git rev-parse HEAD`, {
+        cwd: options.rootDir
+    }).toString().trim();
 }
-exports.gitCurrentRef = gitCurrentRef;
 
-
-/***/ }),
-
-/***/ 4627:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__nccwpck_require__(4595), exports);
-
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9yZWYtZHJpdmVycy9naXQtY3VycmVudC1yZWYudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgZXhlY1N5bmMgfSBmcm9tIFwiY2hpbGRfcHJvY2Vzc1wiO1xuXG5leHBvcnQgYXN5bmMgZnVuY3Rpb24gZ2l0Q3VycmVudFJlZihvcHRpb25zOiB7IHJvb3REaXI6IHN0cmluZyB9KSB7XG5cdHJldHVybiBleGVjU3luYyhgZ2l0IHJldi1wYXJzZSBIRUFEYCwge1xuXHRcdGN3ZDogb3B0aW9ucy5yb290RGlyLFxuXHR9KVxuXHRcdC50b1N0cmluZygpXG5cdFx0LnRyaW0oKTtcbn1cbiJdLCJuYW1lcyI6WyJnaXRDdXJyZW50UmVmIiwib3B0aW9ucyIsImV4ZWNTeW5jIiwiY3dkIiwicm9vdERpciIsInRvU3RyaW5nIiwidHJpbSJdLCJtYXBwaW5ncyI6Ijs7OzsrQkFFc0JBOzs7ZUFBQUE7OzsrQkFGRztBQUVsQixlQUFlQSxjQUFjQyxPQUE0QjtJQUMvRCxPQUFPQyxJQUFBQSx1QkFBUSxFQUFDLENBQUMsa0JBQWtCLENBQUMsRUFBRTtRQUNyQ0MsS0FBS0YsUUFBUUcsT0FBTztJQUNyQixHQUNFQyxRQUFRLEdBQ1JDLElBQUk7QUFDUCJ9
 
 /***/ }),
 
-/***/ 3621:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ 8938:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
+Object.defineProperty(exports, "__esModule", ({
+    value: true
 }));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.templateSync = exports.TEMPLATE_SYNC_LOCAL_CONFIG = exports.TEMPLATE_SYNC_CONFIG = void 0;
-const path_1 = __nccwpck_require__(1017);
-const fs_1 = __nccwpck_require__(7147);
-const match_1 = __nccwpck_require__(7445);
-const merge_file_1 = __nccwpck_require__(3904);
-const git_clone_1 = __nccwpck_require__(1215);
-const diff_drivers_1 = __nccwpck_require__(7989);
-const ref_drivers_1 = __nccwpck_require__(4627);
-const formatting_1 = __nccwpck_require__(3566);
-const commentJSON = __importStar(__nccwpck_require__(3165));
-const checkout_drivers_1 = __nccwpck_require__(5447);
-const micromatch_1 = __nccwpck_require__(6228);
-const load_plugin_1 = __nccwpck_require__(5339);
-exports.TEMPLATE_SYNC_CONFIG = "templatesync";
-exports.TEMPLATE_SYNC_LOCAL_CONFIG = "templatesync.local";
-async function templateSync(options) {
-    const cloneDriver = options.cloneDriver ?? git_clone_1.gitClone;
-    const diffDriver = options.diffDriver ?? diff_drivers_1.gitDiff;
-    const currentRefDriver = options.currentRefDriver ?? ref_drivers_1.gitCurrentRef;
-    const checkoutDriver = options.checkoutDriver ?? checkout_drivers_1.gitCheckout;
-    const cloneReturn = await cloneDriver(options.tmpCloneDir, options.repoUrl);
-    const { dir: tempCloneDir, remoteName } = typeof cloneReturn === "string"
-        ? {
-            dir: cloneReturn,
-            remoteName: "origin", // Default to this
+_export_star(__nccwpck_require__(2313), exports);
+function _export_star(from, to) {
+    Object.keys(from).forEach(function(k) {
+        if (k !== "default" && !Object.prototype.hasOwnProperty.call(to, k)) {
+            Object.defineProperty(to, k, {
+                enumerable: true,
+                get: function() {
+                    return from[k];
+                }
+            });
         }
-        : cloneReturn;
+    });
+    return from;
+}
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9yZWYtZHJpdmVycy9pbmRleC50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgKiBmcm9tIFwiLi9naXQtY3VycmVudC1yZWZcIjtcbiJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7O3FCQUFjIn0=
+
+/***/ }),
+
+/***/ 3166:
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+_export(exports, {
+    TEMPLATE_SYNC_CONFIG: function() {
+        return TEMPLATE_SYNC_CONFIG;
+    },
+    TEMPLATE_SYNC_LOCAL_CONFIG: function() {
+        return TEMPLATE_SYNC_LOCAL_CONFIG;
+    },
+    templateSync: function() {
+        return templateSync;
+    }
+});
+const _commentjson = /*#__PURE__*/ _interop_require_wildcard(__nccwpck_require__(3165));
+const _fs = __nccwpck_require__(7147);
+const _micromatch = __nccwpck_require__(6228);
+const _path = __nccwpck_require__(1017);
+const _checkoutdrivers = __nccwpck_require__(5942);
+const _gitclone = __nccwpck_require__(9070);
+const _diffdrivers = __nccwpck_require__(3150);
+const _formatting = __nccwpck_require__(4175);
+const _loadplugin = __nccwpck_require__(2619);
+const _match = __nccwpck_require__(7163);
+const _mergefile = __nccwpck_require__(3625);
+const _refdrivers = __nccwpck_require__(8938);
+function _getRequireWildcardCache(nodeInterop) {
+    if (typeof WeakMap !== "function") return null;
+    var cacheBabelInterop = new WeakMap();
+    var cacheNodeInterop = new WeakMap();
+    return (_getRequireWildcardCache = function(nodeInterop) {
+        return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
+    })(nodeInterop);
+}
+function _interop_require_wildcard(obj, nodeInterop) {
+    if (!nodeInterop && obj && obj.__esModule) {
+        return obj;
+    }
+    if (obj === null || typeof obj !== "object" && typeof obj !== "function") {
+        return {
+            default: obj
+        };
+    }
+    var cache = _getRequireWildcardCache(nodeInterop);
+    if (cache && cache.has(obj)) {
+        return cache.get(obj);
+    }
+    var newObj = {
+        __proto__: null
+    };
+    var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+    for(var key in obj){
+        if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
+            var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+            if (desc && (desc.get || desc.set)) {
+                Object.defineProperty(newObj, key, desc);
+            } else {
+                newObj[key] = obj[key];
+            }
+        }
+    }
+    newObj.default = obj;
+    if (cache) {
+        cache.set(obj, newObj);
+    }
+    return newObj;
+}
+const TEMPLATE_SYNC_CONFIG = "templatesync";
+const TEMPLATE_SYNC_LOCAL_CONFIG = "templatesync.local";
+async function templateSync(options) {
+    const cloneDriver = options.cloneDriver ?? _gitclone.gitClone;
+    const diffDriver = options.diffDriver ?? _diffdrivers.gitDiff;
+    const currentRefDriver = options.currentRefDriver ?? _refdrivers.gitCurrentRef;
+    const checkoutDriver = options.checkoutDriver ?? _checkoutdrivers.gitCheckout;
+    const cloneReturn = await cloneDriver(options.tmpCloneDir, options.repoUrl);
+    const { dir: tempCloneDir, remoteName } = typeof cloneReturn === "string" ? {
+        dir: cloneReturn,
+        remoteName: "origin"
+    } : cloneReturn;
     if (options.branch) {
         await checkoutDriver({
             tmpDir: tempCloneDir,
             remoteName,
-            branch: options.branch,
+            branch: options.branch
         });
     }
     // Get the clone Config
-    const cloneConfigPath = (0, path_1.join)(tempCloneDir, `${exports.TEMPLATE_SYNC_CONFIG}.json`);
-    const templateSyncConfig = (0, fs_1.existsSync)(cloneConfigPath)
-        ? commentJSON.parse((0, fs_1.readFileSync)(cloneConfigPath).toString())
-        : { ignore: [] };
-    const localConfigFile = `${exports.TEMPLATE_SYNC_LOCAL_CONFIG}.json`;
-    const localConfigPath = (0, path_1.join)(options.repoDir, localConfigFile);
-    const localTemplateSyncConfig = (0, fs_1.existsSync)(localConfigPath)
-        ? commentJSON.parse((0, fs_1.readFileSync)(localConfigPath).toString())
-        : { ignore: [] };
+    const cloneConfigPath = (0, _path.join)(tempCloneDir, `${TEMPLATE_SYNC_CONFIG}.json`);
+    const templateSyncConfig = (0, _fs.existsSync)(cloneConfigPath) ? _commentjson.parse((0, _fs.readFileSync)(cloneConfigPath).toString()) : {
+        ignore: []
+    };
+    const localConfigFile = `${TEMPLATE_SYNC_LOCAL_CONFIG}.json`;
+    const localConfigPath = (0, _path.join)(options.repoDir, localConfigFile);
+    const localTemplateSyncConfig = (0, _fs.existsSync)(localConfigPath) ? _commentjson.parse((0, _fs.readFileSync)(localConfigPath).toString()) : {
+        ignore: []
+    };
     let filesToSync;
     const ref = await currentRefDriver({
-        rootDir: tempCloneDir,
+        rootDir: tempCloneDir
     });
     if (localTemplateSyncConfig.afterRef) {
         if (ref === localTemplateSyncConfig.afterRef) {
@@ -3017,35 +3109,34 @@ async function templateSync(options) {
                     added: [],
                     modified: [],
                     deleted: [],
-                    total: 0,
-                },
+                    total: 0
+                }
             };
         }
         filesToSync = await diffDriver(tempCloneDir, localTemplateSyncConfig.afterRef);
-    }
-    else {
+    } else {
         filesToSync = {
-            added: (0, match_1.getAllFilesInDir)(tempCloneDir, [
+            added: (0, _match.getAllFilesInDir)(tempCloneDir, [
                 ...templateSyncConfig.ignore,
-                ".git/**",
+                ".git/**"
             ]),
             deleted: [],
-            modified: [],
+            modified: []
         };
     }
     // Pre-load plugins and make sure the sync file is respected
     // Synchronous since grpc servers take a second
     const localValidateErrors = {};
     const validateErrors = {};
-    for (const config of localTemplateSyncConfig.merge ?? []) {
-        const plugin = await (0, load_plugin_1.loadPlugin)(config, options.repoDir);
+    for (const config of localTemplateSyncConfig.merge ?? []){
+        const plugin = await (0, _loadplugin.loadPlugin)(config, options.repoDir);
         const errors = plugin.validate(config.options ?? {});
         if (errors && errors.length > 0) {
             localValidateErrors[config.plugin] = errors;
         }
     }
-    for (const config of templateSyncConfig.merge ?? []) {
-        const plugin = await (0, load_plugin_1.loadPlugin)(config, tempCloneDir);
+    for (const config of templateSyncConfig.merge ?? []){
+        const plugin = await (0, _loadplugin.loadPlugin)(config, tempCloneDir);
         const errors = plugin.validate(config.options ?? {});
         if (errors && errors.length > 0) {
             validateErrors[config.plugin] = errors;
@@ -3054,18 +3145,18 @@ async function templateSync(options) {
     let errorStr = "";
     if (Object.keys(validateErrors).length > 0) {
         errorStr = `${errorStr}templatesync.json plugin option errors:\n`;
-        for (const plugin in validateErrors) {
+        for(const plugin in validateErrors){
             errorStr = `${errorStr}\tPlugin (${plugin}):\n`;
-            validateErrors[plugin].forEach((err) => {
+            validateErrors[plugin].forEach((err)=>{
                 errorStr = `${errorStr}\t\t${err}\n`;
             });
         }
     }
     if (Object.keys(localValidateErrors).length > 0) {
         errorStr = `${errorStr}templatesync.local.json plugin option errors:\n`;
-        for (const plugin in localValidateErrors) {
+        for(const plugin in localValidateErrors){
             errorStr = `${errorStr}\tPlugin (${plugin}):\n`;
-            localValidateErrors[plugin].forEach((err) => {
+            localValidateErrors[plugin].forEach((err)=>{
                 errorStr = `${errorStr}\t\t${err}\n`;
             });
         }
@@ -3074,24 +3165,23 @@ async function templateSync(options) {
         throw Error(errorStr);
     }
     // Apply ignore filters
-    filesToSync.added = filesToSync.added.filter((f) => !(0, micromatch_1.some)(f, templateSyncConfig.ignore));
-    filesToSync.modified = filesToSync.modified.filter((f) => !(0, micromatch_1.some)(f, templateSyncConfig.ignore));
-    filesToSync.deleted = filesToSync.deleted.filter((f) => !(0, micromatch_1.some)(f, templateSyncConfig.ignore));
+    filesToSync.added = filesToSync.added.filter((f)=>!(0, _micromatch.some)(f, templateSyncConfig.ignore));
+    filesToSync.modified = filesToSync.modified.filter((f)=>!(0, _micromatch.some)(f, templateSyncConfig.ignore));
+    filesToSync.deleted = filesToSync.deleted.filter((f)=>!(0, _micromatch.some)(f, templateSyncConfig.ignore));
     const localSkipFiles = new Set();
     const localFileChanges = {};
-    const fileSyncFactory = (op) => {
-        return async (f) => {
-            const result = await (0, merge_file_1.mergeFile)(f, {
+    const fileSyncFactory = (op)=>{
+        return async (f)=>{
+            const result = await (0, _mergefile.mergeFile)(f, {
                 localTemplateSyncConfig,
                 templateSyncConfig,
                 tempCloneDir,
                 cwd: options.repoDir,
-                fileOperation: op,
+                fileOperation: op
             });
             if (result.ignoredDueToLocal) {
                 localSkipFiles.add(f);
-            }
-            else if (result?.localChanges && result.localChanges.length > 0) {
+            } else if (result?.localChanges && result.localChanges.length > 0) {
                 localFileChanges[f] = result.localChanges;
             }
         };
@@ -3101,28 +3191,29 @@ async function templateSync(options) {
     await Promise.all(filesToSync.modified.map(fileSyncFactory("modified")));
     await Promise.all(filesToSync.deleted.map(fileSyncFactory("deleted")));
     // Report the files that changed in general
-    const actualAdded = filesToSync.added.filter((f) => !localSkipFiles.has(f));
-    const actualModified = filesToSync.modified.filter((f) => !localSkipFiles.has(f));
-    const actualDeleted = filesToSync.deleted.filter((f) => !localSkipFiles.has(f));
+    const actualAdded = filesToSync.added.filter((f)=>!localSkipFiles.has(f));
+    const actualModified = filesToSync.modified.filter((f)=>!localSkipFiles.has(f));
+    const actualDeleted = filesToSync.deleted.filter((f)=>!localSkipFiles.has(f));
     const modifiedFiles = {
         added: actualAdded,
         modified: actualModified,
-        deleted: actualDeleted,
+        deleted: actualDeleted
     };
     // apply after ref
     if (options.updateAfterRef) {
-        const ref = await currentRefDriver({
-            rootDir: tempCloneDir,
+        const _ref = await currentRefDriver({
+            rootDir: tempCloneDir
         });
-        if ((0, fs_1.existsSync)(localConfigPath)) {
-            const configStr = (0, fs_1.readFileSync)(localConfigPath).toString();
-            const config = commentJSON.parse(configStr);
-            config.afterRef = ref;
-            (0, fs_1.writeFileSync)(localConfigPath, commentJSON.stringify(config, null, (0, formatting_1.inferJSONIndent)(configStr)));
+        if ((0, _fs.existsSync)(localConfigPath)) {
+            const configStr = (0, _fs.readFileSync)(localConfigPath).toString();
+            const config = _commentjson.parse(configStr);
+            config.afterRef = _ref;
+            (0, _fs.writeFileSync)(localConfigPath, _commentjson.stringify(config, null, (0, _formatting.inferJSONIndent)(configStr)));
             modifiedFiles.modified.push(localConfigFile);
-        }
-        else {
-            (0, fs_1.writeFileSync)(localConfigPath, commentJSON.stringify({ afterRef: ref }, null, 4));
+        } else {
+            (0, _fs.writeFileSync)(localConfigPath, _commentjson.stringify({
+                afterRef: _ref
+            }, null, 4));
             modifiedFiles.added.push(localConfigFile);
         }
     }
@@ -3131,24 +3222,31 @@ async function templateSync(options) {
         localFileChanges,
         modifiedFiles: {
             ...modifiedFiles,
-            total: modifiedFiles.added.length +
-                modifiedFiles.deleted.length +
-                modifiedFiles.modified.length,
-        },
+            total: modifiedFiles.added.length + modifiedFiles.deleted.length + modifiedFiles.modified.length
+        }
     };
 }
-exports.templateSync = templateSync;
 
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy90ZW1wbGF0ZS1zeW5jLnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCAqIGFzIGNvbW1lbnRKU09OIGZyb20gXCJjb21tZW50LWpzb25cIjtcbmltcG9ydCB0eXBlIHsgQ2hhbmdlIH0gZnJvbSBcImRpZmZcIjtcbmltcG9ydCB7IGV4aXN0c1N5bmMsIHJlYWRGaWxlU3luYywgd3JpdGVGaWxlU3luYyB9IGZyb20gXCJmc1wiO1xuaW1wb3J0IHsgc29tZSB9IGZyb20gXCJtaWNyb21hdGNoXCI7XG5pbXBvcnQgeyBqb2luIH0gZnJvbSBcInBhdGhcIjtcbmltcG9ydCB0eXBlIHsgVGVtcGxhdGVDaGVja291dERyaXZlckZuIH0gZnJvbSBcIi4vY2hlY2tvdXQtZHJpdmVyc1wiO1xuaW1wb3J0IHsgZ2l0Q2hlY2tvdXQgfSBmcm9tIFwiLi9jaGVja291dC1kcml2ZXJzXCI7XG5pbXBvcnQgdHlwZSB7IFRlbXBsYXRlQ2xvbmVEcml2ZXJGbiB9IGZyb20gXCIuL2Nsb25lLWRyaXZlcnNcIjtcbmltcG9ydCB7IGdpdENsb25lIH0gZnJvbSBcIi4vY2xvbmUtZHJpdmVycy9naXQtY2xvbmVcIjtcbmltcG9ydCB0eXBlIHsgRGlmZlJlc3VsdCwgVGVtcGxhdGVEaWZmRHJpdmVyRm4gfSBmcm9tIFwiLi9kaWZmLWRyaXZlcnNcIjtcbmltcG9ydCB7IGdpdERpZmYgfSBmcm9tIFwiLi9kaWZmLWRyaXZlcnNcIjtcbmltcG9ydCB7IGluZmVySlNPTkluZGVudCB9IGZyb20gXCIuL2Zvcm1hdHRpbmdcIjtcbmltcG9ydCB7IGxvYWRQbHVnaW4gfSBmcm9tIFwiLi9sb2FkLXBsdWdpblwiO1xuaW1wb3J0IHsgZ2V0QWxsRmlsZXNJbkRpciB9IGZyb20gXCIuL21hdGNoXCI7XG5pbXBvcnQgeyBtZXJnZUZpbGUgfSBmcm9tIFwiLi9tZXJnZS1maWxlXCI7XG5pbXBvcnQgeyBnaXRDdXJyZW50UmVmIH0gZnJvbSBcIi4vcmVmLWRyaXZlcnNcIjtcbmltcG9ydCB0eXBlIHsgVGVtcGxhdGVSZWZEcml2ZXJGbiB9IGZyb20gXCIuL3JlZi1kcml2ZXJzL3R5cGVzXCI7XG5pbXBvcnQgdHlwZSB7IENvbmZpZywgRmlsZU9wZXJhdGlvbiwgTG9jYWxDb25maWcgfSBmcm9tIFwiLi90eXBlc1wiO1xuXG5leHBvcnQgaW50ZXJmYWNlIFRlbXBsYXRlU3luY09wdGlvbnMge1xuXHQvKipcblx0ICogVGhpcyBpcyB0aGUgdXJsIG9mIHRoZSB0ZW1wbGF0ZSByZXBvXG5cdCAqL1xuXHRyZXBvVXJsOiBzdHJpbmc7XG5cblx0LyoqXG5cdCAqIE9wdGlvbmFsIEJyYW5jaCB0byBjaGVjayBvdXQgLSBpZiBub3Qgc3BlY2lmaWVkLCB0aGlzIGNoZWNrcyBvdXQgdGhlXG5cdCAqIGRlZmF1bHQgYnJhbmNoIG9mIHRoZSB0ZW1wbGF0ZSByZXBvXG5cdCAqL1xuXHRicmFuY2g/OiBzdHJpbmc7XG5cblx0LyoqXG5cdCAqIFRoZSBkaXJlY3RvcnkgZm9yIGNsb25pbmcgb3VyIHRlbXBsYXRlIHJlcG8gaW50byB2aWEgdGhlIGNsb25lRHJpdmVyXG5cdCAqL1xuXHR0bXBDbG9uZURpcjogc3RyaW5nO1xuXG5cdC8qKlxuXHQgKiBUaGUgcmVwbyBkaXJlY3RvcnkgcGF0aCB0aGF0IHdlIGFyZSBnb2luZyB0byBtZXJnZSB0b3dhcmRcblx0ICovXG5cdHJlcG9EaXI6IHN0cmluZztcblxuXHQvKipcblx0ICogSWYgc2V0IHRvIHRydWUsIHRlbXBsYXRlIHN5bmMgd2lsbCBhcHBseSB0aGUgY3VycmVudCByZWZcblx0ICogb2YgdGhlIHRlbXBsYXRlIHJlcG8gdG8gYWZ0ZXJSZWZcblx0ICovXG5cdHVwZGF0ZUFmdGVyUmVmPzogYm9vbGVhbjtcblxuXHQvKipcblx0ICogRGVmYXVsdHMgdG8gdXNpbmcgZ2l0IGNsb25lXG5cdCAqL1xuXHRjbG9uZURyaXZlcj86IFRlbXBsYXRlQ2xvbmVEcml2ZXJGbjtcblxuXHQvKipcblx0ICogRGVmYXVsdHMgdG8gdXNpbmcgZ2l0IGRpZmZcblx0ICovXG5cdGRpZmZEcml2ZXI/OiBUZW1wbGF0ZURpZmZEcml2ZXJGbjtcblxuXHQvKipcblx0ICogRGVmYXVsdHMgdG8gdXNpbmcgZ2l0IGN1cnJlbnQgcmVmXG5cdCAqL1xuXHRjdXJyZW50UmVmRHJpdmVyPzogVGVtcGxhdGVSZWZEcml2ZXJGbjtcblxuXHQvKipcblx0ICogRGVmYXVsdHMgdG8gdXNpbmcgZ2l0IGNoZWNrb3V0IGRyaXZlclxuXHQgKi9cblx0Y2hlY2tvdXREcml2ZXI/OiBUZW1wbGF0ZUNoZWNrb3V0RHJpdmVyRm47XG59XG5cbmV4cG9ydCBpbnRlcmZhY2UgVGVtcGxhdGVTeW5jUmV0dXJuIHtcblx0LyoqXG5cdCAqIEFuIGFycmF5IG9mIGZpbGVzIHRoYXQgd2VyZSBza2lwcGVkIG91dHJpZ2h0IGR1ZSB0byBhIHRlbXBsYXRlc3luYy5sb2NhbCBpZ25vcmUgZ2xvYlxuXHQgKi9cblx0bG9jYWxTa2lwRmlsZXM6IHN0cmluZ1tdO1xuXHQvKipcblx0ICogQW4gb2JqZWN0IG1hcHBpbmcgYWxsIGZpbGUgcGF0aHMgdG8gYW55IG1lcmdlIHJ1bGVzIHRoYXQgd291bGQndmUgb3ZlcnJpZGRlbiB0aGUgbWVyZ2UgcnVsZXNcblx0ICogb2YgdGhlIHRlbXBsYXRlIHN5bmMgZmlsZS5cblx0ICpcblx0ICogTm90ZTogcmlnaHQgbm93LCB0aGlzIHNob3dzIG5vbi1jaGFuZ2VkIGRpZmZzIGFzIHdlbGwgc28geW91IGhhdmUgdG8gbG9vayBmb3IgYWRkZWQgb3IgcmVtb3ZlZFxuXHQgKi9cblx0bG9jYWxGaWxlQ2hhbmdlczoge1xuXHRcdFtmaWxlUGF0aDogc3RyaW5nXTogQ2hhbmdlW107XG5cdH07XG5cdC8qKlxuXHQgKiBBIGxpc3Qgb2YgYWxsIGZpbGVzIHRoYXQgYXJlIG1vZGlmaWVkIGJ5IHRoaXMgb3BlcmF0aW9uLiAgWW91IGNhbiB1c2UgdG90YWwgdG8gcXVpY2tseSBjaGVjayBpZlxuXHQgKiB0aGVyZSB3YXMgYW4gYWN0dWFsIG1lYW5pbmdmdWwgY2hhbmdlLlxuXHQgKlxuXHQgKiBQbGVhc2Ugbm90ZSwgdGhlciBtYXkgYmUgbG9jYWxTa2lwZmlsZXMgYW5kIHRvdGFsOiAwLCB3aGljaCBpbmRpY2F0ZXMgdGhlcmUgd2VyZSBjaGFuZ2VzIEJVVCB0aGUgbG9jYWwgdGVtcGxhdGVcblx0ICogc3luYyBmaWxlIHJlbmRlcmVkIHRoZW0gbWVhbmluZ2xlc3MuXG5cdCAqL1xuXHRtb2RpZmllZEZpbGVzOiBEaWZmUmVzdWx0ICYge1xuXHRcdHRvdGFsOiBudW1iZXI7XG5cdH07XG59XG5cbmV4cG9ydCBjb25zdCBURU1QTEFURV9TWU5DX0NPTkZJRyA9IFwidGVtcGxhdGVzeW5jXCI7XG5leHBvcnQgY29uc3QgVEVNUExBVEVfU1lOQ19MT0NBTF9DT05GSUcgPSBcInRlbXBsYXRlc3luYy5sb2NhbFwiO1xuXG5leHBvcnQgYXN5bmMgZnVuY3Rpb24gdGVtcGxhdGVTeW5jKFxuXHRvcHRpb25zOiBUZW1wbGF0ZVN5bmNPcHRpb25zLFxuKTogUHJvbWlzZTxUZW1wbGF0ZVN5bmNSZXR1cm4+IHtcblx0Y29uc3QgY2xvbmVEcml2ZXIgPSBvcHRpb25zLmNsb25lRHJpdmVyID8/IGdpdENsb25lO1xuXHRjb25zdCBkaWZmRHJpdmVyID0gb3B0aW9ucy5kaWZmRHJpdmVyID8/IGdpdERpZmY7XG5cdGNvbnN0IGN1cnJlbnRSZWZEcml2ZXIgPSBvcHRpb25zLmN1cnJlbnRSZWZEcml2ZXIgPz8gZ2l0Q3VycmVudFJlZjtcblx0Y29uc3QgY2hlY2tvdXREcml2ZXIgPSBvcHRpb25zLmNoZWNrb3V0RHJpdmVyID8/IGdpdENoZWNrb3V0O1xuXHRjb25zdCBjbG9uZVJldHVybiA9IGF3YWl0IGNsb25lRHJpdmVyKG9wdGlvbnMudG1wQ2xvbmVEaXIsIG9wdGlvbnMucmVwb1VybCk7XG5cblx0Y29uc3QgeyBkaXI6IHRlbXBDbG9uZURpciwgcmVtb3RlTmFtZSB9ID1cblx0XHR0eXBlb2YgY2xvbmVSZXR1cm4gPT09IFwic3RyaW5nXCJcblx0XHRcdD8ge1xuXHRcdFx0XHRcdGRpcjogY2xvbmVSZXR1cm4sXG5cdFx0XHRcdFx0cmVtb3RlTmFtZTogXCJvcmlnaW5cIiwgLy8gRGVmYXVsdCB0byB0aGlzXG5cdFx0XHRcdH1cblx0XHRcdDogY2xvbmVSZXR1cm47XG5cblx0aWYgKG9wdGlvbnMuYnJhbmNoKSB7XG5cdFx0YXdhaXQgY2hlY2tvdXREcml2ZXIoe1xuXHRcdFx0dG1wRGlyOiB0ZW1wQ2xvbmVEaXIsXG5cdFx0XHRyZW1vdGVOYW1lLFxuXHRcdFx0YnJhbmNoOiBvcHRpb25zLmJyYW5jaCxcblx0XHR9KTtcblx0fVxuXG5cdC8vIEdldCB0aGUgY2xvbmUgQ29uZmlnXG5cdGNvbnN0IGNsb25lQ29uZmlnUGF0aCA9IGpvaW4odGVtcENsb25lRGlyLCBgJHtURU1QTEFURV9TWU5DX0NPTkZJR30uanNvbmApO1xuXHRjb25zdCB0ZW1wbGF0ZVN5bmNDb25maWc6IENvbmZpZyA9IGV4aXN0c1N5bmMoY2xvbmVDb25maWdQYXRoKVxuXHRcdD8gKGNvbW1lbnRKU09OLnBhcnNlKFxuXHRcdFx0XHRyZWFkRmlsZVN5bmMoY2xvbmVDb25maWdQYXRoKS50b1N0cmluZygpLFxuXHRcdFx0KSBhcyB1bmtub3duIGFzIENvbmZpZylcblx0XHQ6IHsgaWdub3JlOiBbXSB9O1xuXG5cdGNvbnN0IGxvY2FsQ29uZmlnRmlsZSA9IGAke1RFTVBMQVRFX1NZTkNfTE9DQUxfQ09ORklHfS5qc29uYDtcblx0Y29uc3QgbG9jYWxDb25maWdQYXRoID0gam9pbihvcHRpb25zLnJlcG9EaXIsIGxvY2FsQ29uZmlnRmlsZSk7XG5cdGNvbnN0IGxvY2FsVGVtcGxhdGVTeW5jQ29uZmlnOiBMb2NhbENvbmZpZyA9IGV4aXN0c1N5bmMobG9jYWxDb25maWdQYXRoKVxuXHRcdD8gKGNvbW1lbnRKU09OLnBhcnNlKFxuXHRcdFx0XHRyZWFkRmlsZVN5bmMobG9jYWxDb25maWdQYXRoKS50b1N0cmluZygpLFxuXHRcdFx0KSBhcyB1bmtub3duIGFzIExvY2FsQ29uZmlnKVxuXHRcdDogeyBpZ25vcmU6IFtdIH07XG5cblx0bGV0IGZpbGVzVG9TeW5jOiBEaWZmUmVzdWx0O1xuXHRjb25zdCByZWYgPSBhd2FpdCBjdXJyZW50UmVmRHJpdmVyKHtcblx0XHRyb290RGlyOiB0ZW1wQ2xvbmVEaXIsXG5cdH0pO1xuXHRpZiAobG9jYWxUZW1wbGF0ZVN5bmNDb25maWcuYWZ0ZXJSZWYpIHtcblx0XHRpZiAocmVmID09PSBsb2NhbFRlbXBsYXRlU3luY0NvbmZpZy5hZnRlclJlZikge1xuXHRcdFx0Ly8gc2hvcnQgY2lyY3VpdCBpZiB0aGUgcmVmcyBtYXRjaFxuXHRcdFx0cmV0dXJuIHtcblx0XHRcdFx0bG9jYWxTa2lwRmlsZXM6IFtdLFxuXHRcdFx0XHRsb2NhbEZpbGVDaGFuZ2VzOiB7fSxcblx0XHRcdFx0bW9kaWZpZWRGaWxlczoge1xuXHRcdFx0XHRcdGFkZGVkOiBbXSxcblx0XHRcdFx0XHRtb2RpZmllZDogW10sXG5cdFx0XHRcdFx0ZGVsZXRlZDogW10sXG5cdFx0XHRcdFx0dG90YWw6IDAsXG5cdFx0XHRcdH0sXG5cdFx0XHR9O1xuXHRcdH1cblx0XHRmaWxlc1RvU3luYyA9IGF3YWl0IGRpZmZEcml2ZXIoXG5cdFx0XHR0ZW1wQ2xvbmVEaXIsXG5cdFx0XHRsb2NhbFRlbXBsYXRlU3luY0NvbmZpZy5hZnRlclJlZixcblx0XHQpO1xuXHR9IGVsc2Uge1xuXHRcdGZpbGVzVG9TeW5jID0ge1xuXHRcdFx0YWRkZWQ6IGdldEFsbEZpbGVzSW5EaXIodGVtcENsb25lRGlyLCBbXG5cdFx0XHRcdC4uLnRlbXBsYXRlU3luY0NvbmZpZy5pZ25vcmUsXG5cdFx0XHRcdFwiLmdpdC8qKlwiLFxuXHRcdFx0XSksXG5cdFx0XHRkZWxldGVkOiBbXSxcblx0XHRcdG1vZGlmaWVkOiBbXSxcblx0XHR9O1xuXHR9XG5cblx0Ly8gUHJlLWxvYWQgcGx1Z2lucyBhbmQgbWFrZSBzdXJlIHRoZSBzeW5jIGZpbGUgaXMgcmVzcGVjdGVkXG5cdC8vIFN5bmNocm9ub3VzIHNpbmNlIGdycGMgc2VydmVycyB0YWtlIGEgc2Vjb25kXG5cdGNvbnN0IGxvY2FsVmFsaWRhdGVFcnJvcnM6IHtcblx0XHRbazogc3RyaW5nXTogc3RyaW5nW107XG5cdH0gPSB7fTtcblx0Y29uc3QgdmFsaWRhdGVFcnJvcnM6IHtcblx0XHRbazogc3RyaW5nXTogc3RyaW5nW107XG5cdH0gPSB7fTtcblx0Zm9yIChjb25zdCBjb25maWcgb2YgbG9jYWxUZW1wbGF0ZVN5bmNDb25maWcubWVyZ2UgPz8gW10pIHtcblx0XHRjb25zdCBwbHVnaW4gPSBhd2FpdCBsb2FkUGx1Z2luKGNvbmZpZywgb3B0aW9ucy5yZXBvRGlyKTtcblx0XHRjb25zdCBlcnJvcnMgPSBwbHVnaW4udmFsaWRhdGUoY29uZmlnLm9wdGlvbnMgPz8ge30pO1xuXHRcdGlmIChlcnJvcnMgJiYgZXJyb3JzLmxlbmd0aCA+IDApIHtcblx0XHRcdGxvY2FsVmFsaWRhdGVFcnJvcnNbY29uZmlnLnBsdWdpbl0gPSBlcnJvcnM7XG5cdFx0fVxuXHR9XG5cdGZvciAoY29uc3QgY29uZmlnIG9mIHRlbXBsYXRlU3luY0NvbmZpZy5tZXJnZSA/PyBbXSkge1xuXHRcdGNvbnN0IHBsdWdpbiA9IGF3YWl0IGxvYWRQbHVnaW4oY29uZmlnLCB0ZW1wQ2xvbmVEaXIpO1xuXHRcdGNvbnN0IGVycm9ycyA9IHBsdWdpbi52YWxpZGF0ZShjb25maWcub3B0aW9ucyA/PyB7fSk7XG5cdFx0aWYgKGVycm9ycyAmJiBlcnJvcnMubGVuZ3RoID4gMCkge1xuXHRcdFx0dmFsaWRhdGVFcnJvcnNbY29uZmlnLnBsdWdpbl0gPSBlcnJvcnM7XG5cdFx0fVxuXHR9XG5cblx0bGV0IGVycm9yU3RyID0gXCJcIjtcblx0aWYgKE9iamVjdC5rZXlzKHZhbGlkYXRlRXJyb3JzKS5sZW5ndGggPiAwKSB7XG5cdFx0ZXJyb3JTdHIgPSBgJHtlcnJvclN0cn10ZW1wbGF0ZXN5bmMuanNvbiBwbHVnaW4gb3B0aW9uIGVycm9yczpcXG5gO1xuXHRcdGZvciAoY29uc3QgcGx1Z2luIGluIHZhbGlkYXRlRXJyb3JzKSB7XG5cdFx0XHRlcnJvclN0ciA9IGAke2Vycm9yU3RyfVxcdFBsdWdpbiAoJHtwbHVnaW59KTpcXG5gO1xuXHRcdFx0dmFsaWRhdGVFcnJvcnNbcGx1Z2luXS5mb3JFYWNoKChlcnIpID0+IHtcblx0XHRcdFx0ZXJyb3JTdHIgPSBgJHtlcnJvclN0cn1cXHRcXHQke2Vycn1cXG5gO1xuXHRcdFx0fSk7XG5cdFx0fVxuXHR9XG5cdGlmIChPYmplY3Qua2V5cyhsb2NhbFZhbGlkYXRlRXJyb3JzKS5sZW5ndGggPiAwKSB7XG5cdFx0ZXJyb3JTdHIgPSBgJHtlcnJvclN0cn10ZW1wbGF0ZXN5bmMubG9jYWwuanNvbiBwbHVnaW4gb3B0aW9uIGVycm9yczpcXG5gO1xuXHRcdGZvciAoY29uc3QgcGx1Z2luIGluIGxvY2FsVmFsaWRhdGVFcnJvcnMpIHtcblx0XHRcdGVycm9yU3RyID0gYCR7ZXJyb3JTdHJ9XFx0UGx1Z2luICgke3BsdWdpbn0pOlxcbmA7XG5cdFx0XHRsb2NhbFZhbGlkYXRlRXJyb3JzW3BsdWdpbl0uZm9yRWFjaCgoZXJyKSA9PiB7XG5cdFx0XHRcdGVycm9yU3RyID0gYCR7ZXJyb3JTdHJ9XFx0XFx0JHtlcnJ9XFxuYDtcblx0XHRcdH0pO1xuXHRcdH1cblx0fVxuXG5cdGlmIChlcnJvclN0ciAhPT0gXCJcIikge1xuXHRcdHRocm93IEVycm9yKGVycm9yU3RyKTtcblx0fVxuXG5cdC8vIEFwcGx5IGlnbm9yZSBmaWx0ZXJzXG5cdGZpbGVzVG9TeW5jLmFkZGVkID0gZmlsZXNUb1N5bmMuYWRkZWQuZmlsdGVyKFxuXHRcdChmKSA9PiAhc29tZShmLCB0ZW1wbGF0ZVN5bmNDb25maWcuaWdub3JlKSxcblx0KTtcblx0ZmlsZXNUb1N5bmMubW9kaWZpZWQgPSBmaWxlc1RvU3luYy5tb2RpZmllZC5maWx0ZXIoXG5cdFx0KGYpID0+ICFzb21lKGYsIHRlbXBsYXRlU3luY0NvbmZpZy5pZ25vcmUpLFxuXHQpO1xuXHRmaWxlc1RvU3luYy5kZWxldGVkID0gZmlsZXNUb1N5bmMuZGVsZXRlZC5maWx0ZXIoXG5cdFx0KGYpID0+ICFzb21lKGYsIHRlbXBsYXRlU3luY0NvbmZpZy5pZ25vcmUpLFxuXHQpO1xuXG5cdGNvbnN0IGxvY2FsU2tpcEZpbGVzOiBTZXQ8c3RyaW5nPiA9IG5ldyBTZXQoKTtcblx0Y29uc3QgbG9jYWxGaWxlQ2hhbmdlczoge1xuXHRcdFtmaWxlUGF0aDogc3RyaW5nXTogQ2hhbmdlW107XG5cdH0gPSB7fTtcblxuXHRjb25zdCBmaWxlU3luY0ZhY3RvcnkgPSAob3A6IEZpbGVPcGVyYXRpb24pID0+IHtcblx0XHRyZXR1cm4gYXN5bmMgKGY6IHN0cmluZykgPT4ge1xuXHRcdFx0Y29uc3QgcmVzdWx0ID0gYXdhaXQgbWVyZ2VGaWxlKGYsIHtcblx0XHRcdFx0bG9jYWxUZW1wbGF0ZVN5bmNDb25maWcsXG5cdFx0XHRcdHRlbXBsYXRlU3luY0NvbmZpZyxcblx0XHRcdFx0dGVtcENsb25lRGlyLFxuXHRcdFx0XHRjd2Q6IG9wdGlvbnMucmVwb0Rpcixcblx0XHRcdFx0ZmlsZU9wZXJhdGlvbjogb3AsXG5cdFx0XHR9KTtcblx0XHRcdGlmIChyZXN1bHQuaWdub3JlZER1ZVRvTG9jYWwpIHtcblx0XHRcdFx0bG9jYWxTa2lwRmlsZXMuYWRkKGYpO1xuXHRcdFx0fSBlbHNlIGlmIChyZXN1bHQ/LmxvY2FsQ2hhbmdlcyAmJiByZXN1bHQubG9jYWxDaGFuZ2VzLmxlbmd0aCA+IDApIHtcblx0XHRcdFx0bG9jYWxGaWxlQ2hhbmdlc1tmXSA9IHJlc3VsdC5sb2NhbENoYW5nZXM7XG5cdFx0XHR9XG5cdFx0fTtcblx0fTtcblxuXHQvLyBBZGRlZCBhbmQgbW9kaWZpZWQgaGF2ZSB0aGUgc2FtZSBzZXR1cCBmb3Igbm93XG5cdGF3YWl0IFByb21pc2UuYWxsKGZpbGVzVG9TeW5jLmFkZGVkLm1hcChmaWxlU3luY0ZhY3RvcnkoXCJhZGRlZFwiKSkpO1xuXHRhd2FpdCBQcm9taXNlLmFsbChmaWxlc1RvU3luYy5tb2RpZmllZC5tYXAoZmlsZVN5bmNGYWN0b3J5KFwibW9kaWZpZWRcIikpKTtcblx0YXdhaXQgUHJvbWlzZS5hbGwoZmlsZXNUb1N5bmMuZGVsZXRlZC5tYXAoZmlsZVN5bmNGYWN0b3J5KFwiZGVsZXRlZFwiKSkpO1xuXG5cdC8vIFJlcG9ydCB0aGUgZmlsZXMgdGhhdCBjaGFuZ2VkIGluIGdlbmVyYWxcblx0Y29uc3QgYWN0dWFsQWRkZWQgPSBmaWxlc1RvU3luYy5hZGRlZC5maWx0ZXIoKGYpID0+ICFsb2NhbFNraXBGaWxlcy5oYXMoZikpO1xuXHRjb25zdCBhY3R1YWxNb2RpZmllZCA9IGZpbGVzVG9TeW5jLm1vZGlmaWVkLmZpbHRlcihcblx0XHQoZikgPT4gIWxvY2FsU2tpcEZpbGVzLmhhcyhmKSxcblx0KTtcblx0Y29uc3QgYWN0dWFsRGVsZXRlZCA9IGZpbGVzVG9TeW5jLmRlbGV0ZWQuZmlsdGVyKFxuXHRcdChmKSA9PiAhbG9jYWxTa2lwRmlsZXMuaGFzKGYpLFxuXHQpO1xuXHRjb25zdCBtb2RpZmllZEZpbGVzID0ge1xuXHRcdGFkZGVkOiBhY3R1YWxBZGRlZCxcblx0XHRtb2RpZmllZDogYWN0dWFsTW9kaWZpZWQsXG5cdFx0ZGVsZXRlZDogYWN0dWFsRGVsZXRlZCxcblx0fTtcblxuXHQvLyBhcHBseSBhZnRlciByZWZcblx0aWYgKG9wdGlvbnMudXBkYXRlQWZ0ZXJSZWYpIHtcblx0XHRjb25zdCBfcmVmID0gYXdhaXQgY3VycmVudFJlZkRyaXZlcih7XG5cdFx0XHRyb290RGlyOiB0ZW1wQ2xvbmVEaXIsXG5cdFx0fSk7XG5cblx0XHRpZiAoZXhpc3RzU3luYyhsb2NhbENvbmZpZ1BhdGgpKSB7XG5cdFx0XHRjb25zdCBjb25maWdTdHIgPSByZWFkRmlsZVN5bmMobG9jYWxDb25maWdQYXRoKS50b1N0cmluZygpO1xuXHRcdFx0Y29uc3QgY29uZmlnID0gY29tbWVudEpTT04ucGFyc2UoY29uZmlnU3RyKSBhcyB1bmtub3duIGFzIExvY2FsQ29uZmlnO1xuXHRcdFx0Y29uZmlnLmFmdGVyUmVmID0gX3JlZjtcblx0XHRcdHdyaXRlRmlsZVN5bmMoXG5cdFx0XHRcdGxvY2FsQ29uZmlnUGF0aCxcblx0XHRcdFx0Y29tbWVudEpTT04uc3RyaW5naWZ5KGNvbmZpZywgbnVsbCwgaW5mZXJKU09OSW5kZW50KGNvbmZpZ1N0cikpLFxuXHRcdFx0KTtcblx0XHRcdG1vZGlmaWVkRmlsZXMubW9kaWZpZWQucHVzaChsb2NhbENvbmZpZ0ZpbGUpO1xuXHRcdH0gZWxzZSB7XG5cdFx0XHR3cml0ZUZpbGVTeW5jKFxuXHRcdFx0XHRsb2NhbENvbmZpZ1BhdGgsXG5cdFx0XHRcdGNvbW1lbnRKU09OLnN0cmluZ2lmeSh7IGFmdGVyUmVmOiBfcmVmIH0sIG51bGwsIDQpLFxuXHRcdFx0KTtcblx0XHRcdG1vZGlmaWVkRmlsZXMuYWRkZWQucHVzaChsb2NhbENvbmZpZ0ZpbGUpO1xuXHRcdH1cblx0fVxuXG5cdHJldHVybiB7XG5cdFx0bG9jYWxTa2lwRmlsZXM6IEFycmF5LmZyb20obG9jYWxTa2lwRmlsZXMpLFxuXHRcdGxvY2FsRmlsZUNoYW5nZXMsXG5cdFx0bW9kaWZpZWRGaWxlczoge1xuXHRcdFx0Li4ubW9kaWZpZWRGaWxlcyxcblx0XHRcdHRvdGFsOlxuXHRcdFx0XHRtb2RpZmllZEZpbGVzLmFkZGVkLmxlbmd0aCArXG5cdFx0XHRcdG1vZGlmaWVkRmlsZXMuZGVsZXRlZC5sZW5ndGggK1xuXHRcdFx0XHRtb2RpZmllZEZpbGVzLm1vZGlmaWVkLmxlbmd0aCxcblx0XHR9LFxuXHR9O1xufVxuIl0sIm5hbWVzIjpbIlRFTVBMQVRFX1NZTkNfQ09ORklHIiwiVEVNUExBVEVfU1lOQ19MT0NBTF9DT05GSUciLCJ0ZW1wbGF0ZVN5bmMiLCJvcHRpb25zIiwiY2xvbmVEcml2ZXIiLCJnaXRDbG9uZSIsImRpZmZEcml2ZXIiLCJnaXREaWZmIiwiY3VycmVudFJlZkRyaXZlciIsImdpdEN1cnJlbnRSZWYiLCJjaGVja291dERyaXZlciIsImdpdENoZWNrb3V0IiwiY2xvbmVSZXR1cm4iLCJ0bXBDbG9uZURpciIsInJlcG9VcmwiLCJkaXIiLCJ0ZW1wQ2xvbmVEaXIiLCJyZW1vdGVOYW1lIiwiYnJhbmNoIiwidG1wRGlyIiwiY2xvbmVDb25maWdQYXRoIiwiam9pbiIsInRlbXBsYXRlU3luY0NvbmZpZyIsImV4aXN0c1N5bmMiLCJjb21tZW50SlNPTiIsInBhcnNlIiwicmVhZEZpbGVTeW5jIiwidG9TdHJpbmciLCJpZ25vcmUiLCJsb2NhbENvbmZpZ0ZpbGUiLCJsb2NhbENvbmZpZ1BhdGgiLCJyZXBvRGlyIiwibG9jYWxUZW1wbGF0ZVN5bmNDb25maWciLCJmaWxlc1RvU3luYyIsInJlZiIsInJvb3REaXIiLCJhZnRlclJlZiIsImxvY2FsU2tpcEZpbGVzIiwibG9jYWxGaWxlQ2hhbmdlcyIsIm1vZGlmaWVkRmlsZXMiLCJhZGRlZCIsIm1vZGlmaWVkIiwiZGVsZXRlZCIsInRvdGFsIiwiZ2V0QWxsRmlsZXNJbkRpciIsImxvY2FsVmFsaWRhdGVFcnJvcnMiLCJ2YWxpZGF0ZUVycm9ycyIsImNvbmZpZyIsIm1lcmdlIiwicGx1Z2luIiwibG9hZFBsdWdpbiIsImVycm9ycyIsInZhbGlkYXRlIiwibGVuZ3RoIiwiZXJyb3JTdHIiLCJPYmplY3QiLCJrZXlzIiwiZm9yRWFjaCIsImVyciIsIkVycm9yIiwiZmlsdGVyIiwiZiIsInNvbWUiLCJTZXQiLCJmaWxlU3luY0ZhY3RvcnkiLCJvcCIsInJlc3VsdCIsIm1lcmdlRmlsZSIsImN3ZCIsImZpbGVPcGVyYXRpb24iLCJpZ25vcmVkRHVlVG9Mb2NhbCIsImFkZCIsImxvY2FsQ2hhbmdlcyIsIlByb21pc2UiLCJhbGwiLCJtYXAiLCJhY3R1YWxBZGRlZCIsImhhcyIsImFjdHVhbE1vZGlmaWVkIiwiYWN0dWFsRGVsZXRlZCIsInVwZGF0ZUFmdGVyUmVmIiwiX3JlZiIsImNvbmZpZ1N0ciIsIndyaXRlRmlsZVN5bmMiLCJzdHJpbmdpZnkiLCJpbmZlckpTT05JbmRlbnQiLCJwdXNoIiwiQXJyYXkiLCJmcm9tIl0sIm1hcHBpbmdzIjoiOzs7Ozs7Ozs7OztJQThGYUEsb0JBQW9CO2VBQXBCQTs7SUFDQUMsMEJBQTBCO2VBQTFCQTs7SUFFU0MsWUFBWTtlQUFaQTs7O3FFQWpHTztvQkFFMkI7NEJBQ25DO3NCQUNBO2lDQUVPOzBCQUVIOzZCQUVEOzRCQUNROzRCQUNMO3VCQUNNOzJCQUNQOzRCQUNJOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUErRXZCLE1BQU1GLHVCQUF1QjtBQUM3QixNQUFNQyw2QkFBNkI7QUFFbkMsZUFBZUMsYUFDckJDLE9BQTRCO0lBRTVCLE1BQU1DLGNBQWNELFFBQVFDLFdBQVcsSUFBSUMsa0JBQVE7SUFDbkQsTUFBTUMsYUFBYUgsUUFBUUcsVUFBVSxJQUFJQyxvQkFBTztJQUNoRCxNQUFNQyxtQkFBbUJMLFFBQVFLLGdCQUFnQixJQUFJQyx5QkFBYTtJQUNsRSxNQUFNQyxpQkFBaUJQLFFBQVFPLGNBQWMsSUFBSUMsNEJBQVc7SUFDNUQsTUFBTUMsY0FBYyxNQUFNUixZQUFZRCxRQUFRVSxXQUFXLEVBQUVWLFFBQVFXLE9BQU87SUFFMUUsTUFBTSxFQUFFQyxLQUFLQyxZQUFZLEVBQUVDLFVBQVUsRUFBRSxHQUN0QyxPQUFPTCxnQkFBZ0IsV0FDcEI7UUFDQUcsS0FBS0g7UUFDTEssWUFBWTtJQUNiLElBQ0NMO0lBRUosSUFBSVQsUUFBUWUsTUFBTSxFQUFFO1FBQ25CLE1BQU1SLGVBQWU7WUFDcEJTLFFBQVFIO1lBQ1JDO1lBQ0FDLFFBQVFmLFFBQVFlLE1BQU07UUFDdkI7SUFDRDtJQUVBLHVCQUF1QjtJQUN2QixNQUFNRSxrQkFBa0JDLElBQUFBLFVBQUksRUFBQ0wsY0FBYyxHQUFHaEIscUJBQXFCLEtBQUssQ0FBQztJQUN6RSxNQUFNc0IscUJBQTZCQyxJQUFBQSxjQUFVLEVBQUNILG1CQUMxQ0ksYUFBWUMsS0FBSyxDQUNsQkMsSUFBQUEsZ0JBQVksRUFBQ04saUJBQWlCTyxRQUFRLE1BRXRDO1FBQUVDLFFBQVEsRUFBRTtJQUFDO0lBRWhCLE1BQU1DLGtCQUFrQixHQUFHNUIsMkJBQTJCLEtBQUssQ0FBQztJQUM1RCxNQUFNNkIsa0JBQWtCVCxJQUFBQSxVQUFJLEVBQUNsQixRQUFRNEIsT0FBTyxFQUFFRjtJQUM5QyxNQUFNRywwQkFBdUNULElBQUFBLGNBQVUsRUFBQ08sbUJBQ3BETixhQUFZQyxLQUFLLENBQ2xCQyxJQUFBQSxnQkFBWSxFQUFDSSxpQkFBaUJILFFBQVEsTUFFdEM7UUFBRUMsUUFBUSxFQUFFO0lBQUM7SUFFaEIsSUFBSUs7SUFDSixNQUFNQyxNQUFNLE1BQU0xQixpQkFBaUI7UUFDbEMyQixTQUFTbkI7SUFDVjtJQUNBLElBQUlnQix3QkFBd0JJLFFBQVEsRUFBRTtRQUNyQyxJQUFJRixRQUFRRix3QkFBd0JJLFFBQVEsRUFBRTtZQUM3QyxrQ0FBa0M7WUFDbEMsT0FBTztnQkFDTkMsZ0JBQWdCLEVBQUU7Z0JBQ2xCQyxrQkFBa0IsQ0FBQztnQkFDbkJDLGVBQWU7b0JBQ2RDLE9BQU8sRUFBRTtvQkFDVEMsVUFBVSxFQUFFO29CQUNaQyxTQUFTLEVBQUU7b0JBQ1hDLE9BQU87Z0JBQ1I7WUFDRDtRQUNEO1FBQ0FWLGNBQWMsTUFBTTNCLFdBQ25CVSxjQUNBZ0Isd0JBQXdCSSxRQUFRO0lBRWxDLE9BQU87UUFDTkgsY0FBYztZQUNiTyxPQUFPSSxJQUFBQSx1QkFBZ0IsRUFBQzVCLGNBQWM7bUJBQ2xDTSxtQkFBbUJNLE1BQU07Z0JBQzVCO2FBQ0E7WUFDRGMsU0FBUyxFQUFFO1lBQ1hELFVBQVUsRUFBRTtRQUNiO0lBQ0Q7SUFFQSw0REFBNEQ7SUFDNUQsK0NBQStDO0lBQy9DLE1BQU1JLHNCQUVGLENBQUM7SUFDTCxNQUFNQyxpQkFFRixDQUFDO0lBQ0wsS0FBSyxNQUFNQyxVQUFVZix3QkFBd0JnQixLQUFLLElBQUksRUFBRSxDQUFFO1FBQ3pELE1BQU1DLFNBQVMsTUFBTUMsSUFBQUEsc0JBQVUsRUFBQ0gsUUFBUTVDLFFBQVE0QixPQUFPO1FBQ3ZELE1BQU1vQixTQUFTRixPQUFPRyxRQUFRLENBQUNMLE9BQU81QyxPQUFPLElBQUksQ0FBQztRQUNsRCxJQUFJZ0QsVUFBVUEsT0FBT0UsTUFBTSxHQUFHLEdBQUc7WUFDaENSLG1CQUFtQixDQUFDRSxPQUFPRSxNQUFNLENBQUMsR0FBR0U7UUFDdEM7SUFDRDtJQUNBLEtBQUssTUFBTUosVUFBVXpCLG1CQUFtQjBCLEtBQUssSUFBSSxFQUFFLENBQUU7UUFDcEQsTUFBTUMsU0FBUyxNQUFNQyxJQUFBQSxzQkFBVSxFQUFDSCxRQUFRL0I7UUFDeEMsTUFBTW1DLFNBQVNGLE9BQU9HLFFBQVEsQ0FBQ0wsT0FBTzVDLE9BQU8sSUFBSSxDQUFDO1FBQ2xELElBQUlnRCxVQUFVQSxPQUFPRSxNQUFNLEdBQUcsR0FBRztZQUNoQ1AsY0FBYyxDQUFDQyxPQUFPRSxNQUFNLENBQUMsR0FBR0U7UUFDakM7SUFDRDtJQUVBLElBQUlHLFdBQVc7SUFDZixJQUFJQyxPQUFPQyxJQUFJLENBQUNWLGdCQUFnQk8sTUFBTSxHQUFHLEdBQUc7UUFDM0NDLFdBQVcsR0FBR0EsU0FBUyx5Q0FBeUMsQ0FBQztRQUNqRSxJQUFLLE1BQU1MLFVBQVVILGVBQWdCO1lBQ3BDUSxXQUFXLEdBQUdBLFNBQVMsVUFBVSxFQUFFTCxPQUFPLElBQUksQ0FBQztZQUMvQ0gsY0FBYyxDQUFDRyxPQUFPLENBQUNRLE9BQU8sQ0FBQyxDQUFDQztnQkFDL0JKLFdBQVcsR0FBR0EsU0FBUyxJQUFJLEVBQUVJLElBQUksRUFBRSxDQUFDO1lBQ3JDO1FBQ0Q7SUFDRDtJQUNBLElBQUlILE9BQU9DLElBQUksQ0FBQ1gscUJBQXFCUSxNQUFNLEdBQUcsR0FBRztRQUNoREMsV0FBVyxHQUFHQSxTQUFTLCtDQUErQyxDQUFDO1FBQ3ZFLElBQUssTUFBTUwsVUFBVUosb0JBQXFCO1lBQ3pDUyxXQUFXLEdBQUdBLFNBQVMsVUFBVSxFQUFFTCxPQUFPLElBQUksQ0FBQztZQUMvQ0osbUJBQW1CLENBQUNJLE9BQU8sQ0FBQ1EsT0FBTyxDQUFDLENBQUNDO2dCQUNwQ0osV0FBVyxHQUFHQSxTQUFTLElBQUksRUFBRUksSUFBSSxFQUFFLENBQUM7WUFDckM7UUFDRDtJQUNEO0lBRUEsSUFBSUosYUFBYSxJQUFJO1FBQ3BCLE1BQU1LLE1BQU1MO0lBQ2I7SUFFQSx1QkFBdUI7SUFDdkJyQixZQUFZTyxLQUFLLEdBQUdQLFlBQVlPLEtBQUssQ0FBQ29CLE1BQU0sQ0FDM0MsQ0FBQ0MsSUFBTSxDQUFDQyxJQUFBQSxnQkFBSSxFQUFDRCxHQUFHdkMsbUJBQW1CTSxNQUFNO0lBRTFDSyxZQUFZUSxRQUFRLEdBQUdSLFlBQVlRLFFBQVEsQ0FBQ21CLE1BQU0sQ0FDakQsQ0FBQ0MsSUFBTSxDQUFDQyxJQUFBQSxnQkFBSSxFQUFDRCxHQUFHdkMsbUJBQW1CTSxNQUFNO0lBRTFDSyxZQUFZUyxPQUFPLEdBQUdULFlBQVlTLE9BQU8sQ0FBQ2tCLE1BQU0sQ0FDL0MsQ0FBQ0MsSUFBTSxDQUFDQyxJQUFBQSxnQkFBSSxFQUFDRCxHQUFHdkMsbUJBQW1CTSxNQUFNO0lBRzFDLE1BQU1TLGlCQUE4QixJQUFJMEI7SUFDeEMsTUFBTXpCLG1CQUVGLENBQUM7SUFFTCxNQUFNMEIsa0JBQWtCLENBQUNDO1FBQ3hCLE9BQU8sT0FBT0o7WUFDYixNQUFNSyxTQUFTLE1BQU1DLElBQUFBLG9CQUFTLEVBQUNOLEdBQUc7Z0JBQ2pDN0I7Z0JBQ0FWO2dCQUNBTjtnQkFDQW9ELEtBQUtqRSxRQUFRNEIsT0FBTztnQkFDcEJzQyxlQUFlSjtZQUNoQjtZQUNBLElBQUlDLE9BQU9JLGlCQUFpQixFQUFFO2dCQUM3QmpDLGVBQWVrQyxHQUFHLENBQUNWO1lBQ3BCLE9BQU8sSUFBSUssUUFBUU0sZ0JBQWdCTixPQUFPTSxZQUFZLENBQUNuQixNQUFNLEdBQUcsR0FBRztnQkFDbEVmLGdCQUFnQixDQUFDdUIsRUFBRSxHQUFHSyxPQUFPTSxZQUFZO1lBQzFDO1FBQ0Q7SUFDRDtJQUVBLGlEQUFpRDtJQUNqRCxNQUFNQyxRQUFRQyxHQUFHLENBQUN6QyxZQUFZTyxLQUFLLENBQUNtQyxHQUFHLENBQUNYLGdCQUFnQjtJQUN4RCxNQUFNUyxRQUFRQyxHQUFHLENBQUN6QyxZQUFZUSxRQUFRLENBQUNrQyxHQUFHLENBQUNYLGdCQUFnQjtJQUMzRCxNQUFNUyxRQUFRQyxHQUFHLENBQUN6QyxZQUFZUyxPQUFPLENBQUNpQyxHQUFHLENBQUNYLGdCQUFnQjtJQUUxRCwyQ0FBMkM7SUFDM0MsTUFBTVksY0FBYzNDLFlBQVlPLEtBQUssQ0FBQ29CLE1BQU0sQ0FBQyxDQUFDQyxJQUFNLENBQUN4QixlQUFld0MsR0FBRyxDQUFDaEI7SUFDeEUsTUFBTWlCLGlCQUFpQjdDLFlBQVlRLFFBQVEsQ0FBQ21CLE1BQU0sQ0FDakQsQ0FBQ0MsSUFBTSxDQUFDeEIsZUFBZXdDLEdBQUcsQ0FBQ2hCO0lBRTVCLE1BQU1rQixnQkFBZ0I5QyxZQUFZUyxPQUFPLENBQUNrQixNQUFNLENBQy9DLENBQUNDLElBQU0sQ0FBQ3hCLGVBQWV3QyxHQUFHLENBQUNoQjtJQUU1QixNQUFNdEIsZ0JBQWdCO1FBQ3JCQyxPQUFPb0M7UUFDUG5DLFVBQVVxQztRQUNWcEMsU0FBU3FDO0lBQ1Y7SUFFQSxrQkFBa0I7SUFDbEIsSUFBSTVFLFFBQVE2RSxjQUFjLEVBQUU7UUFDM0IsTUFBTUMsT0FBTyxNQUFNekUsaUJBQWlCO1lBQ25DMkIsU0FBU25CO1FBQ1Y7UUFFQSxJQUFJTyxJQUFBQSxjQUFVLEVBQUNPLGtCQUFrQjtZQUNoQyxNQUFNb0QsWUFBWXhELElBQUFBLGdCQUFZLEVBQUNJLGlCQUFpQkgsUUFBUTtZQUN4RCxNQUFNb0IsU0FBU3ZCLGFBQVlDLEtBQUssQ0FBQ3lEO1lBQ2pDbkMsT0FBT1gsUUFBUSxHQUFHNkM7WUFDbEJFLElBQUFBLGlCQUFhLEVBQ1pyRCxpQkFDQU4sYUFBWTRELFNBQVMsQ0FBQ3JDLFFBQVEsTUFBTXNDLElBQUFBLDJCQUFlLEVBQUNIO1lBRXJEM0MsY0FBY0UsUUFBUSxDQUFDNkMsSUFBSSxDQUFDekQ7UUFDN0IsT0FBTztZQUNOc0QsSUFBQUEsaUJBQWEsRUFDWnJELGlCQUNBTixhQUFZNEQsU0FBUyxDQUFDO2dCQUFFaEQsVUFBVTZDO1lBQUssR0FBRyxNQUFNO1lBRWpEMUMsY0FBY0MsS0FBSyxDQUFDOEMsSUFBSSxDQUFDekQ7UUFDMUI7SUFDRDtJQUVBLE9BQU87UUFDTlEsZ0JBQWdCa0QsTUFBTUMsSUFBSSxDQUFDbkQ7UUFDM0JDO1FBQ0FDLGVBQWU7WUFDZCxHQUFHQSxhQUFhO1lBQ2hCSSxPQUNDSixjQUFjQyxLQUFLLENBQUNhLE1BQU0sR0FDMUJkLGNBQWNHLE9BQU8sQ0FBQ1csTUFBTSxHQUM1QmQsY0FBY0UsUUFBUSxDQUFDWSxNQUFNO1FBQy9CO0lBQ0Q7QUFDRCJ9
 
 /***/ }),
 
-/***/ 548:
+/***/ 582:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
+/**
+ * How we want to merge json
+ *
+ * overwrite - the template sync overwrites completely
+ * merge-template - we merge template into the current json with overrides on matching values happening from the template
+ * merge-current - we merge the current json into the template json with overrides on matching values happening from the current json
+ */ 
+Object.defineProperty(exports, "__esModule", ({
+    value: true
+}));
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NyYy90eXBlcy50cyJdLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIEhvdyB3ZSB3YW50IHRvIG1lcmdlIGpzb25cbiAqXG4gKiBvdmVyd3JpdGUgLSB0aGUgdGVtcGxhdGUgc3luYyBvdmVyd3JpdGVzIGNvbXBsZXRlbHlcbiAqIG1lcmdlLXRlbXBsYXRlIC0gd2UgbWVyZ2UgdGVtcGxhdGUgaW50byB0aGUgY3VycmVudCBqc29uIHdpdGggb3ZlcnJpZGVzIG9uIG1hdGNoaW5nIHZhbHVlcyBoYXBwZW5pbmcgZnJvbSB0aGUgdGVtcGxhdGVcbiAqIG1lcmdlLWN1cnJlbnQgLSB3ZSBtZXJnZSB0aGUgY3VycmVudCBqc29uIGludG8gdGhlIHRlbXBsYXRlIGpzb24gd2l0aCBvdmVycmlkZXMgb24gbWF0Y2hpbmcgdmFsdWVzIGhhcHBlbmluZyBmcm9tIHRoZSBjdXJyZW50IGpzb25cbiAqL1xuZXhwb3J0IHR5cGUgQmFzZUpzb25NZXJnZU9wdGlvbnMgPVxuXHR8IFwib3ZlcndyaXRlXCJcblx0fCBcIm1lcmdlLXRlbXBsYXRlXCJcblx0fCBcIm1lcmdlLWN1cnJlbnRcIjtcbmV4cG9ydCBpbnRlcmZhY2UgSnNvblBhdGhPdmVycmlkZXMge1xuXHQvKipcblx0ICogSWYgc2V0IHRvIHRydWUsIHRoaXMgbWVhbnMgd2Ugd29uJ3QgYWRkIG5ldyBwcm9wZXJ0aWVzIGZyb20gdGhlIHRlbXBsYXRlXG5cdCAqL1xuXHRpZ25vcmVOZXdQcm9wZXJ0aWVzPzogYm9vbGVhbjtcblx0LyoqXG5cdCAqIElmIHNldCB0byB0cnVlLCBvdmVyd3JpdGUgd2lsbCBhcHBseSB1bmRlZmluZWQgdmFsdWVzIGFzIGRlbGV0ZWQgZm9yIHRoZSBqc29ucGF0aHNcblx0ICogb3IgZm9yIHZhbHVlcyB0aGF0IGFyZSBzdXBwb3NlZCB0byBiZSBtZXJnZWQgb24gdG9wIG9mIG90aGVyIHZhbHVlc1xuXHQgKi9cblx0bWlzc2luZ0lzRGVsZXRlPzogYm9vbGVhbjtcblx0LyoqXG5cdCAqIE5vdGUsIGlmIG11bHRpcGxlIGpzb24gcGF0aHMgbWF0Y2ggYSBydWxlLCB3ZSBwaWNrIHRoZSBmaXJzdCBvbmUgaW4gdGhlIGxpc3QgdGhhdCBtYXRjaGVzXG5cdCAqL1xuXHRwYXRoczogLyoqXG5cdCAqIFdlIG9ubHkgb3ZlcnJpZGUganNvbnBhdGhzLiAgQW55dGhpbmcgbm90IHNwZWNpZmllZCBpcyBrZXB0IHRoZSBzYW1lLlxuXHQgKi9cblx0W2pzb25QYXRoOiBgJC4ke3N0cmluZ31gLCBvcHRpb25zOiBCYXNlSnNvbk1lcmdlT3B0aW9uc11bXTtcbn1cbmV4cG9ydCB0eXBlIEpzb25GaWxlTWVyZ2VPcHRpb25zID0gQmFzZUpzb25NZXJnZU9wdGlvbnMgfCBKc29uUGF0aE92ZXJyaWRlcztcblxuLy8gU3VtIG9mIGFsbCBiYXNpYyBmaWxlIG1lcmdlIG9wdGlvbnNcbnR5cGUgTWVyZ2VQbHVnaW5PcHRpb25zID0gSnNvbkZpbGVNZXJnZU9wdGlvbnM7XG5cbi8qKlxuICogQ29uZmlndXJhdGlvbiBvYmplY3QgZm9yIGEgZ2l2ZW4gZmlsZSB0eXBlIG1lcmdlIGNvbmZpZ3VyYXRpb25cbiAqL1xuZXhwb3J0IGludGVyZmFjZSBNZXJnZUNvbmZpZzxUPiB7XG5cdC8qKlxuXHQgKiBBIGdsb2Igb3IgYXJyYXkgb2YgZ2xvYnMgKHVzaW5nIG1pY3JvbWF0Y2ggc3ludGF4KSB0aGF0IHNlbGVjdHMgdGhlIGZpbGVzIHRoYXQgdGhpcyBhcHBsaWVzIHRvXG5cdCAqIHdoZW4gbWVyZ2luZ1xuXHQgKi9cblx0Z2xvYjogc3RyaW5nIHwgc3RyaW5nW107XG5cdC8qKlxuXHQgKiBUaGUgbm9kZSBtb2R1bGUsIGF2YWlsYWJsZSBvbiB0aGUgY2FsbGluZyBub2RlIGNvbnRleHQsIHRoYXQgeW91IHdhbnQgdG8gcnVuLlxuXHQgKiBCdWlsdC1pbiBwbHVnaW5zIGNhbiBiZSBzcGVjaWZpZWQgdmlhIHRoZWlyIGJ1aWx0LWluIG5hbWUgKHNlZSBkb2N1bWVudGF0aW9uKTpcblx0ICpcblx0ICogRXhhbXBsZTogX2pzb25cblx0ICovXG5cdHBsdWdpbjogc3RyaW5nO1xuXHQvKipcblx0ICogQW4gYXJyYXkgb2YgZmlyc3QgbWF0Y2ggZmlsZSBnbG9icyB0aGF0IHdpbGwgdGhlbiBjYWxsIHRoZSBwbHVnaW4gd2l0aCB0aGUgYXBwcm9wcmlhdGUgb3B0aW9uc1xuXHQgKi9cblx0b3B0aW9uczogTWVyZ2VQbHVnaW5PcHRpb25zIHwgVDtcbn1cblxuLyoqXG4gKiBUaGUgc2hhcGUgb2YgYSB0ZW1wbGF0ZSBzeW5jIGNvbmZpZyBmaWxlXG4gKi9cbmV4cG9ydCBpbnRlcmZhY2UgQ29uZmlnPFQgPSB1bmtub3duPiB7XG5cdGlnbm9yZTogc3RyaW5nW107XG5cdC8qKlxuXHQgKiBJZiB0aGVyZSBpcyBubyBtZXJnZSBjb25maWcsIHRoZW4gd2Ugd2lsbCBhbHdheXMganVzdCBvdmVyd3JpdGUgdGhlIGZpbGUgZm9yIHRoZSBkaWZmXG5cdCAqL1xuXHRtZXJnZT86IE1lcmdlQ29uZmlnPFQ+W107XG59XG5cbi8qKlxuICogVGhlIHNoYXBlIG9mIGEgbG9jYWwgdGVtcGxhdGUgc3luYyBjb25maWcgZmlsZSB0aGF0IG92ZXJyaWRlcyB0aGUgcm9vdCB0ZW1wbGF0ZSByZXBvXG4gKi9cbmV4cG9ydCBpbnRlcmZhY2UgTG9jYWxDb25maWc8VCA9IHVua25vd24+IHtcblx0LyoqXG5cdCAqIFRoaXMgaXMgdGhlIHJlZiB0aGF0IHdlIGNvbXBhcmUgYWdhaW5zdC4gIElmIGVtcHR5LCB3ZSB1c2UgYWxsIGZpbGVzIHRoYXQgaGF2ZSBjaGFuZ2VkIHNpbmNlIHRoZVxuXHQgKiBiZWdpbm5pbmcgb2YgdGhlIHRlbXBsYXRlIHJlcG8uXG5cdCAqL1xuXHRhZnRlclJlZj86IHN0cmluZztcblxuXHRpZ25vcmU6IHN0cmluZ1tdO1xuXHQvKipcblx0ICogSWYgdGhlcmUgaXMgbm8gbWVyZ2UgY29uZmlnLCB0aGVuIHdlIHdpbGwgYWx3YXlzIGp1c3Qgb3ZlcndyaXRlIHRoZSBmaWxlIGZvciB0aGUgZGlmZlxuXHQgKi9cblx0bWVyZ2U/OiBNZXJnZUNvbmZpZzxUPltdO1xufVxuXG4vKipcbiAqIEluZm9ybWF0aW9uIGFyb3VuZCB0aGUgZmlsZSB3ZSBhcmUgdHJ5aW5nIHRvIG1lcmdlIGFuZCB0aGF0IGFyZ3VtZW50cyBmb3IgdGhhdCBtZXJnZVxuICogZnJvbSBtYXRjaGluZyBhIG1lcmdlIGNvbmZpZ3VyYXRpb25cbiAqL1xuZXhwb3J0IGludGVyZmFjZSBNZXJnZUNvbnRleHQ8UGx1Z2luT3B0aW9ucyA9IHVua25vd24+IHtcblx0cmVsRmlsZVBhdGg6IHN0cmluZztcblx0LyoqXG5cdCAqIElmIHlvdSBoYXZlIHByb3ZpZGVkIGEgY3VzdG9tIG1lcmdlIHBsdWdpbiwgdGhpcyB3aWxsIGJlIHRoZSBcIm9wdGlvbnNcIiBzZWN0aW9uIG9mXG5cdCAqIHRoZSBtYXRjaGluZyBnbG9iXG5cdCAqL1xuXHRtZXJnZUFyZ3VtZW50czogUGx1Z2luT3B0aW9ucztcblx0LyoqXG5cdCAqIElmIHRoaXMgcnVuIGlzIGZvciB0aGUgbG9jYWwgY29uZmlnLiAgS2VlcCBpbiBtaW5kIHRoYXQgYW55IGxvY2FsIGNvbmZpZyBvdmVycmlkZXMgd2lsbFxuXHQgKiBiZSBydW4gYWZ0ZXIgdGhlIHRlbXBsYXRlIHN5bmMgb3B0aW9ucyBhbmQgd2Ugd291bGQgbGlrZSB0byByZXBvcnQgYW55IGNoYW5nZXMgdGhhdFxuXHQgKiBhcmUgZG9uZVxuXHQgKi9cblx0aXNMb2NhbE9wdGlvbnM/OiBib29sZWFuO1xufVxuXG5leHBvcnQgaW50ZXJmYWNlIE1lcmdlUGx1Z2luPFBsdWdpbk9wdGlvbnM+IHtcblx0LyoqXG5cdCAqIFRoaXMgbWV0aG9kIHdpbGwgYmUgY2FsbGVkIHdoZW4gYSBmaWxlIGZyb20gdGhlIHRlbXBsYXRlIGFuZCBpdCdzIGFuYWxvZyBpbiB0aGUgZG93bnN0cmVhbSByZXBvXG5cdCAqIGhhdmUgc29tZSBkaWZmZXJlbmNlcy4gIFRoZSBwbHVnaW4gbXVzdCBwZXJmb3JtIHRoZSBtZXJnZSBhbmQgcmV0dXJuIHRoZSBhcHByb3ByaWF0ZSBmaWxlIGNvbnRlbnRzXG5cdCAqIGFzIGEgc3RyaW5nXG5cdCAqXG5cdCAqIFRPRE86IHdlIG1heSBjcmVhdGUgYSBWMiBwbHVnaW4gdGhhdCBjb3VsZCBkZWFsIHdpdGggbGFyZ2UgZmlsZXMgYW5kIG5vdCBwYXNzIGFyb3VuZCBzdHJpbmdzIGluIG1lbW9yeSxcblx0ICogYnV0IGZvciBub3csIHRoaXMgaXMgdGhlIGN1cnJlbnQgaW1wbGVtZW50YXRpb25cblx0ICpcblx0ICogQHBhcmFtIGN1cnJlbnQgLSBUaGUgZG93bnN0cmVhbSByZXBvcyBjdXJyZW50IGZpbGUgY29udGVudHNcblx0ICogQHBhcmFtIGZyb21UZW1wbGF0ZVJlcG8gLSB0aGUgY3VycmVudFxuXHQgKiBAcGFyYW0gY29udGV4dCAtIGFuIG9iamVjdCBkZWZpbmluZyB0aGUgY29udGV4dCBhcm91bmQgdGhlIGZpbGUgYW5kIHRoZSBzcGVjaWZpYyBvcHRpb25zXG5cdCAqL1xuXHRtZXJnZShcblx0XHRjdXJyZW50OiBzdHJpbmcsXG5cdFx0ZnJvbVRlbXBsYXRlUmVwbzogc3RyaW5nLFxuXHRcdGNvbnRleHQ6IE1lcmdlQ29udGV4dDxQbHVnaW5PcHRpb25zPixcblx0KTogUHJvbWlzZTxzdHJpbmc+O1xuXHQvKipcblx0ICogR2l2ZW4gYW4gb3B0aW9ucyBvYmplY3QgZm9yIHRoZSBtZXJnZSwgdGhpcyB2YWxpZGF0ZXMgdGhlIG9wdGlvbnMgb2JqZWN0IGFuZCByZXR1cm5zIGVycm9yIG1lc3NhZ2VzIGlmIHRoZXJlIGlzIGFueXRoaW5nIHdyb25nLlxuXHQgKiBAcGFyYW0gb3B0aW9ucyBhbnkganNvbiB2YWx1ZSB0aGF0IHRoZSB1c2VyIHByb3ZpZGVkIC0gbXVzdCBiZSB2YWxpZGF0ZWQgYWdhaW5zdCB0aGUgZXhwZWN0ZWQgb3B0aW9uc1xuXHQgKi9cblx0dmFsaWRhdGUob3B0aW9uczogdW5rbm93bik6IHN0cmluZ1tdIHwgdW5kZWZpbmVkO1xufVxuXG5leHBvcnQgdHlwZSBGaWxlT3BlcmF0aW9uID0gXCJhZGRlZFwiIHwgXCJtb2RpZmllZFwiIHwgXCJkZWxldGVkXCI7XG4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Ozs7OztDQU1DIn0=
 
 /***/ }),
 
@@ -24933,7 +25031,7 @@ module.exports = {
 
 /***/ }),
 
-/***/ 6184:
+/***/ 8254:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 "use strict";
@@ -24988,7 +25086,7 @@ const fs = __nccwpck_require__(1176)
 const { mkdirs, mkdirsSync } = __nccwpck_require__(8605)
 
 const { symlinkPaths, symlinkPathsSync } = __nccwpck_require__(3727)
-const { symlinkType, symlinkTypeSync } = __nccwpck_require__(6184)
+const { symlinkType, symlinkTypeSync } = __nccwpck_require__(8254)
 
 const { pathExists } = __nccwpck_require__(3835)
 
@@ -61895,7 +61993,7 @@ const child_process_1 = __nccwpck_require__(2081);
 const crypto_1 = __nccwpck_require__(6113);
 const fs_1 = __nccwpck_require__(7147);
 const path_1 = __nccwpck_require__(1017);
-const template_repo_sync_1 = __nccwpck_require__(8254);
+const template_repo_sync_1 = __nccwpck_require__(2828);
 /**
  * Returns the target branch name for our template sync repo
  * which is derived from the current sha of the template repo and
@@ -62052,7 +62150,7 @@ const path_1 = __nccwpck_require__(1017);
 const os_1 = __nccwpck_require__(2037);
 const promises_1 = __nccwpck_require__(3292);
 const child_process_1 = __nccwpck_require__(2081);
-const template_repo_sync_1 = __nccwpck_require__(8254);
+const template_repo_sync_1 = __nccwpck_require__(2828);
 const constants_1 = __nccwpck_require__(9042);
 const get_branch_name_1 = __nccwpck_require__(6041);
 const git_utils_1 = __nccwpck_require__(7213);
@@ -64100,6 +64198,11 @@ module.exports = {"i8":"4.3.0"};
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/node module decorator */
 /******/ 	(() => {
 /******/ 		__nccwpck_require__.nmd = (module) => {
